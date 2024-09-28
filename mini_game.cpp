@@ -150,3 +150,4 @@ void mini_game::spawn_boxes(){
         slider_knob.setPosition(position_of_knob, slider_knob.getPosition().y);
     }
  }
+ 
