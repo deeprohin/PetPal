@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cstdlib> //for random function
@@ -29,7 +30,8 @@ class mini_game{
 
         //points
         bool game_over;
-        
+        unsigned points;
+
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -48,5 +50,6 @@ class mini_game{
         void initialise_image();
         void initialise_slider();
         void update_slider();
+        void update_points();
 };
 

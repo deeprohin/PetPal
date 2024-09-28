@@ -26,6 +26,7 @@ void mini_game::initialise_variables(){
     boxes_one_time=1;
     is_dragging=false;
     game_over=false;
+    points=0;
 }
 
 mini_game::mini_game(){
@@ -124,6 +125,7 @@ void mini_game::spawn_boxes(){
     poll_events();
     update_boxes();
     update_slider();
+    update_points();
  }
 
  void mini_game::update_boxes(){
@@ -164,4 +166,16 @@ void mini_game::spawn_boxes(){
         //setting the postiion of the slider knob
         slider_knob.setPosition(position_of_knob, slider_knob.getPosition().y);
     }
+ }
+ 
+ void mini_game::update_points(){
+    for(int i=0; i<boxes.size(); i++){
+        if (slider_knob.getGlobalBounds().intersects(boxes[i].getGlobalBounds())){
+            points++; // Increase points
+            boxes.erase(boxes.begin()+i);
+            i--; //because we remove one box...from the vector we need to deccrease the iterating counter
+            cout<<points<<endl;
+        }
+    }
+    
  }
