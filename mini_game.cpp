@@ -36,6 +36,7 @@ mini_game::mini_game(){
     initialise_boxes();
     initialise_image();
     initialise_slider();
+    initialise_fonts();
 }
 
 mini_game::~mini_game(){
@@ -95,6 +96,7 @@ void mini_game::render(){
     render_boxes(*game_window);
     game_window->draw(slider_track);
     game_window->draw(slider_knob);
+    render_text(*game_window);
 
     if(game_over){
         game_window->display();
@@ -126,6 +128,7 @@ void mini_game::spawn_boxes(){
     update_boxes();
     update_slider();
     update_points();
+    update_text();
  }
 
  void mini_game::update_boxes(){
@@ -179,3 +182,23 @@ void mini_game::spawn_boxes(){
     }
     
  }
+void mini_game::initialise_fonts(){
+    if(!game_font.loadFromFile("dogica.ttf")){
+        cout<<"failed to load"<<endl;
+    }
+    game_ui_text.setFont(game_font);
+    game_ui_text.setCharacterSize(25);
+    game_ui_text.setFillColor(sf::Color::Black);
+    game_ui_text.setPosition(10, game_window->getSize().y - 30);
+    game_ui_text.setString("NONE");
+}
+
+void mini_game::update_text(){
+    std::stringstream ss;
+    ss << "Points: " << points << "\n\n";
+    game_ui_text.setString(ss.str());
+}
+
+void mini_game::render_text(sf::RenderTarget& target){
+    target.draw(this->game_ui_text);
+}

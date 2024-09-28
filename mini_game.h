@@ -2,6 +2,7 @@
 #include<iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <sstream>
 #include <cstdlib> //for random function
 using namespace std;
 class mini_game{
@@ -32,6 +33,10 @@ class mini_game{
         bool game_over;
         unsigned points;
 
+        //fonts and texts
+        sf::Font game_font;
+        sf::Text game_ui_text;
+
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -51,5 +56,8 @@ class mini_game{
         void initialise_slider();
         void update_slider();
         void update_points();
+        void initialise_fonts();
+        void update_text();
+        void render_text(sf::RenderTarget& target);
 };
 
