@@ -21,7 +21,12 @@ class mini_game{
 
         //for the image
         sf::Texture mini_game_texture;
-        sf::Sprite mini_game_sprite;
+
+        //for the slider variable
+        sf::RectangleShape slider_track;
+        sf::Sprite slider_knob;
+        bool is_dragging;
+
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -38,5 +43,7 @@ class mini_game{
         void render_boxes(sf::RenderTarget& target);
         void update_boxes();
         void initialise_image();
+        void initialise_slider();
+        void update_slider();
 };
 

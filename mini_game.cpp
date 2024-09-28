@@ -9,9 +9,9 @@ void mini_game::initialise_window(){
 
 void mini_game::initialise_image(){
     mini_game_texture.loadFromFile("/Users/deeprohin/Desktop/Programming/Sem 2/PetPal/character.jpg");
-    mini_game_sprite.setTexture(mini_game_texture);
-    mini_game_sprite.setScale(90.6f / mini_game_texture.getSize().x, (90.6f * static_cast<float>(mini_game_texture.getSize().y) / mini_game_texture.getSize().x) / mini_game_texture.getSize().y); // Scaling the image
-    mini_game_sprite.setPosition(810, 700);
+    slider_knob.setTexture(mini_game_texture);
+    slider_knob.setScale(90.6f / mini_game_texture.getSize().x, (90.6f * static_cast<float>(mini_game_texture.getSize().y) / mini_game_texture.getSize().x) / mini_game_texture.getSize().y); // Scaling the image
+    slider_knob.setPosition(810, 700);
 }
 
 
@@ -24,7 +24,7 @@ void mini_game::initialise_variables(){
     box_spawn_timer_max=10.f;
     box_spawn_timer=box_spawn_timer_max;
     boxes_one_time=1;
-
+    is_dragging=false;
 }
 
 mini_game::mini_game(){
@@ -33,6 +33,7 @@ mini_game::mini_game(){
     initialise_window();
     initialise_boxes();
     initialise_image();
+    initialise_slider();
 }
 
 mini_game::~mini_game(){
@@ -67,6 +68,19 @@ void mini_game::poll_events(){
                     game_window->close();
                 }
                 break;
+            //to check for the dragging one i.e. if the mouse position is on the knob and is clicked upon it will set the is_dragging boolean to truew
+            case (sf::Event::MouseButtonPressed):
+                if(ev.mouseButton.button==sf::Mouse::Left){
+                    if(slider_knob.getGlobalBounds().contains(ev.mouseButton.x,ev.mouseButton.y)){
+                        is_dragging=true;
+                    }
+                }
+                break;
+            case(sf::Event::MouseButtonReleased):
+                if(ev.mouseButton.button==sf::Mouse::Left){
+                    is_dragging=false;
+                }
+                break;
             default:
                 break;
         }
@@ -77,7 +91,8 @@ void mini_game::render(){
     //draws and represents everything on the screen
     game_window->clear(sf::Color(230,230,220));
     render_boxes(*game_window);
-    game_window->draw(mini_game_sprite);
+    game_window->draw(slider_track);
+    game_window->draw(slider_knob);
     game_window->display();
 }
 
@@ -100,6 +115,7 @@ void mini_game::spawn_boxes(){
  void mini_game::update(){
     poll_events();
     update_boxes();
+    update_slider();
  }
 
  void mini_game::update_boxes(){
@@ -117,4 +133,20 @@ void mini_game::spawn_boxes(){
         e.move(0.f, 0.5f);
     }
     
+ }
+ 
+ void mini_game::initialise_slider(){
+    slider_track.setSize(sf::Vector2f(1920.0f,5.0f));
+    slider_track.setPosition(0, 762);
+    slider_track.setFillColor(sf::Color::Black);
+
+ }
+
+ void mini_game::update_slider(){
+    if(is_dragging){
+        float position_of_mouse=static_cast<float>(sf::Mouse::getPosition(*game_window).x);
+        float position_of_knob= max(slider_track.getPosition().x, min(position_of_mouse-(slider_knob.getGlobalBounds().width/2),slider_track.getPosition().x+slider_track.getSize().x-slider_knob.getGlobalBounds().width));
+        //setting the postiion of the slider knob
+        slider_knob.setPosition(position_of_knob, slider_knob.getPosition().y);
+    }
  }
