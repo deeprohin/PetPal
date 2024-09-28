@@ -18,6 +18,10 @@ class mini_game{
         float max_height_boxes;
         float box_spawn_timer;
         float box_spawn_timer_max;
+
+        //for the image
+        sf::Texture mini_game_texture;
+        sf::Sprite mini_game_sprite;
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -33,6 +37,6 @@ class mini_game{
         void spawn_boxes();
         void render_boxes(sf::RenderTarget& target);
         void update_boxes();
-
+        void initialise_image();
 };
 
