@@ -14,10 +14,10 @@ class mini_game{
         //variables for boxes
         int maximum_boxes;//how many boxes can the game generate in total
         int boxes_one_time; //how many boxes on the screen at once
-        float box_spawn_timer;
         float min_height_boxes;
         float max_height_boxes;
-
+        float box_spawn_timer;
+        float box_spawn_timer_max;
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -28,8 +28,11 @@ class mini_game{
         void initialise_boxes();
         bool window_open();
         void render();
+        void update();
         void poll_events();
-
+        void spawn_boxes();
+        void render_boxes(sf::RenderTarget& target);
+        void update_boxes();
 
 };
 
