@@ -25,6 +25,7 @@ void mini_game::initialise_variables(){
     box_spawn_timer=box_spawn_timer_max;
     boxes_one_time=1;
     is_dragging=false;
+    game_over=false;
 }
 
 mini_game::mini_game(){
@@ -93,6 +94,13 @@ void mini_game::render(){
     render_boxes(*game_window);
     game_window->draw(slider_track);
     game_window->draw(slider_knob);
+
+    if(game_over){
+        game_window->display();
+        game_window->close();
+        return;
+    }
+
     game_window->display();
 }
 
@@ -131,12 +139,18 @@ void mini_game::spawn_boxes(){
 
     for(auto& e: boxes){
         e.move(0.f, 0.5f);
+        //checking if the box has touch the slider
+        if(e.getPosition().y+e.getSize().y >= slider_track.getPosition().y){
+            game_over=true;
+        }
     }
-    
+
+    //removing boxes that went out of the screen
+
  }
  
  void mini_game::initialise_slider(){
-    slider_track.setSize(sf::Vector2f(1920.0f,5.0f));
+    slider_track.setSize(sf::Vector2f(sf::Vector2f(static_cast<float>(game_window->getSize().x),5.0f)));
     slider_track.setPosition(0, 762);
     slider_track.setFillColor(sf::Color::Black);
 
@@ -145,9 +159,9 @@ void mini_game::spawn_boxes(){
  void mini_game::update_slider(){
     if(is_dragging){
         float position_of_mouse=static_cast<float>(sf::Mouse::getPosition(*game_window).x);
-        float position_of_knob= max(slider_track.getPosition().x, min(position_of_mouse-(slider_knob.getGlobalBounds().width/2),slider_track.getPosition().x+slider_track.getSize().x-slider_knob.getGlobalBounds().width));
+        float position_of_knob = position_of_mouse - (slider_knob.getGlobalBounds().width / 2);
+        position_of_knob = std::max(slider_track.getPosition().x, std::min(position_of_knob,slider_track.getPosition().x + slider_track.getSize().x - slider_knob.getGlobalBounds().width));
         //setting the postiion of the slider knob
         slider_knob.setPosition(position_of_knob, slider_knob.getPosition().y);
     }
  }
- 

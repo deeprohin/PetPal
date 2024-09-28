@@ -27,6 +27,9 @@ class mini_game{
         sf::Sprite slider_knob;
         bool is_dragging;
 
+        //points
+        bool game_over;
+        
         //private functions
         void initialise_variables(); 
         void initialise_window();
