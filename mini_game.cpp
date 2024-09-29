@@ -8,9 +8,9 @@ void mini_game::initialise_window(){
 }
 
 void mini_game::initialise_image(){
-    mini_game_texture.loadFromFile("character.jpg");
+    mini_game_texture.loadFromFile("character.png");
     slider_knob.setTexture(mini_game_texture);
-    slider_knob.setScale(90.6f / mini_game_texture.getSize().x, (90.6f * static_cast<float>(mini_game_texture.getSize().y) / mini_game_texture.getSize().x) / mini_game_texture.getSize().y); // Scaling the image
+    slider_knob.setScale(98.6f / mini_game_texture.getSize().x, (98.6f * static_cast<float>(mini_game_texture.getSize().y) / mini_game_texture.getSize().x) / mini_game_texture.getSize().y); // Scaling the image
     slider_knob.setPosition(810, 700);
 }
 
@@ -28,6 +28,9 @@ void mini_game::initialise_variables(){
     game_over=false;
     points=0;
     box_falling_speed=3.0f;
+    mini_game_song_paths={
+        "Music/Call me maybe.mp3", "Music/Cheap Thrills.mp3", "Music/Counting Stars.mp3", "Music/Work from Home (feat. Ty Dolla $ign).mp3"
+    };
 }
 
 mini_game::mini_game(){
@@ -226,8 +229,13 @@ void mini_game::render_text(sf::RenderTarget& target){
 }
 
 void mini_game::initialise_music(){
-    mini_game_music.openFromFile("Call me maybe.mp3");
+    mini_game_music.openFromFile(get_random_song(mini_game_song_paths));
     mini_game_music.setLoop(true);
     mini_game_music.setVolume(50);
     mini_game_music.play();
+}
+
+string mini_game::get_random_song(vector<string>& songs_path){
+     int random_index=rand()%songs_path.size();
+     return songs_path[random_index];
 }
