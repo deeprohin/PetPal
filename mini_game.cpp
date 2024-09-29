@@ -27,6 +27,7 @@ void mini_game::initialise_variables(){
     is_dragging=false;
     game_over=false;
     points=0;
+    box_falling_speed=3.0f;
 }
 
 mini_game::mini_game(){
@@ -48,7 +49,7 @@ mini_game::~mini_game(){
 void mini_game::initialise_boxes(){
     //to initialise the boxes and setting the properties
     falling_boxes.setPosition(10.f,10.f); //setting position of the boxes to start from 10,10
-    float random_height_boxes=min_height_boxes + static_cast<float>(std::rand()) / RAND_MAX * (max_height_boxes - min_height_boxes); //to calculate random height
+    random_height_boxes=min_height_boxes + static_cast<float>(std::rand()) / RAND_MAX * (max_height_boxes - min_height_boxes); //to calculate random height
     falling_boxes.setSize(sf::Vector2f(50.f, random_height_boxes));
     falling_boxes.setFillColor(sf::Color::Red);
     falling_boxes.setOutlineColor(sf::Color::White);
@@ -143,7 +144,8 @@ void mini_game::spawn_boxes(){
     }
 
     for(auto& e: boxes){
-        e.move(0.f, 0.5f);
+
+        e.move(0.f, box_falling_speed);
         //checking if the box has touch the slider
         if(e.getPosition().y+e.getSize().y >= slider_track.getPosition().y){
             game_over=true;
@@ -174,10 +176,29 @@ void mini_game::spawn_boxes(){
  void mini_game::update_points(){
     for(int i=0; i<boxes.size(); i++){
         if (slider_knob.getGlobalBounds().intersects(boxes[i].getGlobalBounds())){
-            points++; // Increase points
+            //getting the height of the box falling 
+            float individual_height= boxes[i].getSize().y;
+            if(individual_height<60.0f){
+                points=points+6; //increasing points according to the size of the boxes
+            }
+            else if(individual_height<80.0f){
+                points=points+5;
+            }
+            else if(individual_height<100.0f){
+                points=points+4;
+            }
+            else if(individual_height<120.0f){
+                points=points+3;
+            }
+            else if(individual_height<150.0f){
+                points=points+2;
+            }
+            else if(individual_height<200.0f){
+                points=points+1;
+            }
             boxes.erase(boxes.begin()+i);
+            box_falling_speed+=0.5f;
             i--; //because we remove one box...from the vector we need to deccrease the iterating counter
-            cout<<points<<endl;
         }
     }
     

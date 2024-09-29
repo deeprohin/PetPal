@@ -20,7 +20,9 @@ class mini_game{
         float max_height_boxes;
         float box_spawn_timer;
         float box_spawn_timer_max;
-
+        float box_falling_speed;
+        float random_height_boxes;
+        
         //for the image
         sf::Texture mini_game_texture;
 
