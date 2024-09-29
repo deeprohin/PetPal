@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <sstream>
+#include <SFML/Audio.hpp>
 #include <cstdlib> //for random function
 using namespace std;
 class mini_game{
@@ -22,7 +23,7 @@ class mini_game{
         float box_spawn_timer_max;
         float box_falling_speed;
         float random_height_boxes;
-        
+
         //for the image
         sf::Texture mini_game_texture;
 
@@ -38,6 +39,9 @@ class mini_game{
         //fonts and texts
         sf::Font game_font;
         sf::Text game_ui_text;
+
+        //sound
+        sf::Music mini_game_music;
 
         //private functions
         void initialise_variables(); 
@@ -61,5 +65,6 @@ class mini_game{
         void initialise_fonts();
         void update_text();
         void render_text(sf::RenderTarget& target);
+        void initialise_music();
 };
 

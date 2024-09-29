@@ -8,7 +8,7 @@ void mini_game::initialise_window(){
 }
 
 void mini_game::initialise_image(){
-    mini_game_texture.loadFromFile("/Users/deeprohin/Desktop/Programming/Sem 2/PetPal/character.jpg");
+    mini_game_texture.loadFromFile("character.jpg");
     slider_knob.setTexture(mini_game_texture);
     slider_knob.setScale(90.6f / mini_game_texture.getSize().x, (90.6f * static_cast<float>(mini_game_texture.getSize().y) / mini_game_texture.getSize().x) / mini_game_texture.getSize().y); // Scaling the image
     slider_knob.setPosition(810, 700);
@@ -38,6 +38,7 @@ mini_game::mini_game(){
     initialise_image();
     initialise_slider();
     initialise_fonts();
+    initialise_music();
 }
 
 mini_game::~mini_game(){
@@ -222,4 +223,11 @@ void mini_game::update_text(){
 
 void mini_game::render_text(sf::RenderTarget& target){
     target.draw(this->game_ui_text);
+}
+
+void mini_game::initialise_music(){
+    mini_game_music.openFromFile("Call me maybe.mp3");
+    mini_game_music.setLoop(true);
+    mini_game_music.setVolume(50);
+    mini_game_music.play();
 }
