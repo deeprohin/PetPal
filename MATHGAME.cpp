@@ -1,7 +1,7 @@
 #include "MATHGAME.h"
 
 math_game::math_game(){
-    correctAnswers=0;
+    correct_answers=0;
     number_of_answers=0;
     total_time=50.0; //initalize how much time is given to solve math questions
     std::srand(static_cast<unsigned int>(std::time(0)));
@@ -9,7 +9,9 @@ math_game::math_game(){
     game_window = new sf::RenderWindow(sf::VideoMode(1920,1080),"Math Game");
     game_window->display();
     display_intro();
+    rules_page();
     game_window->clear();
+    timer.restart();
     run();
 }
 
@@ -48,7 +50,7 @@ void math_game::run(){
                 if (ev.type == sf::Event::KeyPressed){
                     if (ev.key.code == sf::Keyboard::Enter){
                         if(current_answer==std::stoi(current_input)){
-                            correctAnswers++;
+                            correct_answers++;
                         }
                         number_of_answers++;
                         has_entered=true;
@@ -72,10 +74,10 @@ void math_game::run(){
             if(has_entered){
                 break;
             }
-
         }
     }
-    std::cout << "You got " << correctAnswers << " out of 5 correct!" << std::endl;
+    std::cout << "You got " << correct_answers << " out of 5 correct!" << std::endl;
+    display_results();
 }
 
 void math_game::render(){
@@ -95,38 +97,72 @@ void math_game::render(){
     game_window->draw(questionText);
     
     // Displaying user input
-    sf::Text inputText;
-    inputText.setFont(font);
-    inputText.setString(current_input);
-    inputText.setCharacterSize(40);
-    inputText.setFillColor(sf::Color::Black);
-    inputText.setPosition(680, 400); 
+    sf::Text input_text;
+    input_text.setFont(font);
+    input_text.setString(current_input);
+    input_text.setCharacterSize(40);
+    input_text.setFillColor(sf::Color::Black);
+    input_text.setPosition(680, 400); 
     //drawing user input
-    game_window->draw(inputText);
+    game_window->draw(input_text);
+
+    sf::Text score_text;
+    score_text.setFont(font);
+    score_text.setFillColor(sf::Color::Black);
+    score_text.setString("Score: "+std::to_string(correct_answers));
+    score_text.setCharacterSize(40);
+    score_text.setPosition(20, 20);
+    game_window->draw(score_text);
 
     //drawing countdown timer
-    sf::Text timerText;
-    timerText.setFont(font);
-    double remaining_time=54-timer.getElapsedTime().asSeconds();
+    sf::Text timer_text;
+    timer_text.setFont(font);
+    double remaining_time=51-timer.getElapsedTime().asSeconds(); //timer for how long user has left
     int remaining_time_int=remaining_time;
-    timerText.setString(std::to_string(remaining_time_int));
-    timerText.setCharacterSize(40);
-    timerText.setPosition(700, 100);
+    timer_text.setString(std::to_string(remaining_time_int));
+    timer_text.setCharacterSize(40);
+    timer_text.setPosition(700, 100);
     if(remaining_time>=30){
-        timerText.setFillColor(sf::Color::Black);
+        timer_text.setFillColor(sf::Color::Black);
     }else if(remaining_time>10){
-        timerText.setFillColor(sf::Color(255, 165, 0));
+        timer_text.setFillColor(sf::Color(255, 165, 0));
     }else{
-        timerText.setFillColor(sf::Color::Red); 
+        timer_text.setFillColor(sf::Color::Red); 
     }
-    game_window->draw(timerText);
+    game_window->draw(timer_text);
     game_window->display();
-    if(number_of_answers==5||remaining_time<=0){
+    if(remaining_time<=0){
         display_results();
     }
 }
 
 void math_game::display_results(){
+    game_window->clear(sf::Color(245, 245, 220));
+    sf::Font font;
+    if (!font.loadFromFile("Regular.ttf")){  
+        std::cout << "Error, font not found" << std::endl;
+    }
+
+    sf::Text score_text;
+    score_text.setFont(font);
+    score_text.setFillColor(sf::Color::Black);
+    score_text.setString("  GAME OVER!!\n\nPoints Scored: " + std::to_string(correct_answers) + "\nCoins earned: " + std::to_string(correct_answers * 10));
+    score_text.setCharacterSize(70);
+    score_text.setPosition(550,300);
+
+    game_window->draw(score_text);
+    game_window->display();
+    while (game_window->isOpen()) {
+        sf::Event event;
+        while (game_window->pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                game_window->close(); // Close the window when the close event is triggered
+            }
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                game_window->close(); // Close the game when Enter is pressed
+            }
+        }
+    }
 }
 
 void math_game::display_intro(){
@@ -159,3 +195,37 @@ void math_game::display_intro(){
         }
     }
 }
+
+void math_game::rules_page(){
+    sf::Clock clock;
+    sf::Font font;
+    if (!font.loadFromFile("Regular.ttf")){  
+        std::cout << "Error, font not found" << std::endl;
+    }
+    while(game_window->isOpen()){
+        sf::Event event;
+        bool escape=false;
+        while (game_window->pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                game_window->close(); // Close the window when the close event is triggered
+            }
+            if(event.type==sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter){
+                escape=true;
+            }
+        }
+        game_window->clear(sf::Color(245, 245, 220));
+        if(escape){
+            break;
+        }
+
+        sf::Text welcome1;
+        welcome1.setFont(font);
+        welcome1.setFillColor(sf::Color::Black);
+        welcome1.setString("Welcome to PetPal Math Game!\n\n\nInstructions:\n\n1) You have 50 seconds to answer 5 math questions\n\n2) Type solution and hit enter to answer\n\n3) Type - for negative\n\n4) Use delete key to remove entered number\n\n5) Press Enter to Start Game\n\n\nGood Luck!");
+        welcome1.setCharacterSize(35);
+        welcome1.setPosition(30, 30);
+        game_window->draw(welcome1);
+        game_window->display();
+     }
+}
+

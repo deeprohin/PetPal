@@ -12,16 +12,18 @@ class math_game{
     private:
         sf::RenderWindow* game_window;
         sf::Event ev;
-        int correctAnswers;
+        int correct_answers;
 
         //store current question and answer: 
         std::string current_question;
         int current_answer;
         std::string current_input;
         int number_of_answers;
+        int score;
 
         void generate_question();
         void display_intro();
+        void rules_page();
         void display_results(); //display how many question they got correct and coins gained as a result
 
         //time keeping for clock
