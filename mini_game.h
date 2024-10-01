@@ -46,6 +46,9 @@ class mini_game{
         //vector of songs
         vector<string> mini_game_song_paths;
 
+        //game over screen
+        sf::Text game_over_text;
+
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -70,5 +73,7 @@ class mini_game{
         void render_text(sf::RenderTarget& target);
         void initialise_music();
         string get_random_song(vector<string>& songs_path);
+        void initialise_game_over_text();
+        void update_game_over_text();
+        void render_game_over_text(sf::RenderTarget& target);
 };
-

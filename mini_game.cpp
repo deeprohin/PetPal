@@ -42,6 +42,7 @@ mini_game::mini_game(){
     initialise_slider();
     initialise_fonts();
     initialise_music();
+    initialise_game_over_text();
 }
 
 mini_game::~mini_game(){
@@ -98,18 +99,19 @@ void mini_game::poll_events(){
 void mini_game::render(){
     //draws and represents everything on the screen
     game_window->clear(sf::Color(230,230,220));
-    render_boxes(*game_window);
-    game_window->draw(slider_track);
-    game_window->draw(slider_knob);
-    render_text(*game_window);
-
-    if(game_over){
-        game_window->display();
-        game_window->close();
-        return;
+    if (game_over==false){
+        render_boxes(*game_window);
+        game_window->draw(slider_track);
+        game_window->draw(slider_knob);
+        render_text(*game_window);
     }
-
+    else{
+        mini_game_music.pause();
+        game_window->clear(sf::Color(230, 230, 220));
+        render_game_over_text(*game_window);
+    }
     game_window->display();
+    
 }
 
 void mini_game::spawn_boxes(){
@@ -134,6 +136,7 @@ void mini_game::spawn_boxes(){
     update_slider();
     update_points();
     update_text();
+    update_game_over_text();
  }
 
  void mini_game::update_boxes(){
@@ -238,4 +241,22 @@ void mini_game::initialise_music(){
 string mini_game::get_random_song(vector<string>& songs_path){
      int random_index=rand()%songs_path.size();
      return songs_path[random_index];
+}
+
+void mini_game::initialise_game_over_text(){
+    game_over_text.setFont(game_font);
+    game_over_text.setCharacterSize(40);
+    game_over_text.setFillColor(sf::Color::Black);
+    game_over_text.setPosition(550,300);
+    game_over_text.setString("NONE");
+}
+
+void mini_game::update_game_over_text(){
+    std::stringstream ss;
+    ss <<"  GAME OVER!!"<<"\n\n\n\n"<< "Points Scored: " << points << "\n\n"<<"Coins earned: "<<points*10<<"\n\n";
+    game_over_text.setString(ss.str());
+}
+
+void mini_game::render_game_over_text(sf::RenderTarget& target){
+    target.draw(game_over_text);
 }
