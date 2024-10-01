@@ -32,7 +32,9 @@ void mini_game::initialise_variables(){
         "Music/Call me maybe.mp3", "Music/Cheap Thrills.mp3", "Music/Counting Stars.mp3", "Music/Work from Home (feat. Ty Dolla $ign).mp3"
     };
     in_intro_game = true; 
-    initialise_intro_text();
+    is_game_over_sound_playing = false; 
+    
+
 }
 
 mini_game::mini_game(){
@@ -45,6 +47,7 @@ mini_game::mini_game(){
     initialise_fonts();
     initialise_music();
     initialise_game_over_text();
+    initialise_intro_text();
 }
 
 mini_game::~mini_game(){
@@ -140,13 +143,12 @@ void mini_game::spawn_boxes(){
  void mini_game::update(){
     poll_events();
     if(in_intro_game==false){
-        update_boxes();
-        update_slider();
-        update_points();
-        update_text();
-        update_game_over_text();
+    update_boxes();
+    update_slider();
+    update_points();
+    update_text();
+    update_game_over_text();
     }
-   
  }
 
  void mini_game::update_boxes(){
@@ -166,6 +168,7 @@ void mini_game::spawn_boxes(){
         //checking if the box has touch the slider
         if(e.getPosition().y+e.getSize().y >= slider_track.getPosition().y){
             game_over=true;
+            initialise_game_over_sound();
         }
     }
 
@@ -288,4 +291,12 @@ void mini_game::initialise_intro_text(){
 
 void mini_game::render_intro_text(sf::RenderTarget& target){
     target.draw(intro_text);
+}
+void mini_game::initialise_game_over_sound(){
+    if (!is_game_over_sound_playing) { 
+    game_over_sound.openFromFile("Music/gameOver.mp3");
+    game_over_sound.setVolume(100);
+    game_over_sound.play();
+    is_game_over_sound_playing = true;
+    }
 }

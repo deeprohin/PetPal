@@ -49,6 +49,10 @@ class mini_game{
         //game over screen
         sf::Text game_over_text;
 
+        //game over sound
+        sf::Music game_over_sound;
+        bool is_game_over_sound_playing;
+        
         //intro screen
         bool in_intro_game; //checks if the game has just started and is in intro mode
         sf::Text intro_text;//to display the instructions
@@ -82,4 +86,5 @@ class mini_game{
         void render_game_over_text(sf::RenderTarget& target);
         void initialise_intro_text();
         void render_intro_text(sf::RenderTarget& target);
+        void initialise_game_over_sound();
 };
