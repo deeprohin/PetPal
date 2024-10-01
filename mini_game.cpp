@@ -31,6 +31,8 @@ void mini_game::initialise_variables(){
     mini_game_song_paths={
         "Music/Call me maybe.mp3", "Music/Cheap Thrills.mp3", "Music/Counting Stars.mp3", "Music/Work from Home (feat. Ty Dolla $ign).mp3"
     };
+    in_intro_game = true; 
+    initialise_intro_text();
 }
 
 mini_game::mini_game(){
@@ -76,6 +78,9 @@ void mini_game::poll_events(){
                 if(ev.key.code==sf::Keyboard::Escape){
                     game_window->close();
                 }
+                if (in_intro_game&&ev.key.code==sf::Keyboard::Enter) {
+                    in_intro_game = false; // Exit intro screen on Enter key press
+                }
                 break;
             //to check for the dragging one i.e. if the mouse position is on the knob and is clicked upon it will set the is_dragging boolean to truew
             case (sf::Event::MouseButtonPressed):
@@ -99,7 +104,9 @@ void mini_game::poll_events(){
 void mini_game::render(){
     //draws and represents everything on the screen
     game_window->clear(sf::Color(230,230,220));
-    if (game_over==false){
+    if (in_intro_game) {
+        render_intro_text(*game_window);
+    }else if(game_over==false){
         render_boxes(*game_window);
         game_window->draw(slider_track);
         game_window->draw(slider_knob);
@@ -132,11 +139,14 @@ void mini_game::spawn_boxes(){
 
  void mini_game::update(){
     poll_events();
-    update_boxes();
-    update_slider();
-    update_points();
-    update_text();
-    update_game_over_text();
+    if(in_intro_game==false){
+        update_boxes();
+        update_slider();
+        update_points();
+        update_text();
+        update_game_over_text();
+    }
+   
  }
 
  void mini_game::update_boxes(){
@@ -211,13 +221,13 @@ void mini_game::spawn_boxes(){
     
  }
 void mini_game::initialise_fonts(){
-    if(!game_font.loadFromFile("dogica.ttf")){
+    if(!game_font.loadFromFile("Regular.ttf")){
         cout<<"failed to load"<<endl;
     }
     game_ui_text.setFont(game_font);
-    game_ui_text.setCharacterSize(25);
+    game_ui_text.setCharacterSize(65);
     game_ui_text.setFillColor(sf::Color::Black);
-    game_ui_text.setPosition(10, game_window->getSize().y - 30);
+    game_ui_text.setPosition(10, game_window->getSize().y - 70);
     game_ui_text.setString("NONE");
 }
 
@@ -245,7 +255,7 @@ string mini_game::get_random_song(vector<string>& songs_path){
 
 void mini_game::initialise_game_over_text(){
     game_over_text.setFont(game_font);
-    game_over_text.setCharacterSize(40);
+    game_over_text.setCharacterSize(80);
     game_over_text.setFillColor(sf::Color::Black);
     game_over_text.setPosition(550,300);
     game_over_text.setString("NONE");
@@ -253,10 +263,29 @@ void mini_game::initialise_game_over_text(){
 
 void mini_game::update_game_over_text(){
     std::stringstream ss;
-    ss <<"  GAME OVER!!"<<"\n\n\n\n"<< "Points Scored: " << points << "\n\n"<<"Coins earned: "<<points*10<<"\n\n";
+    ss <<"  GAME OVER!!"<<"\n\n"<< "Points Scored: " << points << "\n"<<"Coins earned: "<<points*10<<"\n\n";
     game_over_text.setString(ss.str());
 }
 
 void mini_game::render_game_over_text(sf::RenderTarget& target){
     target.draw(game_over_text);
+}
+
+void mini_game::initialise_intro_text(){
+    intro_text.setFont(game_font);
+    intro_text.setCharacterSize(50);
+    intro_text.setFillColor(sf::Color::Black);
+    intro_text.setPosition(100, 100); 
+    intro_text.setString("Welcome to PetPal!\n\n"
+                         "Instructions:\n\n"
+                         "1. Use the slider to catch the falling boxes.\n\n"
+                         "2. Different box sizes give different points.\n\n"
+                         "3. Avoid letting the boxes touch the ground!\n\n"
+                         "4. Press Enter to start the game.\n\n"
+                         "5. Press Escape at any time to exit.\n\n\n"
+                         "Good luck!");
+}
+
+void mini_game::render_intro_text(sf::RenderTarget& target){
+    target.draw(intro_text);
 }

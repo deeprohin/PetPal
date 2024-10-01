@@ -49,6 +49,10 @@ class mini_game{
         //game over screen
         sf::Text game_over_text;
 
+        //intro screen
+        bool in_intro_game; //checks if the game has just started and is in intro mode
+        sf::Text intro_text;//to display the instructions
+
         //private functions
         void initialise_variables(); 
         void initialise_window();
@@ -58,22 +62,24 @@ class mini_game{
         ~mini_game(); //destructor
         void initialise_boxes();
         bool window_open();
-        void render();
-        void update();
+        void render();//renders for the whole game
+        void update();//updates the screen for the whole game
         void poll_events();
         void spawn_boxes();
-        void render_boxes(sf::RenderTarget& target);
+        void render_boxes(sf::RenderTarget& target);//renders the boxes
         void update_boxes();
         void initialise_image();
         void initialise_slider();
         void update_slider();
         void update_points();
         void initialise_fonts();
-        void update_text();
-        void render_text(sf::RenderTarget& target);
+        void update_text();//updates the text in the main game
+        void render_text(sf::RenderTarget& target);//renders text in the main game
         void initialise_music();
         string get_random_song(vector<string>& songs_path);
         void initialise_game_over_text();
         void update_game_over_text();
         void render_game_over_text(sf::RenderTarget& target);
+        void initialise_intro_text();
+        void render_intro_text(sf::RenderTarget& target);
 };
