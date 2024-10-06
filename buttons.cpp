@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include "MATHGAME.h"
+#include "Animation.h"
 
 int main(){
     //creating main window
@@ -110,6 +112,7 @@ int main(){
                     std::cout<<"Shopping Button"<<std::endl;
                 }else if(x>=900&&x<=1050&&y>=680&&y<=830){
                     std::cout<<"Math Button"<<std::endl;
+                    math_game test;
                 }else if(x>=1310&&x<=1460&&y>=680&&y<=830){
                     std::cout<<"Info Button"<<std::endl;
                 }
