@@ -3,6 +3,11 @@
 #include <iostream>
 #include "MATHGAME.h"
 #include "Animation.h"
+#include"mini_game.h"
+#include "Eating.h"
+#include "Medicine.h"
+#include "Shower.h"
+#include "Sleeping.h"
 
 int main(){
     //creating main window
@@ -104,6 +109,11 @@ int main(){
                     std::cout<<"showering Button"<<std::endl;
                 }else if(x>=900&&x<=1050&&y>=130&&y<=280){
                     std::cout<<"Game Button"<<std::endl;
+                    mini_game new_game;
+                    while(new_game.window_open()){
+                        new_game.update();
+                        new_game.render();
+                    }
                 }else if(x>=1310&&x<=1460&&y>=130&&y<=280){
                     std::cout<<"Eating Button"<<std::endl;
                 }else if(x>=40&&x<=190&&y>=680&&y<=830){
