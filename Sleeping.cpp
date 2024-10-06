@@ -21,8 +21,8 @@ void Sleeping::startAnimation()
     currentFrame = 0;
     elapsedTime = 0.0f;
 
-    position.x = 400.f;
-    position.y = 300.f;
+    position.x = 1100.f;
+    position.y = 480.f;
     sprite.setPosition(position);
 }
 
@@ -48,8 +48,8 @@ void Sleeping::draw(sf::RenderWindow& window)
 
 void Sleeping::updateSpriteRect()
 {
-    int frameWidth = texture.getSize().x / 2;
-    int frameHeight = texture.getSize().y / 2;
+    int frameWidth = texture.getSize().x / 4;
+    int frameHeight = texture.getSize().y ;
 
     int frameX = 0;
     int frameY = 0;
@@ -61,14 +61,18 @@ void Sleeping::updateSpriteRect()
             frameY = 0;
             break;
         case 1:
-            frameX = frameWidth;
-            frameY = 0;
+            frameX = frameWidth; // Move to the next column
+            frameY = 0;          // Still in the first row
             break;
         case 2:
-            frameX = 0;
-            frameY = frameHeight;
+            frameX = 2 * frameWidth; // Move to the third column
+            frameY = 0;               // Still in the first row
             break;
-        // You can add more frames here as needed
+        case 3:
+            frameX = 3 * frameWidth; // Move to the fourth column
+            frameY = 0;               // Still in the first row
+            break;
+
     }
 
     sprite.setTextureRect(sf::IntRect(frameX, frameY, frameWidth, frameHeight));

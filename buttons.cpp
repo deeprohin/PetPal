@@ -4,14 +4,16 @@
 #include "MATHGAME.h"
 #include "Animation.h"
 #include"mini_game.h"
-#include "Eating.h"
-#include "Medicine.h"
-#include "Shower.h"
-#include "Sleeping.h"
+#include "adult_avo.h"
 
 int main(){
+    //determining character type to determine which animation to laod in
+
+
+
     //creating main window
     sf::RenderWindow main_window(sf::VideoMode(1920,1080), "My Virtual Pet");
+    main_window.setFramerateLimit(60);
     sf::RectangleShape line(sf::Vector2f(1920, 5)); 
     line.setFillColor(sf::Color::Black); 
     line.setPosition(0, 120);
@@ -107,6 +109,26 @@ int main(){
                     std::cout<<"Sleeping Button"<<std::endl;
                 }else if(x>=470&&x<=620&&y>=130&&y<=280){
                     std::cout<<"showering Button"<<std::endl;
+                    adult_avo test("Big2/showering/spritesheet.png", 1.4f, 2.9f, 2.9f);
+                    test.startAnimation();
+                     sf::Clock clock; // Clock to track time
+                    while (main_window.isOpen()){
+                        sf::Event event;
+                        while (main_window.pollEvent(event)) {
+                            if (event.type == sf::Event::Closed)
+                                main_window.close();
+                        }
+                        // Get the time elapsed since the last frame
+                        float deltaTime = clock.restart().asSeconds();
+                        test.update(deltaTime);
+                        // Clear the window
+                        main_window.clear(sf::Color(245, 245, 220));
+                        // Draw the shower
+                        test.draw(main_window);
+
+                        // Display the window contents
+                        main_window.display();
+                    }
                 }else if(x>=900&&x<=1050&&y>=130&&y<=280){
                     std::cout<<"Game Button"<<std::endl;
                     mini_game new_game;

@@ -7,13 +7,10 @@
 
 class Shower {
 public:
-    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f);
-
-    void startAnimation();
-    void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
-
-private:
+    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f){}
+    virtual void startAnimation(){}
+    virtual void update(float deltaTime){}
+    virtual void draw(sf::RenderWindow& window){}
     sf::Sprite sprite;
     sf::Texture texture;
     float frameDuration;
@@ -22,8 +19,7 @@ private:
     bool isAnimating;
     sf::Vector2f position;
     sf::Vector2f originalPosition;
-
-    void updateSpriteRect();
+    virtual void updateSpriteRect(){}
 };
 
 #endif // SHOWER_H
