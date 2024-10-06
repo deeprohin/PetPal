@@ -1,29 +1,43 @@
+// main.cpp
 #include <SFML/Graphics.hpp>
-#include "Eating.h"
+#include "Eating.cpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Eating Activity");
+    // Create a window (800x600)
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Eating");
+
+    // Frame limit for smooth display
     window.setFramerateLimit(60);
 
-    Eating eat("Small/eating.png", 0.8f, 2.2f, 2.2f);
+    // Load the sprite sheet for the "eating" activity (3 frames) with scaling
+    Eating eating("Small/eating.png", 0.8f, 2.2f, 2.2f);  // Adjust frame duration and scaling
 
-    eat.startAnimation();
+    // Start the animation
+    eating.startAnimation();
 
-    sf::Clock clock;
-
+    // Main game loop
+    sf::Clock clock; // Clock to track time
     while (window.isOpen()) {
+        // Handle events
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
+        // Get the time elapsed since the last frame
         float deltaTime = clock.restart().asSeconds();
 
-        eat.update(deltaTime);
+        // Update the Eating animation
+        eating.update(deltaTime);
 
-        window.clear(sf::Color(245, 245, 220));
-        eat.draw(window);
+        // Clear the window
+        window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+
+        // Draw the Eating sprite
+        eating.draw(window);
+
+        // Display the window contents
         window.display();
     }
 

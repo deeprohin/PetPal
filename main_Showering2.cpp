@@ -1,10 +1,10 @@
 // main.cpp
 #include <SFML/Graphics.hpp>
-#include "Shower.h"
+#include "Showering2.cpp"
 
 int main() {
     // Create a window for the application (800x600 pixels)
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Shower Animation");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Shower ");
 
     // Set the framerate to 60 FPS for smooth animation
     window.setFramerateLimit(60);
