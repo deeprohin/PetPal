@@ -31,8 +31,8 @@ public:
         isAnimating = true;
         currentFrame = 0; // Reset to the first frame
         elapsedTime = 0.0f; // Reset elapsed time
-        position.x = 400.f; // Start position (center of the window)
-        position.y = 300.f; // Y position
+        position.x = 600.f; // Start position (center of the window)
+        position.y = 350.f; // Y position
         originalPosition = position; // Store the original position
         sprite.setPosition(position); // Set the sprite's initial position
     }
@@ -49,8 +49,6 @@ public:
             currentFrame = (currentFrame + 1) % 5; // Loop back to the first frame after the last one
             elapsedTime = 0.0f; // Reset elapsed time
         }
-
-        // Update the sprite's texture rectangle based on the current frame
         updateSpriteRect();
     }
 

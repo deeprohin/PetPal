@@ -7,7 +7,8 @@
 
 class Shower {
 public:
-    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f){}
+    //showering implimentation: 
+    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f): frameDuration(frameDuration), elapsedTime(0.0f), currentFrame(0), isAnimating(false) {}
     virtual void startAnimation(){}
     virtual void update(float deltaTime){}
     virtual void draw(sf::RenderWindow& window){}

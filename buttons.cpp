@@ -109,25 +109,39 @@ int main(){
                     std::cout<<"Sleeping Button"<<std::endl;
                 }else if(x>=470&&x<=620&&y>=130&&y<=280){
                     std::cout<<"showering Button"<<std::endl;
-                    adult_avo test("Big2/showering/spritesheet.png", 1.4f, 2.9f, 2.9f);
+                    adult_avo test("Big2/showering/spritesheet.png", 1.4f, 8.0f, 8.0f);
                     test.startAnimation();
                      sf::Clock clock; // Clock to track time
+                     sf::Clock total_animation_time;
                     while (main_window.isOpen()){
                         sf::Event event;
                         while (main_window.pollEvent(event)) {
-                            if (event.type == sf::Event::Closed)
+                            if (event.type == sf::Event::Closed){
                                 main_window.close();
+                            }
                         }
                         // Get the time elapsed since the last frame
                         float deltaTime = clock.restart().asSeconds();
                         test.update(deltaTime);
-                        // Clear the window
-                        main_window.clear(sf::Color(245, 245, 220));
+                       
                         // Draw the shower
+                        main_window.clear(sf::Color(245, 245, 220));
                         test.draw(main_window);
+                        main_window.draw(line);
+                        main_window.draw(sleeping_button_sprite);
+                        main_window.draw(shower_button_sprite);
+                        main_window.draw(game_button_sprite);
+                        main_window.draw(food_button_sprite);
+                        main_window.draw(health_button_sprite);
+                        main_window.draw(shopping_button_sprite);
+                        main_window.draw(info_button_sprite);
+                        main_window.draw(math_button_sprite);
 
                         // Display the window contents
                         main_window.display();
+                        if(total_animation_time.getElapsedTime().asSeconds()>=6){
+                            break;
+                        }
                     }
                 }else if(x>=900&&x<=1050&&y>=130&&y<=280){
                     std::cout<<"Game Button"<<std::endl;
