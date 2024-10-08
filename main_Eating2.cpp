@@ -1,10 +1,10 @@
 // main.cpp
 #include <SFML/Graphics.hpp>
-#include "Eating.h"
+#include "Eating2.cpp"
 
 int main() {
     // Create a window (800x600)
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Eating Activity");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Eating");
 
     // Frame limit for smooth display
     window.setFramerateLimit(60);

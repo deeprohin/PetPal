@@ -1,10 +1,10 @@
 // main.cpp
 #include <SFML/Graphics.hpp>
-#include "Medicine.h"
+#include "Medicine2.cpp"
 
 int main() {
     // Create a window for the application (800x600 pixels)
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Medicine Animation");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Medicine");
 
     // Set the framerate to 60 FPS for smooth animation
     window.setFramerateLimit(60);
