@@ -7,21 +7,20 @@
 
 class Medicine {
 public:
-    Medicine(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f);
+    Medicine(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f):frameDuration_medicine(frameDuration), elapsedTime_medicine(0.0f), currentFrame_medicine(0), isAnimating_medicine(false) {};
 
-    void startAnimation();
-    void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
-
-private:
-    sf::Sprite sprite;
-    sf::Texture texture;
-    float frameDuration;
-    int currentFrame;
-    float elapsedTime;
-    bool isAnimating;
-
-    void updateSpriteRect();
+    virtual void startAnimation_medicine(){}
+    virtual void update_medicine(float deltaTime){}
+    virtual void draw_medicine(sf::RenderWindow& window){}
+    sf::Sprite sprite_medicine;
+    sf::Texture texture_medicine;
+    float frameDuration_medicine;
+    int currentFrame_medicine;
+    float elapsedTime_medicine;
+    bool isAnimating_medicine;
+    sf::Vector2f position_medicine;
+    sf::Vector2f originalPosition_medicine;
+    virtual void updateSpriteRect_medicine(){}
 };
 
 #endif // MEDICINE_H

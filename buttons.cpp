@@ -8,8 +8,7 @@
 
 int main(){
     //determining character type to determine which animation to laod in
-
-
+    
 
     //creating main window
     sf::RenderWindow main_window(sf::VideoMode(1920,1080), "My Virtual Pet");
@@ -107,6 +106,44 @@ int main(){
                 int y=click_position.y;
                 if(x>=40&&x<=190&&y>=130&&y<=280){
                     std::cout<<"Sleeping Button"<<std::endl;
+                    adult_avo sleeping("Big2/sleeping/spritesheet.png", 0.8f, 8.0f, 8.0f);
+                    sleeping.startAnimation_sleeping();
+                    sf::Clock clock; // Clock to track time
+                    sf::Clock total_animation_time;
+                    while (main_window.isOpen()){   
+                        sf::Event event;
+                        while (main_window.pollEvent(event))
+                        {
+                            if (event.type == sf::Event::Closed)
+                                main_window.close();
+                        }
+
+                        // Get the time elapsed since the last frame
+                        float deltaTime = clock.restart().asSeconds();
+
+                        // Update the Sleeping Sleeping
+                        sleeping.update_sleeping(deltaTime);
+
+                        // Clear the window
+                        main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+
+                        // Draw the Sleeping sprite
+                        sleeping.draw_sleeping(main_window);
+                        main_window.draw(line);
+                        main_window.draw(sleeping_button_sprite);
+                        main_window.draw(shower_button_sprite);
+                        main_window.draw(game_button_sprite);
+                        main_window.draw(food_button_sprite);
+                        main_window.draw(health_button_sprite);
+                        main_window.draw(shopping_button_sprite);
+                        main_window.draw(info_button_sprite);
+                        main_window.draw(math_button_sprite);
+                        // Display the window contents
+                        main_window.display();
+                        if(total_animation_time.getElapsedTime().asSeconds()>=6){
+                            break;
+                        }
+                    }
                 }else if(x>=470&&x<=620&&y>=130&&y<=280){
                     std::cout<<"showering Button"<<std::endl;
                     adult_avo test("Big2/showering/spritesheet.png", 1.4f, 8.0f, 8.0f);
@@ -152,8 +189,76 @@ int main(){
                     }
                 }else if(x>=1310&&x<=1460&&y>=130&&y<=280){
                     std::cout<<"Eating Button"<<std::endl;
+                    adult_avo adult_avo_eating("Big2/Eating/spritesheet.png", 1.4f, 8.0f, 8.0f);
+                    adult_avo_eating.startAnimation_eating();
+                    sf::Clock clock1; // Clock to track time
+                    sf::Clock total_animation_time1;
+                    while (main_window.isOpen()){
+                        sf::Event event;
+                        while (main_window.pollEvent(event)) {
+                            if (event.type == sf::Event::Closed){
+                                main_window.close();
+                            }
+                        }
+                        // Get the time elapsed since the last frame
+                        float deltaTime = clock1.restart().asSeconds();
+                        adult_avo_eating.update_eating(deltaTime);
+                       
+                        // Draw the shower
+                        main_window.clear(sf::Color(245, 245, 220));
+                        adult_avo_eating.draw_eating(main_window);
+                        main_window.draw(line);
+                        main_window.draw(sleeping_button_sprite);
+                        main_window.draw(shower_button_sprite);
+                        main_window.draw(game_button_sprite);
+                        main_window.draw(food_button_sprite);
+                        main_window.draw(health_button_sprite);
+                        main_window.draw(shopping_button_sprite);
+                        main_window.draw(info_button_sprite);
+                        main_window.draw(math_button_sprite);
+
+                        // Display the window contents
+                        main_window.display();
+                        if(total_animation_time1.getElapsedTime().asSeconds()>=6){
+                            break;
+                        }
+                    }
                 }else if(x>=40&&x<=190&&y>=680&&y<=830){
                     std::cout<<"Medicine Button"<<std::endl;
+                    adult_avo adult_avo_meds("New Piskel-1 10.15.48ΓÇ»PM.png (2).png", 1.4f, 8.0f, 8.0f);
+                    adult_avo_meds.startAnimation_medicine();
+                    sf::Clock clock1; // Clock to track time
+                    sf::Clock total_animation_time1;
+                    while (main_window.isOpen()){
+                        sf::Event event;
+                        while (main_window.pollEvent(event)) {
+                            if (event.type == sf::Event::Closed){
+                                main_window.close();
+                            }
+                        }
+                        // Get the time elapsed since the last frame
+                        float deltaTime = clock1.restart().asSeconds();
+                        adult_avo_meds.update_medicine(deltaTime);
+                         // Draw the shower
+                        main_window.clear(sf::Color(245, 245, 220));
+                        adult_avo_meds.draw_medicine(main_window);
+                        main_window.draw(line);
+                        main_window.draw(sleeping_button_sprite);
+                        main_window.draw(shower_button_sprite);
+                        main_window.draw(game_button_sprite);
+                        main_window.draw(food_button_sprite);
+                        main_window.draw(health_button_sprite);
+                        main_window.draw(shopping_button_sprite);
+                        main_window.draw(info_button_sprite);
+                        main_window.draw(math_button_sprite);
+
+                        // Display the window contents
+                        main_window.display();
+                        if(total_animation_time1.getElapsedTime().asSeconds()>=6){
+                            break;
+                        }
+
+                    }
                 }else if(x>=470&&x<=620&&y>=680&&y<=830){
                     std::cout<<"Shopping Button"<<std::endl;
                 }else if(x>=900&&x<=1050&&y>=680&&y<=830){
