@@ -110,9 +110,9 @@ int main(){
                 }else if(x>=470&&x<=620&&y>=130&&y<=280){
                     std::cout<<"showering Button"<<std::endl;
                     adult_avo test("Big2/showering/spritesheet.png", 1.4f, 8.0f, 8.0f);
-                    test.startAnimation();
-                     sf::Clock clock; // Clock to track time
-                     sf::Clock total_animation_time;
+                    test.startAnimation_shower();
+                    sf::Clock clock; // Clock to track time
+                    sf::Clock total_animation_time;
                     while (main_window.isOpen()){
                         sf::Event event;
                         while (main_window.pollEvent(event)) {
@@ -122,11 +122,11 @@ int main(){
                         }
                         // Get the time elapsed since the last frame
                         float deltaTime = clock.restart().asSeconds();
-                        test.update(deltaTime);
+                        test.update_shower(deltaTime);
                        
                         // Draw the shower
                         main_window.clear(sf::Color(245, 245, 220));
-                        test.draw(main_window);
+                        test.draw_shower(main_window);
                         main_window.draw(line);
                         main_window.draw(sleeping_button_sprite);
                         main_window.draw(shower_button_sprite);

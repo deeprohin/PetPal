@@ -7,23 +7,19 @@
 
 class Eating {
 public:
-    Eating(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f);
-
-    void startAnimation();
-    void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
-
-private:
-    sf::Sprite sprite;
-    sf::Texture texture;
-    float frameDuration;
-    int currentFrame;
-    float elapsedTime;
-    bool isAnimating;
-    sf::Vector2f position;
-    sf::Vector2f originalPosition;
-
-    void updateSpriteRect();
+    Eating(const std::string& spriteSheetPath, float frameDuration, float scaleX, float scaleY){};
+    virtual void startAnimation_eating();
+    virtual void update_eating(float deltaTime);
+    virtual void draw_eating(sf::RenderWindow& window);
+    sf::Sprite sprite_eating;
+    sf::Texture texture_eating;
+    float frameDuration_eating;
+    int currentFrame_eating;
+    float elapsedTime_eating;
+    bool isAnimating_eating;
+    sf::Vector2f position_eating;
+    sf::Vector2f originalPosition_eating;
+    virtual void updateSpriteRect_eating();
 };
 
 #endif // EATING_H

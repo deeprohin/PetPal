@@ -7,20 +7,20 @@
 
 class Shower {
 public:
-    //showering implimentation: 
-    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f): frameDuration(frameDuration), elapsedTime(0.0f), currentFrame(0), isAnimating(false) {}
-    virtual void startAnimation(){}
-    virtual void update(float deltaTime){}
-    virtual void draw(sf::RenderWindow& window){}
-    sf::Sprite sprite;
-    sf::Texture texture;
-    float frameDuration;
-    int currentFrame;
-    float elapsedTime;
-    bool isAnimating;
-    sf::Vector2f position;
-    sf::Vector2f originalPosition;
-    virtual void updateSpriteRect(){}
+    //showering implimentation:                  
+    Shower(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f): frameDuration_shower(frameDuration), elapsedTime_shower(0.0f), currentFrame_shower(0), isAnimating_shower(false) {}
+    virtual void startAnimation_shower(){}
+    virtual void update_shower(float deltaTime){}
+    virtual void draw_shower(sf::RenderWindow& window){}
+    sf::Sprite sprite_shower;
+    sf::Texture texture_shower;
+    float frameDuration_shower;
+    int currentFrame_shower;
+    float elapsedTime_shower;
+    bool isAnimating_shower;
+    sf::Vector2f position_shower;
+    sf::Vector2f originalPosition_shower;
+    virtual void updateSpriteRect_shower(){}
 };
 
 #endif // SHOWER_H
