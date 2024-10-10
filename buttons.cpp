@@ -14,7 +14,6 @@
 
 int main() {
   sf::Font font;
-
   if (!font.loadFromFile("Regular.ttf")) {
     std::cout << "Font Not Found" << std::endl;
     return -1;
@@ -23,6 +22,37 @@ int main() {
   std::string user_pet;
   std::cin >> user_pet;
   PetStats petStats;
+
+  //loading in the 4 default sprites: 
+  sf::Texture adult_avo_normal;
+  adult_avo_normal.loadFromFile("bigCharNormalAvo.png");
+  sf::Sprite adult_avo_normal_sprite;
+  adult_avo_normal_sprite.setTexture(adult_avo_normal);
+  adult_avo_normal_sprite.setPosition(600,350);
+  adult_avo_normal_sprite.setScale(8.0,8.0);
+
+  sf::Texture baby_avo_normal;
+  baby_avo_normal.loadFromFile("smallAvoNormal.png");
+  sf::Sprite baby_avo_normal_sprite;
+  baby_avo_normal_sprite.setTexture(baby_avo_normal);
+  baby_avo_normal_sprite.setPosition(600,350);
+  baby_avo_normal_sprite.setScale(8.0,8.0);
+
+  sf::Texture adult_ghost_normal;
+  adult_ghost_normal.loadFromFile("bigCharNormalGhost.png");
+  sf::Sprite adult_ghost_normal_sprite;
+  adult_ghost_normal_sprite.setTexture(adult_ghost_normal);
+  adult_ghost_normal_sprite.setPosition(600,350);
+  adult_ghost_normal_sprite.setScale(8.0,8.0);
+
+  sf::Texture baby_ghost_normal;
+  baby_ghost_normal.loadFromFile("smallGhostNormal.png");
+  sf::Sprite baby_ghost_normal_sprite;
+  baby_ghost_normal_sprite.setTexture(baby_ghost_normal);
+  baby_ghost_normal_sprite.setPosition(600,350);
+  baby_ghost_normal_sprite.setScale(8.0,8.0);
+
+
 
   // creating main window
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
@@ -804,6 +834,15 @@ int main() {
     main_window.draw(math_button_sprite);
     petStats.renderStats(main_window, font);
     renderQuote(main_window, font, selectedQuote);
+    if(user_pet=="adult_avo"){
+    main_window.draw(adult_avo_normal_sprite);
+    }else if(user_pet=="baby_avo"){
+        main_window.draw(baby_avo_normal_sprite);
+    }else if(user_pet=="adult_ghost"){
+        main_window.draw(adult_ghost_normal_sprite);
+    }else{
+        main_window.draw(baby_ghost_normal_sprite);
+    }
     main_window.display();
   }
   return 0;
