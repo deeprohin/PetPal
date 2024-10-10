@@ -81,7 +81,7 @@ void math_game::run(){
 }
 
 void math_game::render(){
-    game_window->clear(sf::Color(245, 245, 220));
+    game_window->clear(sf::Color(230, 230, 220));
     sf::Font font;
     if (!font.loadFromFile("dogica.ttf")){  
         std::cout << "Error, font not found" << std::endl;
@@ -137,7 +137,7 @@ void math_game::render(){
 }
 
 void math_game::display_results(){
-    game_window->clear(sf::Color(245, 245, 220));
+    game_window->clear(sf::Color(230, 230, 220));
     sf::Font font;
     if (!font.loadFromFile("Regular.ttf")){  
         std::cout << "Error, font not found" << std::endl;
@@ -213,7 +213,7 @@ void math_game::rules_page(){
                 escape=true;
             }
         }
-        game_window->clear(sf::Color(245, 245, 220));
+        game_window->clear(sf::Color(230, 230, 220));
         if(escape){
             break;
         }

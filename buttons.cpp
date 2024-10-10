@@ -9,9 +9,11 @@
 #include "adult_ghost.h"
 #include "baby_ghost.h"
 #include"pet_stats.h"
+#include"quotesFile.h"
 
 int main(){
     sf::Font font;
+    
 if (!font.loadFromFile("Regular.ttf")) {
     std::cout << "Font Not Found" << std::endl;
     return -1;
@@ -20,7 +22,7 @@ if (!font.loadFromFile("Regular.ttf")) {
     std::string user_pet;
     std::cin>>user_pet;
     PetStats petStats;
-
+    std::string selectedQuote = getRandomQuote(user_pet);
 
     //creating main window
     sf::RenderWindow main_window(sf::VideoMode(1920,1080), "My Virtual Pet");
@@ -157,6 +159,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             
                             main_window.display();
@@ -198,6 +201,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -238,6 +242,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                            
 
                            
@@ -281,6 +286,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -319,6 +325,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -358,6 +365,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -396,6 +404,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -434,6 +443,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -482,6 +492,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -518,6 +529,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -554,6 +566,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -590,6 +603,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -629,6 +643,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -700,7 +715,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
-
+                            renderQuote(main_window, font, selectedQuote);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time1.getElapsedTime().asSeconds()>=6){
@@ -736,6 +751,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
                             petStats.renderStats(main_window, font);
+                            renderQuote(main_window, font, selectedQuote);
 
                             // Display the window contents
                             main_window.display();
@@ -766,6 +782,7 @@ if (!font.loadFromFile("Regular.ttf")) {
         main_window.draw(info_button_sprite);
         main_window.draw(math_button_sprite);
         petStats.renderStats(main_window,font);
+        renderQuote(main_window, font, selectedQuote);
         main_window.display();
     }
     return 0; 
