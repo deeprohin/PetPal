@@ -1,6 +1,9 @@
 #include "MATHGAME.h"
 
 math_game::math_game(){
+    math_audio.openFromFile("Lobby Music (Original Soundtrack).mp3");
+    math_audio.setVolume(100);
+    math_audio.play();
     correct_answers=0;
     number_of_answers=0;
     total_time=50.0; //initalize how much time is given to solve math questions
@@ -35,6 +38,7 @@ void math_game::generate_question(){
 }
 
 math_game::~math_game(){
+    math_audio.pause();
     delete game_window;
 }
 
