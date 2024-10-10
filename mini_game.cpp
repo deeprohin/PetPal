@@ -28,6 +28,7 @@ void mini_game::initialise_variables(){
     game_over=false;
     points=0;
     box_falling_speed=3.0f;
+    money_earned=0;
     mini_game_song_paths={
         "Music/Call me maybe.mp3", "Music/Cheap Thrills.mp3", "Music/Counting Stars.mp3", "Music/Work from Home (feat. Ty Dolla $ign).mp3"
     };
