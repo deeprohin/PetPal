@@ -143,7 +143,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             
 
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             sleeping.draw_sleeping(main_window);
@@ -184,7 +184,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             sleeping.update_sleeping(deltaTime);
 
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             sleeping.draw_sleeping(main_window);
@@ -224,7 +224,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             sleeping.update_sleeping(deltaTime);
                             
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             sleeping.draw_sleeping(main_window);
@@ -267,7 +267,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             sleeping.update_sleeping(deltaTime);
                           
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             sleeping.draw_sleeping(main_window);
@@ -307,7 +307,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             float deltaTime = clock.restart().asSeconds();
                             test.update_shower(deltaTime);
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             test.draw_shower(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -344,7 +344,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             // Update the Sleeping Sleeping
                             baby_showering.update_shower(deltaTime);
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             baby_showering.draw_shower(main_window);
@@ -382,7 +382,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             // Update the Sleeping Sleeping
                             adult_ghost_showering.update_shower(deltaTime);
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             adult_ghost_showering.draw_shower(main_window);
@@ -420,7 +420,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             // Update the Sleeping Sleeping
                             adult_ghost_showering.update_shower(deltaTime);
                             // Clear the window
-                            main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
+                            main_window.clear(sf::Color(230, 230, 220)); // Optionally change the color for better visibility
 
                             // Draw the Sleeping sprite
                             adult_ghost_showering.draw_shower(main_window);
@@ -470,7 +470,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             adult_avo_eating.update_eating(deltaTime);
                         
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             adult_avo_eating.draw_eating(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -506,7 +506,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             eating.update_eating(deltaTime);
                         
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             eating.draw_eating(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -542,7 +542,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             eating.update_eating(deltaTime);
                         
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             eating.draw_eating(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -578,7 +578,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             eating.update_eating(deltaTime);
                         
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             eating.draw_eating(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -617,7 +617,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             float deltaTime = clock1.restart().asSeconds();
                             adult_avo_meds.update_medicine(deltaTime);
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             adult_avo_meds.draw_medicine(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -652,7 +652,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             float deltaTime = clock1.restart().asSeconds();
                             meds.update_medicine(deltaTime);
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             meds.draw_medicine(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -688,7 +688,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             float deltaTime = clock1.restart().asSeconds();
                             meds.update_medicine(deltaTime);
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             meds.draw_medicine(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -724,7 +724,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                             float deltaTime = clock1.restart().asSeconds();
                             meds.update_medicine(deltaTime);
                             // Draw the shower
-                            main_window.clear(sf::Color(245, 245, 220));
+                            main_window.clear(sf::Color(230, 230, 220));
                             meds.draw_medicine(main_window);
                             main_window.draw(line);
                             main_window.draw(sleeping_button_sprite);
@@ -755,7 +755,7 @@ if (!font.loadFromFile("Regular.ttf")) {
                 }
             }    
         }
-        main_window.clear(sf::Color(245, 245, 220));
+        main_window.clear(sf::Color(230, 230, 220));
         main_window.draw(line);
         main_window.draw(sleeping_button_sprite);
         main_window.draw(shower_button_sprite);

@@ -84,7 +84,7 @@ void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
   money_text.setFont(font);
   money_text.setCharacterSize(44);
   money_text.setFillColor(sf::Color::Black);
-  money_text.setPosition(1320, 40);
+  money_text.setPosition(1320, 20);
   money_text.setString(std::to_string(total_money));
   window.draw(money_text);
 
@@ -93,9 +93,9 @@ void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
   if (!coin_sign_texture.loadFromFile("coin.png")) {
     std::cout << "Image Not Found" << std::endl;
   }
-  sf::Sprite coin_sign;
+  sf::Sprite coin_sign; 
   coin_sign.setTexture(coin_sign_texture);
-  coin_sign.setPosition(1240, 40);
+  coin_sign.setPosition(1240, 20);
   coin_sign.setScale(0.1f, 0.1f);
   window.draw(coin_sign);  // Draw the coin sign
 }
