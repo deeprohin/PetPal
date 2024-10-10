@@ -44,11 +44,14 @@ void math_game::run(){
         while (game_window->isOpen()){
             bool has_entered=false;
             while(game_window->pollEvent(ev)){
-                if (ev.type == sf::Event::Closed){
+                if (ev.type == sf::Event::Closed|| ev.type==sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
                     game_window->close();
                 }
                 if (ev.type == sf::Event::KeyPressed){
                     if (ev.key.code == sf::Keyboard::Enter){
+                        if(current_input.empty()){
+                            break;
+                        }
                         if(current_answer==std::stoi(current_input)){
                             correct_answers++;
                         }
@@ -155,7 +158,7 @@ void math_game::display_results(){
     while (game_window->isOpen()) {
         sf::Event event;
         while (game_window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed|| event.type==sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 game_window->close(); // Close the window when the close event is triggered
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
@@ -167,20 +170,20 @@ void math_game::display_results(){
 
 void math_game::display_intro(){
     sf::Texture texture_1;
-    texture_1.loadFromFile("New Piskel.png");
+    texture_1.loadFromFile("New Piskel copy (1).png");//New Piskel.png
     sf::Sprite sprite;
     sprite.setTexture(texture_1);
-    sprite.setPosition(330, 20);
-    sprite.setScale(25.0f, 25.0f);
+    sprite.setPosition(280, 120);
+    sprite.setScale(30.0f, 30.0f);
 
-    Animation intro_scene(&texture_1,sf::Vector2u(2,3),0.3f);
+    Animation intro_scene(&texture_1,sf::Vector2u(6,1),0.3f); 
     float delta_time=0.0f;
     sf::Clock clock;
     sf::Clock total_time;
     while(game_window->isOpen()){
          sf::Event event;
         while (game_window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed|| event.type==sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 game_window->close(); // Close the window when the close event is triggered
             }
         }
@@ -206,7 +209,7 @@ void math_game::rules_page(){
         sf::Event event;
         bool escape=false;
         while (game_window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed|| event.type==sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 game_window->close(); // Close the window when the close event is triggered
             }
             if(event.type==sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter){
