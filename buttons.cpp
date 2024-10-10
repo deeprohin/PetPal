@@ -8,11 +8,19 @@
 #include "baby_avo.h"
 #include "adult_ghost.h"
 #include "baby_ghost.h"
+#include"pet_stats.h"
 
 int main(){
+    sf::Font font;
+if (!font.loadFromFile("Regular.ttf")) {
+    std::cout << "Font Not Found" << std::endl;
+    return -1;
+}
     //determining character type to determine which animation to laod in
     std::string user_pet;
     std::cin>>user_pet;
+    PetStats petStats;
+
 
     //creating main window
     sf::RenderWindow main_window(sf::VideoMode(1920,1080), "My Virtual Pet");
@@ -20,7 +28,7 @@ int main(){
     sf::RectangleShape line(sf::Vector2f(1920, 5)); 
     line.setFillColor(sf::Color::Black); 
     line.setPosition(0, 120);
-
+    
     //creating buttons
     sf::Texture sleeping_button_texture;
     if (!sleeping_button_texture.loadFromFile("moon.png")) {
@@ -98,11 +106,13 @@ int main(){
     //main loop of game
     while (main_window.isOpen()){
         sf::Event event;
+        petStats.updateStats();
         while (main_window.pollEvent(event)){
             if (event.type == sf::Event::Closed){
                 main_window.close();
                 return 0;
             }
+             
             //checking if user clicked the icon
             if(event.type == sf::Event::MouseButtonPressed){
                 sf::Vector2i click_position=sf::Mouse::getPosition(main_window);
@@ -110,6 +120,7 @@ int main(){
                 int y=click_position.y;
                 if(x>=40&&x<=190&&y>=130&&y<=280){
                     std::cout<<"Sleeping Button"<<std::endl;
+                    petStats.maxSleep();
                     if(user_pet=="adult_avo"){
                         adult_avo sleeping("Big2/sleeping/spritesheet.png", 0.8f, 8.0f, 8.0f);
                         sleeping.startAnimation_sleeping();
@@ -129,6 +140,8 @@ int main(){
                             // Update the Sleeping Sleeping
                             sleeping.update_sleeping(deltaTime);
 
+                            
+
                             // Clear the window
                             main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
 
@@ -143,7 +156,9 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
+                            
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
                                 break;
@@ -182,6 +197,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -206,7 +222,7 @@ int main(){
 
                             // Update the Sleeping Sleeping
                             sleeping.update_sleeping(deltaTime);
-
+                            
                             // Clear the window
                             main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
 
@@ -221,6 +237,10 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
+                           
+
+                           
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -245,7 +265,7 @@ int main(){
 
                             // Update the Sleeping Sleeping
                             sleeping.update_sleeping(deltaTime);
-
+                          
                             // Clear the window
                             main_window.clear(sf::Color(245, 245, 220)); // Optionally change the color for better visibility
 
@@ -260,6 +280,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -269,6 +290,7 @@ int main(){
                     }
                 }else if(x>=470&&x<=620&&y>=130&&y<=280){
                     std::cout<<"showering Button"<<std::endl;
+                    petStats.maxHealth();
                     if(user_pet=="adult_avo"){
                         adult_avo test("Big2/showering/spritesheet.png", 1.4f, 8.0f, 8.0f);
                         test.startAnimation_shower();
@@ -284,7 +306,6 @@ int main(){
                             // Get the time elapsed since the last frame
                             float deltaTime = clock.restart().asSeconds();
                             test.update_shower(deltaTime);
-                        
                             // Draw the shower
                             main_window.clear(sf::Color(245, 245, 220));
                             test.draw_shower(main_window);
@@ -297,6 +318,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -335,6 +357,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -372,6 +395,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -409,6 +433,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
                             // Display the window contents
                             main_window.display();
                             if(total_animation_time.getElapsedTime().asSeconds()>=6){
@@ -423,8 +448,11 @@ int main(){
                         new_game.update();
                         new_game.render();
                     }
+                    petStats.changeMoney(new_game.money_earned_end());
+
                 }else if(x>=1310&&x<=1460&&y>=130&&y<=280){
                     std::cout<<"Eating Button"<<std::endl;
+                    petStats.maxHunger();
                     if(user_pet=="adult_avo"){
                         adult_avo adult_avo_eating("Big2/Eating/spritesheet.png", 1.4f, 8.0f, 8.0f);
                         adult_avo_eating.startAnimation_eating();
@@ -453,6 +481,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -488,6 +517,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -523,6 +553,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -558,6 +589,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -568,6 +600,7 @@ int main(){
                     }
                 }else if(x>=40&&x<=190&&y>=680&&y<=830){
                     std::cout<<"Medicine Button"<<std::endl;
+                    petStats.maxHealth();
                     if(user_pet=="adult_avo"){
                         adult_avo adult_avo_meds("New Piskel-1 10.15.48ΓÇ»PM.png (2).png", 1.4f, 8.0f, 8.0f);
                         adult_avo_meds.startAnimation_medicine();
@@ -595,6 +628,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -629,6 +663,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -664,6 +699,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -699,6 +735,7 @@ int main(){
                             main_window.draw(shopping_button_sprite);
                             main_window.draw(info_button_sprite);
                             main_window.draw(math_button_sprite);
+                            petStats.renderStats(main_window, font);
 
                             // Display the window contents
                             main_window.display();
@@ -728,6 +765,7 @@ int main(){
         main_window.draw(shopping_button_sprite);
         main_window.draw(info_button_sprite);
         main_window.draw(math_button_sprite);
+        petStats.renderStats(main_window,font);
         main_window.display();
     }
     return 0; 

@@ -35,7 +35,7 @@ class mini_game{
         //points
         bool game_over;
         unsigned points;
-
+        int money_earned;
         //fonts and texts
         sf::Font game_font;
         sf::Text game_ui_text;
@@ -87,4 +87,5 @@ class mini_game{
         void initialise_intro_text();
         void render_intro_text(sf::RenderTarget& target);
         void initialise_game_over_sound();
+        int money_earned_end();
 };

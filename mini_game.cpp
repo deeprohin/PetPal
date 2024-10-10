@@ -149,6 +149,7 @@ void mini_game::spawn_boxes(){
     update_text();
     update_game_over_text();
     }
+    
  }
 
  void mini_game::update_boxes(){
@@ -266,7 +267,8 @@ void mini_game::initialise_game_over_text(){
 
 void mini_game::update_game_over_text(){
     std::stringstream ss;
-    ss <<"  GAME OVER!!"<<"\n\n"<< "Points Scored: " << points << "\n"<<"Coins earned: "<<points*10<<"\n\n";
+    money_earned=points*5;
+    ss <<"  GAME OVER!!"<<"\n\n"<< "Points Scored: " << points << "\n"<<"Coins earned: "<<money_earned<<"\n\n";
     game_over_text.setString(ss.str());
 }
 
@@ -299,4 +301,8 @@ void mini_game::initialise_game_over_sound(){
     game_over_sound.play();
     is_game_over_sound_playing = true;
     }
+}
+
+int mini_game::money_earned_end(){
+    return money_earned;
 }

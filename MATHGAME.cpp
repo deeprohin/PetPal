@@ -228,4 +228,3 @@ void math_game::rules_page(){
         game_window->display();
      }
 }
-
