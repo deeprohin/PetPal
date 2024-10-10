@@ -23,7 +23,7 @@ int main(){
 
     //creating buttons
     sf::Texture sleeping_button_texture;
-    if (!sleeping_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/moon.png")) {
+    if (!sleeping_button_texture.loadFromFile("moon.png")) {
         //change file path depending on machine, attribution: <a href="https://www.flaticon.com/free-icons/sleep" title="sleep icons">Sleep icons created by Good Ware - Flaticon</a> 
         std::cout << "Image Not Found" << std::endl;
         return -1;
@@ -33,7 +33,7 @@ int main(){
     sleeping_button_sprite.setPosition(40,130);
 
     sf::Texture shower_button_texture;
-    if (!shower_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/shower (1).png")) {
+    if (!shower_button_texture.loadFromFile("shower (1).png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/shower-head" title="shower head icons">Shower head icons created by Vitaly Gorbachev - Flaticon</a>
         std::cout << "Image Not Found" << std::endl;
         return -1;
@@ -43,7 +43,7 @@ int main(){
     shower_button_sprite.setPosition(470,130);
 
     sf::Texture game_button_texture;
-    if (!game_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/console.png")) {
+    if (!game_button_texture.loadFromFile("console.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/joystick" title="joystick icons">Joystick icons created by Good Ware - Flaticon</a>
         std::cout << "Image Not Found" << std::endl;
         return -1;
@@ -53,7 +53,7 @@ int main(){
     game_button_sprite.setPosition(900,130);
 
     sf::Texture food_button_texture;
-    if (!food_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/cutlery.png")) {
+    if (!food_button_texture.loadFromFile("cutlery.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Freepik - Flaticon</a>
         std::cout << "Image Not Found" << std::endl;
         return -1;
@@ -63,7 +63,7 @@ int main(){
     food_button_sprite.setPosition(1310,130);
 
     sf::Texture health_button_texture;
-    if (!health_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/first-aid-kit.png")) {
+    if (!health_button_texture.loadFromFile("first-aid-kit.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/health" title="health icons">Health icons created by Good Ware - Flaticon</a>
         return -1;
     }
@@ -72,7 +72,7 @@ int main(){
     health_button_sprite.setPosition(40,680);
 
     sf::Texture shopping_button_texture;
-    if (!shopping_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/grocery-cart.png")) {
+    if (!shopping_button_texture.loadFromFile("grocery-cart.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/supermarket" title="supermarket icons">Supermarket icons created by Freepik - Flaticon</a>
         return -1;
     }
@@ -81,7 +81,7 @@ int main(){
     shopping_button_sprite.setPosition(470,680);
 
     sf::Texture info_button_texture;
-    if (!info_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/info.png")) {
+    if (!info_button_texture.loadFromFile("info.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/info" title="info icons">Info icons created by Stockio - Flaticon</a>
     }
     sf::Sprite info_button_sprite;
@@ -89,7 +89,7 @@ int main(){
     info_button_sprite.setPosition(1310,680);
 
      sf::Texture math_button_texture;
-    if (!math_button_texture.loadFromFile("/Users/phuchaduynguyen/Desktop/C++ Programming/oop project/Game Buttons/math.png")) {
+    if (!math_button_texture.loadFromFile("math.png")) {
         //change file path depending on machine, attribution:<a href="https://www.flaticon.com/free-icons/math" title="math icons">Math icons created by Freepik - Flaticon</a>
     }
     sf::Sprite math_button_sprite;
@@ -705,9 +705,9 @@ int main(){
                             if(total_animation_time1.getElapsedTime().asSeconds()>=6){
                                 break;
                             }
+                        }
 
                         }
-                    }
                 }else if(x>=470&&x<=620&&y>=680&&y<=830){
                     std::cout<<"Shopping Button"<<std::endl;
                 }else if(x>=900&&x<=1050&&y>=680&&y<=830){
