@@ -12,6 +12,122 @@
 #include "pet_stats.h"
 #include "quotesFile.h"
 
+std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
+  // Load button textures
+  sf::Texture avo_texture, ghost_texture;
+  if (!avo_texture.loadFromFile("avoButton.png") ||
+      !ghost_texture.loadFromFile("ghostButton.png")) {
+    std::cout << "Button Images Not Found" << std::endl;
+    return "";
+  }
+
+  // Create sprites for the buttons
+  sf::Sprite avoButton(avo_texture);
+  avoButton.setScale(0.02f, 0.02f);
+  avoButton.setPosition(300, 400);  // Adjust position based on button size
+
+  sf::Sprite ghostButton(ghost_texture);
+  ghostButton.setScale(0.2f, 0.2f);
+  ghostButton.setPosition(900, 400);  // Adjust position based on button size
+
+  // Create text objects
+  sf::Text title("Choose a Pet :)", font, 80);  // Title text
+  title.setFillColor(sf::Color::Black);
+  title.setPosition((window.getSize().x - title.getGlobalBounds().width) / 2,
+                    50);  // Center the title
+
+  sf::Text avoText("Avo", font, 50);  // Avo text
+  avoText.setFillColor(sf::Color::Black);
+  avoText.setPosition(300, 560);  // Position below the Avo button
+
+  sf::Text ghostText("Ghost", font, 50);  // Ghost text
+  ghostText.setFillColor(sf::Color::Black);
+  ghostText.setPosition(900, 560);  // Position below the Ghost button
+
+  // Text for selecting Adult or Baby
+  sf::Text adultText("Adult", font, 40);
+  adultText.setFillColor(sf::Color::Black);
+  adultText.setPosition((window.getSize().x / 2) - 100,
+                        700);  // Center below the options
+
+  sf::Text babyText("Baby", font, 40);
+  babyText.setFillColor(sf::Color::Black);
+  babyText.setPosition((window.getSize().x / 2) + 50,
+                       700);  // Center next to Adult
+
+  bool inIntro = true;      // Track whether we are in the intro screen
+  std::string selectedPet;  // To store the selected pet type
+
+  while (inIntro) {
+    sf::Event event;
+
+    // Clear the window
+    window.clear(sf::Color(230, 230, 220));
+
+    // Draw the buttons
+    window.draw(avoButton);
+    window.draw(ghostButton);
+
+    // Draw the title and button labels
+    window.draw(title);
+    window.draw(avoText);
+    window.draw(ghostText);
+
+    // If a pet is selected, show the Adult/Baby options
+    if (!selectedPet.empty()) {
+      window.draw(adultText);
+      window.draw(babyText);
+    }
+
+    // Display the window contents
+    window.display();
+
+    // Event loop to handle user input
+    while (window.pollEvent(event)) {
+      std::cout << "test" << std::endl;
+      if (event.type == sf::Event::Closed) {
+        window.close();
+        return "";
+      }
+
+      // Check if user clicked a button
+      if (event.type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i click_position = sf::Mouse::getPosition(window);
+        int x = click_position.x;
+        int y = click_position.y;
+
+        std::cout << "Mouse clicked at: " << x << ", " << y << std::endl;
+
+        if (avoButton.getGlobalBounds().contains(x, y)) {
+          std::cout << "Avocado selected!" << std::endl;
+          selectedPet = "Avo";  // Set the selected pet type
+        } else if (ghostButton.getGlobalBounds().contains(x, y)) {
+          std::cout << "Ghost selected!" << std::endl;
+          selectedPet = "Ghost";  // Set the selected pet type
+        } else if (selectedPet == "Avo" &&
+                   adultText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Adult Avo selected!" << std::endl;
+          return "adult_avo";  // Return adult Avo
+        } else if (selectedPet == "Avo" &&
+                   babyText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Baby Avo selected!" << std::endl;
+          return "baby_avo";  // Return baby Avo
+        } else if (selectedPet == "Ghost" &&
+                   adultText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Adult Ghost selected!" << std::endl;
+          return "adult_ghost";  // Return adult Ghost
+        } else if (selectedPet == "Ghost" &&
+                   babyText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Baby Ghost selected!" << std::endl;
+          return "baby_ghost";  // Return baby Ghost
+        }
+      }
+    }
+  }
+
+  return "";  // Default return value
+}
+
 int main() {
   sf::Font font;
 
@@ -19,10 +135,6 @@ int main() {
     std::cout << "Font Not Found" << std::endl;
     return -1;
   }
-  // determining character type to determine which animation to laod in
-  std::string user_pet;
-  std::cin >> user_pet;
-  PetStats petStats;
 
   // creating main window
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
@@ -30,7 +142,10 @@ int main() {
   sf::RectangleShape line(sf::Vector2f(1920, 5));
   line.setFillColor(sf::Color::Black);
   line.setPosition(0, 120);
-
+  std::string user_pet = show_intro_screen(main_window, font);
+  main_window.display();
+  std::cout << "User selected pet: " << user_pet << std::endl;
+  PetStats petStats;
   // creating buttons
   sf::Texture sleeping_button_texture;
   if (!sleeping_button_texture.loadFromFile("moon.png")) {
@@ -44,11 +159,41 @@ int main() {
   sleeping_button_sprite.setTexture(sleeping_button_texture);
   sleeping_button_sprite.setPosition(40, 130);
 
+  // loading in the 4 default sprites:
+  sf::Texture adult_avo_normal;
+  adult_avo_normal.loadFromFile("bigCharNormalAvo.png");
+  sf::Sprite adult_avo_normal_sprite;
+  adult_avo_normal_sprite.setTexture(adult_avo_normal);
+  adult_avo_normal_sprite.setPosition(600, 350);
+  adult_avo_normal_sprite.setScale(8.0, 8.0);
+
+  sf::Texture baby_avo_normal;
+  baby_avo_normal.loadFromFile("smallAvoNormal.png");
+  sf::Sprite baby_avo_normal_sprite;
+  baby_avo_normal_sprite.setTexture(baby_avo_normal);
+  baby_avo_normal_sprite.setPosition(600, 350);
+  baby_avo_normal_sprite.setScale(8.0, 8.0);
+
+  sf::Texture adult_ghost_normal;
+  adult_ghost_normal.loadFromFile("bigCharNormalGhost.png");
+  sf::Sprite adult_ghost_normal_sprite;
+  adult_ghost_normal_sprite.setTexture(adult_ghost_normal);
+  adult_ghost_normal_sprite.setPosition(600, 350);
+  adult_ghost_normal_sprite.setScale(8.0, 8.0);
+
+  sf::Texture baby_ghost_normal;
+  baby_ghost_normal.loadFromFile("smallGhostNormal.png");
+  sf::Sprite baby_ghost_normal_sprite;
+  baby_ghost_normal_sprite.setTexture(baby_ghost_normal);
+  baby_ghost_normal_sprite.setPosition(600, 350);
+  baby_ghost_normal_sprite.setScale(8.0, 8.0);
+
   sf::Texture shower_button_texture;
   if (!shower_button_texture.loadFromFile("shower (1).png")) {
     // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/shower-head" title="shower head
-    // icons">Shower head icons created by Vitaly Gorbachev - Flaticon</a>
+    // href="https://www.flaticon.com/free-icons/shower-head" title="shower
+    // head icons">Shower head icons created by Vitaly Gorbachev -
+    // Flaticon</a>
     std::cout << "Image Not Found" << std::endl;
     return -1;
   }
@@ -94,8 +239,9 @@ int main() {
   sf::Texture shopping_button_texture;
   if (!shopping_button_texture.loadFromFile("grocery-cart.png")) {
     // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/supermarket" title="supermarket
-    // icons">Supermarket icons created by Freepik - Flaticon</a>
+    // href="https://www.flaticon.com/free-icons/supermarket"
+    // title="supermarket icons">Supermarket icons created by Freepik -
+    // Flaticon</a>
     return -1;
   }
   sf::Sprite shopping_button_sprite;
@@ -804,6 +950,15 @@ int main() {
     main_window.draw(math_button_sprite);
     petStats.renderStats(main_window, font);
     renderQuote(main_window, font, selectedQuote);
+    if (user_pet == "adult_avo") {
+      main_window.draw(adult_avo_normal_sprite);
+    } else if (user_pet == "baby_avo") {
+      main_window.draw(baby_avo_normal_sprite);
+    } else if (user_pet == "adult_ghost") {
+      main_window.draw(adult_ghost_normal_sprite);
+    } else {
+      main_window.draw(baby_ghost_normal_sprite);
+    }
     main_window.display();
   }
   return 0;
