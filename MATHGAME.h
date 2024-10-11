@@ -5,6 +5,7 @@
 #include <cstdlib> 
 #include <ctime> 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include "Animation.h"
 
@@ -29,6 +30,7 @@ class math_game{
         //time keeping for clock
         sf::Clock timer; 
         double total_time;
+        sf::Music math_audio;
     public:
         math_game();//constructor to initialize game window
         ~math_game();

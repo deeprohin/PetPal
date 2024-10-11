@@ -130,11 +130,11 @@ std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
 
 int main() {
   sf::Font font;
-
   if (!font.loadFromFile("Regular.ttf")) {
     std::cout << "Font Not Found" << std::endl;
     return -1;
   }
+
 
   // creating main window
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
@@ -950,14 +950,14 @@ int main() {
     main_window.draw(math_button_sprite);
     petStats.renderStats(main_window, font);
     renderQuote(main_window, font, selectedQuote);
-    if (user_pet == "adult_avo") {
-      main_window.draw(adult_avo_normal_sprite);
-    } else if (user_pet == "baby_avo") {
-      main_window.draw(baby_avo_normal_sprite);
-    } else if (user_pet == "adult_ghost") {
-      main_window.draw(adult_ghost_normal_sprite);
-    } else {
-      main_window.draw(baby_ghost_normal_sprite);
+    if(user_pet=="adult_avo"){
+    main_window.draw(adult_avo_normal_sprite);
+    }else if(user_pet=="baby_avo"){
+        main_window.draw(baby_avo_normal_sprite);
+    }else if(user_pet=="adult_ghost"){
+        main_window.draw(adult_ghost_normal_sprite);
+    }else{
+        main_window.draw(baby_ghost_normal_sprite);
     }
     main_window.display();
   }
