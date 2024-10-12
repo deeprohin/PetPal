@@ -20,13 +20,13 @@ class math_game{
         int current_answer;
         std::string current_input;
         int number_of_answers;
-        int score;
+        
 
         void generate_question();
         void display_intro();
         void rules_page();
         void display_results(); //display how many question they got correct and coins gained as a result
-
+        
         //time keeping for clock
         sf::Clock timer; 
         double total_time;
@@ -36,5 +36,6 @@ class math_game{
         ~math_game();
         void run();
         void render();
+        int getScore();
 };
 #endif
