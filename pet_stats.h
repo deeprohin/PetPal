@@ -16,7 +16,7 @@ private:
 public:
     PetStats(); // Constructor
 
-    void updateStats(); // Decreases stats every 30 seconds
+    void updateStats(sf::RenderWindow& window,sf::Font font); // Decreases stats every 30 seconds
 
     void renderStats(sf::RenderWindow& window, sf::Font& font);  // Draw the stats bars
 
@@ -39,5 +39,7 @@ public:
     void maxHunger();
     void changeMoney(int someMoney);
     void changeIQ(int increaseLevel);
+
+    void checkStats(sf::RenderWindow& window, sf::Font& font);
 
 };

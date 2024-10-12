@@ -11,15 +11,33 @@ PetStats::PetStats()
       total_money(1000) {
   stat_timer.restart();
 }
+void PetStats::updateStats(sf::RenderWindow& window, sf::Font font) {
 
-void PetStats::updateStats() {
-  if (stat_timer.getElapsedTime().asSeconds() >= 30) {  // Every 30 seconds
-    health_level = std::max(0, health_level - 10);
-    sleep_level = std::max(0, sleep_level - 10);
-    hunger_level = std::max(0, hunger_level - 10);
-    iq_level = std::max(0, iq_level - 5);
+  // Update stats every 30 seconds
+  if (stat_timer.getElapsedTime().asSeconds() >= 30) {  
+    // Update health level, but not if it's already 0
+    if (health_level > 0) {
+      health_level = std::max(0, health_level - 10);
+    }
+
+    // Update sleep level, but not if it's already 0
+    if (sleep_level > 0) {
+      sleep_level = std::max(0, sleep_level - 10);
+    }
+
+    // Update hunger level, but not if it's already 0
+    if (hunger_level > 0) {
+      hunger_level = std::max(0, hunger_level - 10);
+    }
+
+    // Update IQ level, but not if it's already 0
+    if (iq_level > 0) {
+      iq_level = std::max(0, iq_level - 5);
+    }
+
     stat_timer.restart();
   }
+
 }
 
 void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
@@ -136,4 +154,54 @@ void PetStats::changeMoney(int someMoney){
 
 void PetStats::changeIQ(int increaseLevel){
     iq_level=iq_level+increaseLevel;
+}
+void PetStats::checkStats(sf::RenderWindow& window, sf::Font& font) {
+  // Variable to keep track of where to position the next warning
+  float warning_position_y = 400;  // Start at Y position 400
+  float warning_position_x = 20;   // Fixed X position at 20
+
+  // Display warnings if any stat is at 0
+  if (health_level <= 0) {
+    sf::Text warning_text;
+    warning_text.setFont(font);
+    warning_text.setCharacterSize(44);
+    warning_text.setFillColor(sf::Color::Red);
+    warning_text.setPosition(warning_position_x, warning_position_y);  // X = 20, Y starts at 400
+    warning_text.setString("WARNING!! HEALTH IS 0");
+    window.draw(warning_text);
+    warning_position_y += 60;  // Move down for the next warning
+  }
+
+  if (sleep_level <= 0) {
+    sf::Text warning_text;
+    warning_text.setFont(font);
+    warning_text.setCharacterSize(44);
+    warning_text.setFillColor(sf::Color::Red);
+    warning_text.setPosition(warning_position_x, warning_position_y);  // X = 20
+    warning_text.setString("WARNING!! SLEEP IS 0");
+    window.draw(warning_text);
+    warning_position_y += 60;
+  }
+
+  if (hunger_level <= 0) {
+    sf::Text warning_text;
+    warning_text.setFont(font);
+    warning_text.setCharacterSize(44);
+    warning_text.setFillColor(sf::Color::Red);
+    warning_text.setPosition(warning_position_x, warning_position_y);  // X = 20
+    warning_text.setString("WARNING!! HUNGER IS 0");
+    window.draw(warning_text);
+    warning_position_y += 60;
+  }
+
+  if (iq_level <= 0) {
+    sf::Text warning_text;
+    warning_text.setFont(font);
+    warning_text.setCharacterSize(44);
+    warning_text.setFillColor(sf::Color::Red);
+    warning_text.setPosition(warning_position_x, warning_position_y);  // X = 20
+    warning_text.setString("WARNING!! IQ IS 0");
+    window.draw(warning_text);
+    warning_position_y += 60;
+  }
 }
