@@ -8,8 +8,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include "pet_stats.h"
 
-class adult_avo : public Shower,public Eating,public Sleeping,public Medicine{
+
+class adult_avo : public Shower,public Eating,public Sleeping,public Medicine,public PetStats{
 public:
     // Constructor to load the sprite sheet for an activity with scaling for showering
     adult_avo(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)

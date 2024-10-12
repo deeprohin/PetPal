@@ -20,6 +20,7 @@ public:
     sf::Vector2f position_eating;
     sf::Vector2f originalPosition_eating;
     virtual void updateSpriteRect_eating(){}
+    virtual ~Eating() {}
 };
 
 #endif // EATING_H

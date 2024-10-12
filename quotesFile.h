@@ -1,3 +1,7 @@
+#ifndef QUOTE_FILE_H
+#define QUOTE_FILE_H
+
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cstdlib>
@@ -78,3 +82,5 @@ void renderQuote(sf::RenderWindow& window, sf::Font& font, std::string& quote) {
   quoteText.setPosition(window.getSize().x / 2, 280);
   window.draw(quoteText);
 }
+
+#endif

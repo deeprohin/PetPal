@@ -1,6 +1,17 @@
+#ifndef SPRITELOADER_H
+#define SPRITELOADER_H
+
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include "pet_stats.h"
+#include "adult_avo.h"
+#include "adult_ghost.h"
+#include "baby_avo.h"
+#include "baby_ghost.h"
+#include "pet_stats.h"
+#include "quotesFile.h"
 
 class SpriteLoader {
 public:
@@ -39,8 +50,12 @@ public:
 
     static sf::Texture math_button_texture;
     static sf::Sprite math_button_sprite;
+    static sf::RectangleShape line;
 
     static bool loadResources() {
+        line.setSize(sf::Vector2f(1920, 5));
+        line.setFillColor(sf::Color::Black);
+        line.setPosition(0, 120);
         // Load sleeping button texture
         if (!sleeping_button_texture.loadFromFile("moon.png")) {
             std::cout << "Sleeping button image not found." << std::endl;
@@ -129,7 +144,356 @@ public:
 
         return true;
     }
+
+    static void drawSprites(sf::RenderWindow& window) {
+        window.clear(sf::Color(230, 230, 220));
+        window.draw(line);
+        window.draw(sleeping_button_sprite);
+        window.draw(shower_button_sprite);
+        window.draw(game_button_sprite);
+        window.draw(food_button_sprite);
+        window.draw(health_button_sprite);
+        window.draw(shopping_button_sprite);
+        window.draw(info_button_sprite);
+        window.draw(math_button_sprite);
+    }
+
+static std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
+  // Load button textures
+  sf::Texture avo_texture, ghost_texture;
+  if (!avo_texture.loadFromFile("avoButton.png") ||
+      !ghost_texture.loadFromFile("ghostButton.png")) {
+    std::cout << "Button Images Not Found" << std::endl;
+    return "";
+  }
+  // Create sprites for the buttons
+  sf::Sprite avoButton(avo_texture);
+  avoButton.setScale(0.02f, 0.02f);
+  avoButton.setPosition(300, 400);  // Adjust position based on button size
+  sf::Sprite ghostButton(ghost_texture);
+  ghostButton.setScale(0.2f, 0.2f);
+  ghostButton.setPosition(900, 400);  // Adjust position based on button size
+  // Create text objects
+  sf::Text title("Choose a Pet :)", font, 80);  // Title text
+  title.setFillColor(sf::Color::Black);
+  title.setPosition((window.getSize().x - title.getGlobalBounds().width) / 2,
+                    50);  // Center the title
+
+  sf::Text avoText("Avo", font, 50);  // Avo text
+  avoText.setFillColor(sf::Color::Black);
+  avoText.setPosition(300, 560);  // Position below the Avo button
+
+  sf::Text ghostText("Ghost", font, 50);  // Ghost text
+  ghostText.setFillColor(sf::Color::Black);
+  ghostText.setPosition(900, 560);  // Position below the Ghost button
+
+  // Text for selecting Adult or Baby
+  sf::Text adultText("Adult", font, 40);
+  adultText.setFillColor(sf::Color::Black);
+  adultText.setPosition((window.getSize().x / 2) - 100,
+                        700);  // Center below the options
+
+  sf::Text babyText("Baby", font, 40);
+  babyText.setFillColor(sf::Color::Black);
+  babyText.setPosition((window.getSize().x / 2) + 50,
+                       700);  // Center next to Adult
+
+  bool inIntro = true;      // Track whether we are in the intro screen
+  std::string selectedPet;  // To store the selected pet type
+
+  while (inIntro) {
+    sf::Event event;
+
+    // Clear the window
+    window.clear(sf::Color(230, 230, 220));
+
+    // Draw the buttons
+    window.draw(avoButton);
+    window.draw(ghostButton);
+
+    // Draw the title and button labels
+    window.draw(title);
+    window.draw(avoText);
+    window.draw(ghostText);
+
+    // If a pet is selected, show the Adult/Baby options
+    if (!selectedPet.empty()) {
+      window.draw(adultText);
+      window.draw(babyText);
+    }
+
+    // Display the window contents
+    window.display();
+
+    // Event loop to handle user input
+    while (window.pollEvent(event)) {
+      std::cout << "test" << std::endl;
+      if (event.type == sf::Event::Closed) {
+        window.close();
+        return "";
+      }
+
+      // Check if user clicked a button
+      if (event.type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i click_position = sf::Mouse::getPosition(window);
+        int x = click_position.x;
+        int y = click_position.y;
+
+        std::cout << "Mouse clicked at: " << x << ", " << y << std::endl;
+
+        if (avoButton.getGlobalBounds().contains(x, y)) {
+          std::cout << "Avocado selected!" << std::endl;
+          selectedPet = "Avo";  // Set the selected pet type
+        } else if (ghostButton.getGlobalBounds().contains(x, y)) {
+          std::cout << "Ghost selected!" << std::endl;
+          selectedPet = "Ghost";  // Set the selected pet type
+        } else if (selectedPet == "Avo" &&
+                   adultText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Adult Avo selected!" << std::endl;
+          return "adult_avo";  // Return adult Avo
+        } else if (selectedPet == "Avo" &&
+                   babyText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Baby Avo selected!" << std::endl;
+          return "baby_avo";  // Return baby Avo
+        } else if (selectedPet == "Ghost" &&
+                   adultText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Adult Ghost selected!" << std::endl;
+          return "adult_ghost";  // Return adult Ghost
+        } else if (selectedPet == "Ghost" &&
+                   babyText.getGlobalBounds().contains(x, y)) {
+          std::cout << "Baby Ghost selected!" << std::endl;
+          return "baby_ghost";  // Return baby Ghost
+        }
+      }
+    }
+  }
+
+  return "";  // Default return value
+}
+
+static void animateSleepingPet(const std::string& user_pet, sf::RenderWindow& main_window,sf::Font font_type,std::string& quote,PetStats* current_stats) {
+    Sleeping* sleeping=nullptr;
+    std::string spriteSheetPath;
+    if (user_pet == "adult_avo") {
+        spriteSheetPath = "Big2/sleeping/spritesheet.png";
+        sleeping= new adult_avo (spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_avo") {
+        spriteSheetPath = "Small2/Sleeping/spritesheet.png";
+        sleeping = new baby_avo (spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    } else if (user_pet == "adult_ghost") {
+        spriteSheetPath = "Big/Sleeping.png";
+        sleeping = new adult_ghost (spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_ghost") {
+        spriteSheetPath = "Small/Sleeping.png";
+        sleeping = new baby_ghost (spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    }
+    sleeping->startAnimation_sleeping();
+    sf::Clock clock;  // Clock to track time
+    sf::Clock total_animation_time;
+    while (main_window.isOpen()) {
+        sf::Event event;
+        while (main_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) main_window.close();
+        }
+
+        // Get the time elapsed since the last frame
+        float deltaTime = clock.restart().asSeconds();
+
+        // Update the Sleeping pet
+        sleeping->update_sleeping(deltaTime);
+
+        // Draw the Sleeping sprite
+        SpriteLoader::drawSprites(main_window);
+        sleeping->draw_sleeping(main_window);
+        renderQuote(main_window,font_type,quote);  
+        current_stats->renderStats(main_window,font_type);      
+        // Display the window contents
+        main_window.display();
+        if (total_animation_time.getElapsedTime().asSeconds() >= 6) {
+            break;  // Exit the animation after 6 seconds
+        }
+    }
+}
+
+static void animateShoweringPet(const std::string& user_pet, sf::RenderWindow& main_window, sf::Font font_type, std::string& quote, PetStats* current_stats) {
+    Shower* showering = nullptr; // Pointer to handle different pet types
+    std::string spriteSheetPath;
+
+    // Determine the correct pet type and create the corresponding showering object
+    if (user_pet == "adult_avo") {
+        spriteSheetPath = "Big2/showering/spritesheet.png";
+        showering = new adult_avo(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_avo") {
+        spriteSheetPath = "Small2/Showering/spritesheet.png";
+        showering = new baby_avo(spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    } else if (user_pet == "adult_ghost") {
+        spriteSheetPath = "Big/Shower.png";
+        showering = new adult_ghost(spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_ghost") {
+        spriteSheetPath = "Small/Shower.png";
+        showering = new baby_ghost(spriteSheetPath, 0.8f, 8.0f, 8.0f);
+    }
+
+    // Start the showering animation
+    showering->startAnimation_shower();
+    sf::Clock clock;  // Clock to track time
+    sf::Clock total_animation_time;
+
+    // Animation loop
+    while (main_window.isOpen()) {
+        sf::Event event;
+        while (main_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                main_window.close();
+            }
+        }
+
+        // Get the time elapsed since the last frame
+        float deltaTime = clock.restart().asSeconds();
+
+        // Update the showering pet
+        showering->update_shower(deltaTime);
+
+        // Draw the showering sprite
+        SpriteLoader::drawSprites(main_window);
+        showering->draw_shower(main_window);
+        
+        // Render additional stats and quotes
+        renderQuote(main_window, font_type, quote);
+        current_stats->renderStats(main_window, font_type);
+
+        // Display the window contents
+        main_window.display();
+        
+        // Exit the animation after 6 seconds
+        if (total_animation_time.getElapsedTime().asSeconds() >= 6) {
+            break;
+        }
+    }
+    delete showering;
+}
+
+static void animateEatingPet(const std::string& user_pet, sf::RenderWindow& main_window, sf::Font font_type, std::string& quote, PetStats* current_stats) {
+    Eating* eating = nullptr; // Pointer to handle different pet types
+    std::string spriteSheetPath;
+
+    // Determine the correct pet type and create the corresponding eating object
+    if (user_pet == "adult_avo") {
+        spriteSheetPath = "Big2/Eating/spritesheet.png";
+        eating = new adult_avo(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_avo") {
+        spriteSheetPath = "Small2/Eating/spritesheet.png";
+        eating = new baby_avo(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "adult_ghost") {
+        spriteSheetPath = "Big/eating.png";
+        eating = new adult_ghost(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_ghost") {
+        spriteSheetPath = "Small/eating.png";
+        eating = new baby_ghost(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    }
+
+    // Start the eating animation
+    eating->startAnimation_eating();
+    sf::Clock clock;  // Clock to track time
+    sf::Clock total_animation_time;
+
+    // Animation loop
+    while (main_window.isOpen()) {
+        sf::Event event;
+        while (main_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                main_window.close();
+            }
+        }
+
+        // Get the time elapsed since the last frame
+        float deltaTime = clock.restart().asSeconds();
+
+        // Update the eating pet
+        eating->update_eating(deltaTime);
+
+        // Draw the eating sprite
+        SpriteLoader::drawSprites(main_window);
+        eating->draw_eating(main_window);
+        
+        // Render additional stats and quotes
+        renderQuote(main_window, font_type, quote);
+        current_stats->renderStats(main_window, font_type);
+
+        // Display the window contents
+        main_window.display();
+        
+        // Exit the animation after 6 seconds
+        if (total_animation_time.getElapsedTime().asSeconds() >= 6) {
+            break;
+        }
+    }
+    delete eating;
+}
+
+static void animateGivingMedicine(const std::string& user_pet, sf::RenderWindow& main_window, sf::Font font_type, std::string& quote, PetStats* current_stats) {
+    Medicine* medicine = nullptr; // Pointer to handle different pet types
+    std::string spriteSheetPath;
+
+    // Determine the correct pet type and create the corresponding medicine object
+    if (user_pet == "adult_avo") {
+        spriteSheetPath = "New Piskel-1 10.15.48ΓÇ»PM.png (2).png";
+        medicine = new adult_avo(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_avo") {
+        spriteSheetPath = "Small2/medications/spritesheet.png";
+        medicine = new baby_avo(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "adult_ghost") {
+        spriteSheetPath = "Big/Medicine .png";
+        medicine = new adult_ghost(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    } else if (user_pet == "baby_ghost") {
+        spriteSheetPath = "Small/Medicine .png";
+        medicine = new baby_ghost(spriteSheetPath, 1.4f, 8.0f, 8.0f);
+    }
+
+    // Start the medicine animation
+    medicine->startAnimation_medicine();
+    sf::Clock clock;  // Clock to track time
+    sf::Clock total_animation_time;
+
+    // Animation loop
+    while (main_window.isOpen()) {
+        sf::Event event;
+        while (main_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                main_window.close();
+            }
+        }
+
+        // Get the time elapsed since the last frame
+        float deltaTime = clock.restart().asSeconds();
+
+        // Update the medicine pet
+        medicine->update_medicine(deltaTime);
+
+        // Draw the medicine sprite
+        SpriteLoader::drawSprites(main_window);
+        medicine->draw_medicine(main_window);
+        
+        // Render additional stats and quotes
+        renderQuote(main_window, font_type, quote);
+        current_stats->renderStats(main_window, font_type);
+
+        // Display the window contents
+        main_window.display();
+        
+        // Exit the animation after 6 seconds
+        if (total_animation_time.getElapsedTime().asSeconds() >= 6) {
+            break;
+        }
+    }
+}
+
+
+
 };
+
+
+
 
 // Definition of static members
 sf::Texture SpriteLoader::sleeping_button_texture;
@@ -167,3 +531,6 @@ sf::Sprite SpriteLoader::info_button_sprite;
 
 sf::Texture SpriteLoader::math_button_texture;
 sf::Sprite SpriteLoader::math_button_sprite;
+sf::RectangleShape SpriteLoader::line;
+
+#endif

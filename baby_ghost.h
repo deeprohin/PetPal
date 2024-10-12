@@ -7,7 +7,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine{
+#include "pet_stats.h"
+class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public PetStats{
 public:
     baby_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f) :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
         if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {
@@ -268,7 +269,7 @@ void updateSpriteRect_medicine() override{
     std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY << ", Width: " << frameWidth << ", Height: " << frameHeight << ")" << std::endl;
 }
 
-
+~baby_ghost(){}
 
 
 
