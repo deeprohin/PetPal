@@ -75,6 +75,7 @@ void math_game::run(){
                         int number_entered = ev.key.code - sf::Keyboard::Num0;
                         current_input+=std::to_string(number_entered);
                     }
+                    
                 }
             }
             render();
