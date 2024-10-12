@@ -37,7 +37,7 @@ int main() {
   // main loop of game
   while (main_window.isOpen()) {
     sf::Event event;
-    petStats.updateStats();
+    petStats.updateStats(main_window,font);
 
     updateQuote(selectedQuote, quote_clock, newQuoteInterval, user_pet,quoteVisible);
     while (main_window.pollEvent(event)) {
@@ -98,6 +98,7 @@ int main() {
     }else{
         main_window.draw(SpriteLoader::baby_ghost_normal_sprite);
     }
+  petStats.checkStats(main_window,font);
     main_window.display();
   }
   return 0;
