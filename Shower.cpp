@@ -50,3 +50,4 @@ void Shower::updateSpriteRect() {
 
     std::cout << "Frame " << currentFrame << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
 }
+

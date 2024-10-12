@@ -22,5 +22,4 @@ public:
     sf::Vector2f originalPosition_shower;
     virtual void updateSpriteRect_shower(){}
 };
-
 #endif // SHOWER_H

@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
-
 #include "Animation.h"
 #include "MATHGAME.h"
 #include "adult_avo.h"
@@ -11,6 +10,7 @@
 #include "mini_game.h"
 #include "pet_stats.h"
 #include "quotesFile.h"
+#include "sprite_loader.h"
 
 std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
   // Load button textures
@@ -128,6 +128,12 @@ std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
   return "";  // Default return value
 }
 
+void display_buttons(sf::RenderWindow& window){
+    sf::RectangleShape line(sf::Vector2f(1920, 5));
+    line.setFillColor(sf::Color::Black);
+    line.setPosition(0, 120);
+}
+
 int main() {
   sf::Font font;
   if (!font.loadFromFile("Regular.ttf")) {
@@ -135,138 +141,23 @@ int main() {
     return -1;
   }
 
-
   // creating main window
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
   main_window.setFramerateLimit(60);
-  sf::RectangleShape line(sf::Vector2f(1920, 5));
-  line.setFillColor(sf::Color::Black);
-  line.setPosition(0, 120);
   std::string user_pet = show_intro_screen(main_window, font);
   main_window.display();
   std::cout << "User selected pet: " << user_pet << std::endl;
   PetStats petStats;
+
+
   // creating buttons
-  sf::Texture sleeping_button_texture;
-  if (!sleeping_button_texture.loadFromFile("moon.png")) {
-    // change file path depending on machine, attribution: <a
-    // href="https://www.flaticon.com/free-icons/sleep" title="sleep
-    // icons">Sleep icons created by Good Ware - Flaticon</a>
-    std::cout << "Image Not Found" << std::endl;
-    return -1;
-  }
-  sf::Sprite sleeping_button_sprite;
-  sleeping_button_sprite.setTexture(sleeping_button_texture);
-  sleeping_button_sprite.setPosition(40, 130);
+    sf::RectangleShape line(sf::Vector2f(1920, 5));
+  line.setFillColor(sf::Color::Black);
+  line.setPosition(0, 120);
 
-  // loading in the 4 default sprites:
-  sf::Texture adult_avo_normal;
-  adult_avo_normal.loadFromFile("bigCharNormalAvo.png");
-  sf::Sprite adult_avo_normal_sprite;
-  adult_avo_normal_sprite.setTexture(adult_avo_normal);
-  adult_avo_normal_sprite.setPosition(600, 350);
-  adult_avo_normal_sprite.setScale(8.0, 8.0);
-
-  sf::Texture baby_avo_normal;
-  baby_avo_normal.loadFromFile("smallAvoNormal.png");
-  sf::Sprite baby_avo_normal_sprite;
-  baby_avo_normal_sprite.setTexture(baby_avo_normal);
-  baby_avo_normal_sprite.setPosition(600, 350);
-  baby_avo_normal_sprite.setScale(8.0, 8.0);
-
-  sf::Texture adult_ghost_normal;
-  adult_ghost_normal.loadFromFile("bigCharNormalGhost.png");
-  sf::Sprite adult_ghost_normal_sprite;
-  adult_ghost_normal_sprite.setTexture(adult_ghost_normal);
-  adult_ghost_normal_sprite.setPosition(600, 350);
-  adult_ghost_normal_sprite.setScale(8.0, 8.0);
-
-  sf::Texture baby_ghost_normal;
-  baby_ghost_normal.loadFromFile("smallGhostNormal.png");
-  sf::Sprite baby_ghost_normal_sprite;
-  baby_ghost_normal_sprite.setTexture(baby_ghost_normal);
-  baby_ghost_normal_sprite.setPosition(600, 350);
-  baby_ghost_normal_sprite.setScale(8.0, 8.0);
-
-  sf::Texture shower_button_texture;
-  if (!shower_button_texture.loadFromFile("shower (1).png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/shower-head" title="shower
-    // head icons">Shower head icons created by Vitaly Gorbachev -
-    // Flaticon</a>
-    std::cout << "Image Not Found" << std::endl;
-    return -1;
-  }
-  sf::Sprite shower_button_sprite;
-  shower_button_sprite.setTexture(shower_button_texture);
-  shower_button_sprite.setPosition(470, 130);
-
-  sf::Texture game_button_texture;
-  if (!game_button_texture.loadFromFile("console.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/joystick" title="joystick
-    // icons">Joystick icons created by Good Ware - Flaticon</a>
-    std::cout << "Image Not Found" << std::endl;
-    return -1;
-  }
-  sf::Sprite game_button_sprite;
-  game_button_sprite.setTexture(game_button_texture);
-  game_button_sprite.setPosition(900, 130);
-
-  sf::Texture food_button_texture;
-  if (!food_button_texture.loadFromFile("cutlery.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/restaurant" title="restaurant
-    // icons">Restaurant icons created by Freepik - Flaticon</a>
-    std::cout << "Image Not Found" << std::endl;
-    return -1;
-  }
-  sf::Sprite food_button_sprite;
-  food_button_sprite.setTexture(food_button_texture);
-  food_button_sprite.setPosition(1310, 130);
-
-  sf::Texture health_button_texture;
-  if (!health_button_texture.loadFromFile("first-aid-kit.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/health" title="health
-    // icons">Health icons created by Good Ware - Flaticon</a>
-    return -1;
-  }
-  sf::Sprite health_button_sprite;
-  health_button_sprite.setTexture(health_button_texture);
-  health_button_sprite.setPosition(40, 680);
-
-  sf::Texture shopping_button_texture;
-  if (!shopping_button_texture.loadFromFile("grocery-cart.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/supermarket"
-    // title="supermarket icons">Supermarket icons created by Freepik -
-    // Flaticon</a>
-    return -1;
-  }
-  sf::Sprite shopping_button_sprite;
-  shopping_button_sprite.setTexture(shopping_button_texture);
-  shopping_button_sprite.setPosition(470, 680);
-
-  sf::Texture info_button_texture;
-  if (!info_button_texture.loadFromFile("info.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/info" title="info icons">Info
-    // icons created by Stockio - Flaticon</a>
-  }
-  sf::Sprite info_button_sprite;
-  info_button_sprite.setTexture(info_button_texture);
-  info_button_sprite.setPosition(1310, 680);
-
-  sf::Texture math_button_texture;
-  if (!math_button_texture.loadFromFile("math.png")) {
-    // change file path depending on machine, attribution:<a
-    // href="https://www.flaticon.com/free-icons/math" title="math icons">Math
-    // icons created by Freepik - Flaticon</a>
-  }
-  sf::Sprite math_button_sprite;
-  math_button_sprite.setTexture(math_button_texture);
-  math_button_sprite.setPosition(900, 680);
+  if (!SpriteLoader::loadResources()) {
+    std::cout<<"error loading sprites"<<std::endl;
+}
   std::string selectedQuote = getRandomQuote(user_pet);
   // main loop of game
   while (main_window.isOpen()) {
@@ -315,14 +206,14 @@ int main() {
               // Draw the Sleeping sprite
               sleeping.draw_sleeping(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -358,14 +249,14 @@ int main() {
               // Draw the Sleeping sprite
               sleeping.draw_sleeping(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -399,14 +290,14 @@ int main() {
               // Draw the Sleeping sprite
               sleeping.draw_sleeping(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -426,29 +317,24 @@ int main() {
               while (main_window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed) main_window.close();
               }
-
               // Get the time elapsed since the last frame
               float deltaTime = clock.restart().asSeconds();
-
               // Update the Sleeping Sleeping
               sleeping.update_sleeping(deltaTime);
-
               // Clear the window
-              main_window.clear(sf::Color(
-                  230, 230,
-                  220));  // Optionally change the color for better visibility
+              main_window.clear(sf::Color(230, 230,220));  // Optionally change the color for better visibility
 
               // Draw the Sleeping sprite
               sleeping.draw_sleeping(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -480,14 +366,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               test.draw_shower(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -521,14 +407,14 @@ int main() {
               // Draw the Sleeping sprite
               baby_showering.draw_shower(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -561,14 +447,14 @@ int main() {
               // Draw the Sleeping sprite
               adult_ghost_showering.draw_shower(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -601,14 +487,14 @@ int main() {
               // Draw the Sleeping sprite
               adult_ghost_showering.draw_shower(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -651,14 +537,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               adult_avo_eating.draw_eating(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -688,14 +574,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               eating.draw_eating(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -725,14 +611,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               eating.draw_eating(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -762,14 +648,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               eating.draw_eating(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -803,14 +689,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               adult_avo_meds.draw_medicine(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -840,14 +726,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               meds.draw_medicine(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
 
               // Display the window contents
@@ -875,14 +761,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               meds.draw_medicine(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
               // Display the window contents
@@ -910,14 +796,14 @@ int main() {
               main_window.clear(sf::Color(230, 230, 220));
               meds.draw_medicine(main_window);
               main_window.draw(line);
-              main_window.draw(sleeping_button_sprite);
-              main_window.draw(shower_button_sprite);
-              main_window.draw(game_button_sprite);
-              main_window.draw(food_button_sprite);
-              main_window.draw(health_button_sprite);
-              main_window.draw(shopping_button_sprite);
-              main_window.draw(info_button_sprite);
-              main_window.draw(math_button_sprite);
+              main_window.draw(SpriteLoader::sleeping_button_sprite);
+              main_window.draw(SpriteLoader::shower_button_sprite);
+              main_window.draw(SpriteLoader::game_button_sprite);
+              main_window.draw(SpriteLoader::food_button_sprite);
+              main_window.draw(SpriteLoader::health_button_sprite);
+              main_window.draw(SpriteLoader::shopping_button_sprite);
+              main_window.draw(SpriteLoader::info_button_sprite);
+              main_window.draw(SpriteLoader::math_button_sprite);
               petStats.renderStats(main_window, font);
               renderQuote(main_window, font, selectedQuote);
 
@@ -940,24 +826,24 @@ int main() {
     }
     main_window.clear(sf::Color(230, 230, 220));
     main_window.draw(line);
-    main_window.draw(sleeping_button_sprite);
-    main_window.draw(shower_button_sprite);
-    main_window.draw(game_button_sprite);
-    main_window.draw(food_button_sprite);
-    main_window.draw(health_button_sprite);
-    main_window.draw(shopping_button_sprite);
-    main_window.draw(info_button_sprite);
-    main_window.draw(math_button_sprite);
+    main_window.draw(SpriteLoader::sleeping_button_sprite);
+    main_window.draw(SpriteLoader::shower_button_sprite);
+    main_window.draw(SpriteLoader::game_button_sprite);
+    main_window.draw(SpriteLoader::food_button_sprite);
+    main_window.draw(SpriteLoader::health_button_sprite);
+    main_window.draw(SpriteLoader::shopping_button_sprite);
+    main_window.draw(SpriteLoader::info_button_sprite);
+    main_window.draw(SpriteLoader::math_button_sprite);
     petStats.renderStats(main_window, font);
     renderQuote(main_window, font, selectedQuote);
     if(user_pet=="adult_avo"){
-    main_window.draw(adult_avo_normal_sprite);
+    main_window.draw(SpriteLoader::adult_avo_normal_sprite);
     }else if(user_pet=="baby_avo"){
-        main_window.draw(baby_avo_normal_sprite);
+        main_window.draw(SpriteLoader::baby_avo_normal_sprite);
     }else if(user_pet=="adult_ghost"){
-        main_window.draw(adult_ghost_normal_sprite);
+        main_window.draw(SpriteLoader::adult_ghost_normal_sprite);
     }else{
-        main_window.draw(baby_ghost_normal_sprite);
+        main_window.draw(SpriteLoader::baby_ghost_normal_sprite);
     }
     main_window.display();
   }
