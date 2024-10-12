@@ -78,6 +78,7 @@ int main() {
           SpriteLoader::animateGivingMedicine(user_pet,main_window,font,selectedQuote,&petStats);
         } else if (x >= 470 && x <= 620 && y >= 680 && y <= 830) {
           std::cout << "Shopping Button" << std::endl;
+          //youre part brookyln
         } else if (x >= 900 && x <= 1050 && y >= 680 && y <= 830) {
           std::cout << "Math Button" << std::endl;
           math_game test;
