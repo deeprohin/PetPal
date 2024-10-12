@@ -1,5 +1,5 @@
  #pragma once
-
+#include"MATHGAME.h"
 #include <SFML/Graphics.hpp>
 
 class PetStats {
@@ -22,7 +22,7 @@ public:
 
     void increaseHunger(int amount);
     void increaseSleep(int amount);
-    void increaseIQ(int points);
+    void increaseIQ(int score);
     void increaseMoney(int amount);
     int getMoney() const;
 
@@ -38,7 +38,7 @@ public:
     void maxSleep();
     void maxHunger();
     void changeMoney(int someMoney);
-    void changeIQ(int increaseLevel);
+
 
     void checkStats(sf::RenderWindow& window, sf::Font& font);
 

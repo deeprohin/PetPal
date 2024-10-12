@@ -1,5 +1,4 @@
 #include "pet_stats.h"
-
 #include <algorithm>  // for std::max and std::min
 #include <iostream>
 
@@ -84,7 +83,7 @@ void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
   window.draw(hunger_text);
 
   // IQ bar
-  sf::RectangleShape iq_bar(sf::Vector2f(250 * iq_level / 100, 30));
+  sf::RectangleShape iq_bar(sf::Vector2f(250 * iq_level / 100.0f, 30));
   iq_bar.setFillColor(sf::Color::Black);
   iq_bar.setPosition(650, 50);
   window.draw(iq_bar);
@@ -131,8 +130,11 @@ void PetStats::increaseSleep(int amount) {
   sleep_level = std::min(100, sleep_level + amount);
 }
 
-void PetStats::increaseIQ(int points) {
-  iq_level = std::min(100, iq_level + points);
+void PetStats::increaseIQ(int score) {
+if (score >= 0 && score <= 5) { 
+    iq_level = std::min(100, iq_level + (score*5));
+    std::cout<<iq_level<<std::endl;
+}
 }
 
 void PetStats::increaseMoney(int amount) { total_money += amount; }
@@ -150,10 +152,6 @@ void PetStats::maxHunger() { hunger_level = 100; }
 
 void PetStats::changeMoney(int someMoney){
     total_money=total_money+someMoney;
-}
-
-void PetStats::changeIQ(int increaseLevel){
-    iq_level=iq_level+increaseLevel;
 }
 void PetStats::checkStats(sf::RenderWindow& window, sf::Font& font) {
   // Variable to keep track of where to position the next warning

@@ -16,6 +16,7 @@ math_game::math_game(){
     game_window->clear();
     timer.restart();
     run();
+    
 }
 
 void math_game::generate_question(){
@@ -235,4 +236,7 @@ void math_game::rules_page(){
         game_window->draw(welcome1);
         game_window->display();
      }
+}
+int math_game::getScore(){
+    return correct_answers;
 }
