@@ -2,21 +2,31 @@
 #define ITEM_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
 #include <memory>
-#include "BaseItem.h"
 
-struct Item : public BaseItem {
-    std::string name;
-    int price;
-    int stock;
-    std::shared_ptr<sf::Texture> texture;
-    sf::Sprite sprite;
-    sf::Text quantityText;
+class Item {
+public:
+    // Constructor
+    Item(const std::string& name, int price, int stock);
 
-    // Override the virtual functions of BaseItem
-    std::string getName() const override { return name; }
-    int getPrice() const override { return price; }
-    sf::Sprite& getSprite() override { return sprite; }
+    // Getters
+    std::string getName() const;
+    int getPrice() const;
+    int getStock() const;
+
+    // Methods
+    void setStock(int stock);
+    void display() const; // For demonstration purposes
+
+    // SFML elements
+    sf::Sprite sprite; // Sprite to display the item
+    std::shared_ptr<sf::Texture> texture; // Texture for the sprite
+
+private:
+    std::string name; // Name of the item
+    int price;        // Price of the item
+    int stock;       // Number of items in stock
 };
 
 #endif // ITEM_H

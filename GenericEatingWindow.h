@@ -1,26 +1,29 @@
-#ifndef GENERIC_EATING_WINDOW_H
-#define GENERIC_EATING_WINDOW_H
+#ifndef GENERICEATINGWINDOW_H
+#define GENERICEATINGWINDOW_H
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <memory>
-#include "Item.h"
-#include "BaseItem.h"
-#include "EatingShop.h"
+#include "ShoppingBasket.h"
 
 class GenericEatingWindow {
 public:
-    GenericEatingWindow(sf::Font& font, std::vector<std::shared_ptr<BaseItem>>& eatingBasket, EatingShop& eatingShop);
+    // Constructor
+    GenericEatingWindow(sf::Font& font, ShoppingBasket& basket);
+    ~GenericEatingWindow();
 
+    // Open the eating window
     void open();
-    void loadFoodItems();
 
 private:
-    sf::RenderWindow window;
-    sf::Font& font;
-    std::vector<std::shared_ptr<BaseItem>>& basket;
-    EatingShop& EatingShopData;
-    std::vector<std::shared_ptr<BaseItem>> foodItems;  // Stores food items as shared pointers to BaseItem
+    sf::Font& font;             // Reference to font for text
+    ShoppingBasket& basket;      // Reference to the user's shopping basket
+
+    sf::Text messageText;       // Text for messages
+    sf::Text itemsText;         // Text for displaying items in the basket
+    sf::Text emptyBasketText;   // Text for empty basket message
+
+    void handleEvents(sf::RenderWindow& window); // Handle user events
+    void render(sf::RenderWindow& window);       // Render the eating window
 };
 
-#endif // GENERIC_EATING_WINDOW_H
+#endif // GENERICEATINGWINDOW_H

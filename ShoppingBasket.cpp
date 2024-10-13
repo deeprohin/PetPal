@@ -1,4 +1,3 @@
-// ShoppingBasket.cpp
 #include "ShoppingBasket.h"
 
 // Constructor
@@ -12,7 +11,7 @@ ShoppingBasket::~ShoppingBasket() {
 }
 
 // Add an item to the basket
-void ShoppingBasket::addItem(std::shared_ptr<BaseItem> item) {
+void ShoppingBasket::addItem(std::shared_ptr<Item> item) { // Change BaseItem to Item
     if (size >= capacity) {
         resizeBasket(); // Resize if the current size reaches capacity
     }
@@ -29,11 +28,16 @@ void ShoppingBasket::resizeBasket() {
 // Display items in the basket
 void ShoppingBasket::displayItems() const {
     for (const auto& item : items) {
-        item->display(); // Use polymorphism to call the display method
+        item->display(); // Call the display method on Item
     }
 }
 
 // Get the current size of the basket
 int ShoppingBasket::getSize() const {
     return size;
+}
+
+// Getter for items
+const std::vector<std::shared_ptr<Item>>& ShoppingBasket::getItems() const {
+    return items; // Return the items vector
 }
