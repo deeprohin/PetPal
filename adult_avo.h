@@ -8,8 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "pet_stats.h"
 #include "avo.h"
+#include "pet_stats.h"
 
 class adult_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:

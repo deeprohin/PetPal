@@ -1,5 +1,7 @@
 #ifndef BABY_GHOST_H
 #define BABY_GHOST_H
+
+#include "ghost.h"
 #include "Shower.h"
 #include "Eating.h"
 #include "Sleeping.h"
@@ -8,9 +10,8 @@
 #include <iostream>
 #include <string>
 #include "pet_stats.h"
-#include "ghost.h"
 
-class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public ghost{
+class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:
     baby_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f) :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
         if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {
@@ -272,9 +273,7 @@ void updateSpriteRect_medicine() override{
 }
 
 ~baby_ghost(){}
-
-
-
+ 
 
 };
 #endif

@@ -1,7 +1,6 @@
 #ifndef BABY_AVO_H
 #define BABY_AVO_H
 
-#include "avo.h"
 #include "Shower.h"
 #include "Eating.h"
 #include "Sleeping.h"
@@ -10,8 +9,9 @@
 #include <iostream>
 #include <string>
 #include "pet_stats.h"
+#include "avo.h"
 
-class baby_avo : public Shower,public Eating,public Sleeping,public Medicine{
+class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:
      // Constructor to load the sprite sheet for an activity with scaling for showering
     baby_avo(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)

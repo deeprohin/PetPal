@@ -158,6 +158,17 @@ public:
         window.draw(math_button_sprite);
     }
 
+static PetStats* initialize_pet(std::string user_pet){
+     if (user_pet.find("avo") != std::string::npos) {
+        std::cout << "The pet is an avo!" << std::endl;
+        return new avo;
+    } else {
+        std::cout << "The pet is not an avo." << std::endl;
+        return new ghost;
+    }
+}
+
+
 static std::string show_intro_screen(sf::RenderWindow& window, sf::Font& font) {
   // Load button textures
   sf::Texture avo_texture, ghost_texture;

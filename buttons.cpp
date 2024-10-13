@@ -2,12 +2,12 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
-#include "Animation.h"
-#include "MATHGAME.h"
-#include "adult_avo.h"
 #include "adult_ghost.h"
 #include "baby_avo.h"
+#include "adult_avo.h"
 #include "baby_ghost.h"
+#include "Animation.h"
+#include "MATHGAME.h"
 #include "mini_game.h"
 #include "pet_stats.h"
 #include "quotesFile.h"
@@ -35,7 +35,7 @@ int main() {
   std::string user_pet = SpriteLoader::show_intro_screen(main_window, font);
   main_window.display();
   std::cout << "User selected pet: " << user_pet << std::endl;
-
+  PetStats* current_user_pet=SpriteLoader::initialize_pet(user_pet);
   PetStats petStats;
 
   // creating buttons
@@ -99,6 +99,9 @@ int main() {
           backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 680 && y <= 830) {
           std::cout << "Info Button" << std::endl;
+        } else if(x>=650 && x<=900 && y>=400 && y<=600){
+          std::cout << "Touch character" << std::endl;
+          current_user_pet->make_sound();
         }
       }
     }
