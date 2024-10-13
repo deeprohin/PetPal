@@ -8,9 +8,9 @@
 class Eating {
 public:
     Eating(const std::string& spriteSheetPath, float frameDuration, float scaleX, float scaleY): frameDuration_eating(frameDuration), elapsedTime_eating(0.0f), currentFrame_eating(0), isAnimating_eating(false) {};
-    virtual void startAnimation_eating(){}
-    virtual void update_eating(float deltaTime){}
-    virtual void draw_eating(sf::RenderWindow& window){}
+    virtual void startAnimation_eating()=0;
+    virtual void update_eating(float deltaTime)=0;
+    virtual void draw_eating(sf::RenderWindow& window)=0;
     sf::Sprite sprite_eating;
     sf::Texture texture_eating;
     float frameDuration_eating;
@@ -19,7 +19,7 @@ public:
     bool isAnimating_eating;
     sf::Vector2f position_eating;
     sf::Vector2f originalPosition_eating;
-    virtual void updateSpriteRect_eating(){}
+    virtual void updateSpriteRect_eating()=0;
     virtual ~Eating() {}
 };
 
