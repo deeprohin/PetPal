@@ -1,41 +1,37 @@
-#ifndef GENERIC_SHOPPING_WINDOW_H
-#define GENERIC_SHOPPING_WINDOW_H
+#ifndef GENERICSHOPPINGWINDOW_H
+#define GENERICSHOPPINGWINDOW_H
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Shopping.h"
-#include "Item.h" // Assuming you have an Item structure defined
+#include "ShoppingBasket.h"
 
 class GenericShoppingWindow {
 public:
-    // Constructor: takes Shopping object to fetch items, user coins, and basket
-    GenericShoppingWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket, Shopping& shoppingData);
-    
-    // Destructor
-    ~GenericShoppingWindow(); 
-    
+    // Constructor
+    GenericShoppingWindow(sf::Font& font, int& userCoins, ShoppingBasket& basket, Shopping& shoppingData);
+    ~GenericShoppingWindow();
+
     // Open the shopping window
     void open();
 
 private:
-    sf::RenderWindow* window;
-    sf::Font& font;
-    int& userCoins;
-    std::vector<Item>& basket;
-    int trolleyCount;
+    sf::Font& font;              // Reference to font for text
+    int& userCoins;              // Reference to user's coin count
+    ShoppingBasket& basket;       // Reference to the user's shopping basket
+    Shopping& shoppingData;       // Reference to shopping data
 
-    sf::Text coinsText;
-    sf::Text trolleyText;
-    sf::Text insufficientFundsText;
-    sf::Texture trolleyTexture;
-    sf::Sprite trolleySprite;
-    std::vector<Item> items;
+    std::vector<Item> items;      // Vector of items available in the shopping window
 
-    Shopping& shoppingData; // Reference to the Shopping object for item details
+    sf::Text coinsText;          // Text for displaying user's coins
+    sf::Text trolleyText;        // Text for displaying the trolley count
+    sf::Text insufficientFundsText; // Text for insufficient funds message
+    sf::Sprite trolleySprite;    // Sprite for the trolley
+    sf::Texture trolleyTexture;  // Texture for the trolley
 
-    void loadItems();      // Load items from Shopping class
-    void handleEvents();   // Handle user input events
-    void render();         // Render the shopping window
+    void loadItems();            // Load items into the shopping window
+    void handleEvents(sf::RenderWindow& window); // Handle user events
+    void render(sf::RenderWindow& window);       // Render the shopping window
 };
 
-#endif // GENERIC_SHOPPING_WINDOW_H
+#endif // GENERICSHOPPINGWINDOW_H

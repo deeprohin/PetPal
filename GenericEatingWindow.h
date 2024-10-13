@@ -1,40 +1,29 @@
-#ifndef GENERIC_EATING_WINDOW_H
-#define GENERIC_EATING_WINDOW_H
+#ifndef GENERICEATINGWINDOW_H
+#define GENERICEATINGWINDOW_H
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "EatingShop.h"
 #include "ShoppingBasket.h"
-#include "Item.h"
 
 class GenericEatingWindow {
 public:
-    GenericEatingWindow(sf::Font& font, ShoppingBasket& basket, EatingShop& eatingShopData);
+    // Constructor
+    GenericEatingWindow(sf::Font& font, ShoppingBasket& basket);
     ~GenericEatingWindow();
-    
+
+    // Open the eating window
     void open();
 
 private:
-    sf::Font& font;
-    ShoppingBasket& basket;          // Reference to ShoppingBasket instance
-    EatingShop& eatingShopData;     // Reference to EatingShop instance
-    sf::RenderWindow* window;
+    sf::Font& font;             // Reference to font for text
+    ShoppingBasket& basket;      // Reference to the user's shopping basket
 
-    sf::Texture fridgeTexture;
-    sf::Sprite fridgeSprite;
+    sf::Text messageText;       // Text for messages
+    sf::Text itemsText;         // Text for displaying items in the basket
+    sf::Text emptyBasketText;   // Text for empty basket message
 
-    sf::Texture trolleyTexture;       // Texture for trolley image
-    sf::Sprite trolleySprite;         // Sprite for trolley image
-    sf::Text itemCountText;           // Text to show item count
-
-    sf::Text insufficientFundsText;
-    std::vector<Item> foodItems;
-
-    void loadFoodItems();
-    void handleEvents();
-    void render();
-    void updateItemCountText();        // Method to update item count text
-    void playEatingAnimation(const std::string& foodName);
+    void handleEvents(sf::RenderWindow& window); // Handle user events
+    void render(sf::RenderWindow& window);       // Render the eating window
 };
 
-#endif // GENERIC_EATING_WINDOW_H
+#endif // GENERICEATINGWINDOW_H
