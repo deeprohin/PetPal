@@ -157,10 +157,6 @@ int main() {
                     backgroundMusic.pause();
                     std::cout << "Math Button" << std::endl;
                     math_game test;
-                    while (test.window_open()) { // Assuming window_open() returns true while the game is active
-                        test.update();
-                        test.render();
-                    }
                     petStats.increaseIQ(test.getScore());
                     backgroundMusic.play();
                 }

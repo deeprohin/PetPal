@@ -1,4 +1,5 @@
 #include "GenericEatingWindow.h"
+#include "Fooditem.h"
 #include <iostream>
 
 GenericEatingWindow::GenericEatingWindow(sf::Font& font, ShoppingBasket& basket, EatingShop& eatingShopData)
@@ -83,7 +84,8 @@ void GenericEatingWindow::handleEvents() {
                     if (foodItems[i].sprite.getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
                         if (foodItems[i].stock > 0) {
                             foodItems[i].stock--;  // Decrement stock
-                            basket.addItem(foodItems[i]);  // Add item to basket
+                            std::shared_ptr<BaseItem> itemPtr = std::make_shared<FoodItem>(foodItems[i].name, foodItems[i].price, foodItems[i].stock);
+                            basket.addItem(itemPtr);  // Add item to basket
                             updateItemCountText(); // Update item count
                             std::cout << "Added to basket: " << foodItems[i].name << std::endl;
                         } else {
