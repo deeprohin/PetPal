@@ -1,4 +1,7 @@
- #pragma once
+#ifndef PETSTATUS_H
+#define PETSTATUS_H
+
+#pragma once
 #include"MATHGAME.h"
 #include <SFML/Graphics.hpp>
 
@@ -41,5 +44,8 @@ public:
 
 
     void checkStats(sf::RenderWindow& window, sf::Font& font);
+    virtual void make_sound(){};
 
 };
+
+#endif

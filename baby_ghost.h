@@ -8,7 +8,9 @@
 #include <iostream>
 #include <string>
 #include "pet_stats.h"
-class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine{
+#include "ghost.h"
+
+class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public ghost{
 public:
     baby_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f) :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
         if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {

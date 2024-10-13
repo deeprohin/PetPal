@@ -12,6 +12,8 @@
 #include "pet_stats.h"
 #include "quotesFile.h"
 #include "sprite_loader.h"
+#include "avo.h"
+#include "ghost.h"
 
 int main() {
   sf::Font font;
@@ -33,8 +35,8 @@ int main() {
   std::string user_pet = SpriteLoader::show_intro_screen(main_window, font);
   main_window.display();
   std::cout << "User selected pet: " << user_pet << std::endl;
-  PetStats petStats;
 
+  PetStats petStats;
 
   // creating buttons
   if (!SpriteLoader::loadResources()) {

@@ -8,9 +8,11 @@
 #include <iostream>
 #include <string>
 #include "pet_stats.h"
+#include "ghost.h"
 
 
-class adult_ghost: public Shower,public Eating,public Sleeping,public Medicine{
+
+class adult_ghost: public Shower,public Eating,public Sleeping,public Medicine,public ghost{
 public:
     // Constructor to load the sprite sheet for an activity with scaling for showering
     adult_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)

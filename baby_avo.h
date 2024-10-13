@@ -1,5 +1,7 @@
 #ifndef BABY_AVO_H
 #define BABY_AVO_H
+
+#include "avo.h"
 #include "Shower.h"
 #include "Eating.h"
 #include "Sleeping.h"
