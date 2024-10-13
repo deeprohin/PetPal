@@ -31,6 +31,7 @@ class math_game{
         sf::Clock timer; 
         double total_time;
         sf::Music math_audio;
+        sf::Music wrong_audio;
     public:
         math_game();//constructor to initialize game window
         ~math_game();

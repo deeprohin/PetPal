@@ -1,9 +1,13 @@
 #include "MATHGAME.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp> // Include the Audio module
 
 math_game::math_game(){
     math_audio.openFromFile("Lobby Music (Original Soundtrack).mp3");
     math_audio.setVolume(100);
     math_audio.play();
+    wrong_audio.openFromFile("Microsoft Windows XP Error - Sound Effect (HD).mp3");
+    wrong_audio.setVolume(100);
     correct_answers=0;
     number_of_answers=0;
     total_time=50.0; //initalize how much time is given to solve math questions
@@ -64,19 +68,22 @@ void math_game::run(){
                         has_entered=true;
                         break;
                     }
-                    if(ev.key.code == sf::Keyboard::Dash){
+                    else if(ev.key.code == sf::Keyboard::Dash){
                         current_input = '-' + current_input; 
                     }
-                    if (ev.key.code == sf::Keyboard::BackSpace) {
+                    else if (ev.key.code == sf::Keyboard::BackSpace) {
                         if (!current_input.empty()) {
                             current_input = current_input.substr(0, current_input.size() - 1);
                         }
                     }
-                    if (ev.key.code >= sf::Keyboard::Num0 && ev.key.code <= sf::Keyboard::Num9){
+                    else if (ev.key.code >= sf::Keyboard::Num0 && ev.key.code <= sf::Keyboard::Num9){
                         int number_entered = ev.key.code - sf::Keyboard::Num0;
                         current_input+=std::to_string(number_entered);
+                    }else{
+                        if (wrong_audio.getStatus() != sf::Sound::Playing) {
+                        wrong_audio.play();
+                        }
                     }
-                    
                 }
             }
             render();
@@ -155,7 +162,7 @@ void math_game::display_results(){
     sf::Text score_text;
     score_text.setFont(font);
     score_text.setFillColor(sf::Color::Black);
-    score_text.setString("  GAME OVER!!\n\nPoints Scored: " + std::to_string(correct_answers) + "\nCoins earned: " + std::to_string(correct_answers * 10));
+    score_text.setString("  GAME OVER!!\n\nPoints Scored: " + std::to_string(correct_answers)+"\n\nPress ESC To Exit");
     score_text.setCharacterSize(70);
     score_text.setPosition(550,300);
 

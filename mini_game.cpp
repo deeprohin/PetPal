@@ -278,7 +278,8 @@ void mini_game::update_game_over_text() {
   money_earned = points * 5;
   ss << "  GAME OVER!!" << "\n\n"
      << "Points Scored: " << points << "\n"
-     << "Coins earned: " << money_earned << "\n\n";
+     << "Coins earned: " << money_earned << "\n\n"
+     << "Press esc to Exit"<<"\n\n";
   game_over_text.setString(ss.str());
 }
 
