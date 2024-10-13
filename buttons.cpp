@@ -47,8 +47,7 @@ int main() {
     sf::Event event;
     petStats.updateStats(main_window, font);
 
-    updateQuote(selectedQuote, quote_clock, newQuoteInterval, user_pet,
-                quoteVisible);
+    updateQuote(selectedQuote, quote_clock, newQuoteInterval, user_pet, quoteVisible);
     while (main_window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         main_window.close();
@@ -63,13 +62,11 @@ int main() {
         if (x >= 40 && x <= 190 && y >= 130 && y <= 280) {
           std::cout << "Sleeping Button" << std::endl;
           petStats.maxSleep();
-          SpriteLoader::animateSleepingPet(user_pet, main_window, font,
-                                           selectedQuote, &petStats);
+          SpriteLoader::animateSleepingPet(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 470 && x <= 620 && y >= 130 && y <= 280) {
           std::cout << "showering Button" << std::endl;
           petStats.maxHealth();
-          SpriteLoader::animateShoweringPet(user_pet, main_window, font,
-                                            selectedQuote, &petStats);
+          SpriteLoader::animateShoweringPet(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 900 && x <= 1050 && y >= 130 && y <= 280) {
           std::cout << "Game Button" << std::endl;
           backgroundMusic.pause();
@@ -83,13 +80,11 @@ int main() {
         } else if (x >= 1310 && x <= 1460 && y >= 130 && y <= 280) {
           std::cout << "Eating Button" << std::endl;
           petStats.maxHunger();
-          SpriteLoader::animateEatingPet(user_pet, main_window, font,
-                                         selectedQuote, &petStats);
+          SpriteLoader::animateEatingPet(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
           std::cout << "Medicine Button" << std::endl;
           petStats.maxHealth();
-          SpriteLoader::animateGivingMedicine(user_pet, main_window, font,
-                                              selectedQuote, &petStats);
+          SpriteLoader::animateGivingMedicine(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 470 && x <= 620 && y >= 680 && y <= 830) {
           std::cout << "Shopping Button" << std::endl;
           //youre part brookyln

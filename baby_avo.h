@@ -9,7 +9,7 @@
 #include <string>
 #include "pet_stats.h"
 
-class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public PetStats{
+class baby_avo : public Shower,public Eating,public Sleeping,public Medicine{
 public:
      // Constructor to load the sprite sheet for an activity with scaling for showering
     baby_avo(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)
