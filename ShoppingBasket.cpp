@@ -1,36 +1,39 @@
+// ShoppingBasket.cpp
 #include "ShoppingBasket.h"
-#include <iostream>
 
-ShoppingBasket::ShoppingBasket(int initialCapacity)
-    : basketSize(0), basketCapacity(initialCapacity) {
-    items = new Item[basketCapacity];
+// Constructor
+ShoppingBasket::ShoppingBasket(int initialCapacity) : capacity(initialCapacity), size(0) {
+    items.reserve(capacity); // Reserve space for the initial capacity
 }
 
+// Destructor
 ShoppingBasket::~ShoppingBasket() {
-    delete[] items;  // Free allocated memory
+    // No need for manual deletion; smart pointers handle this automatically
 }
 
-void ShoppingBasket::addItem(const Item& item) {
-    if (basketSize >= basketCapacity) {
-        resizeBasket();
+// Add an item to the basket
+void ShoppingBasket::addItem(std::shared_ptr<BaseItem> item) {
+    if (size >= capacity) {
+        resizeBasket(); // Resize if the current size reaches capacity
     }
-    items[basketSize] = item;  // Add item to basket
-    basketSize++;
+    items.push_back(item); // Use vector to add the item
+    size++;
 }
 
-int ShoppingBasket::getSize() const {
-    return basketSize;  // Return current size of the basket
-}
-
+// Resize the basket when full
 void ShoppingBasket::resizeBasket() {
-    basketCapacity *= 2;  // Double the capacity
-    Item* newItems = new Item[basketCapacity];
+    capacity *= 2; // Double the capacity
+    items.reserve(capacity); // Reserve new capacity
+}
 
-    // Copy old items to the new array
-    for (int i = 0; i < basketSize; i++) {
-        newItems[i] = items[i];
+// Display items in the basket
+void ShoppingBasket::displayItems() const {
+    for (const auto& item : items) {
+        item->display(); // Use polymorphism to call the display method
     }
+}
 
-    delete[] items;  // Free old memory
-    items = newItems;  // Point to the new array
+// Get the current size of the basket
+int ShoppingBasket::getSize() const {
+    return size;
 }

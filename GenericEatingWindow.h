@@ -5,6 +5,7 @@
 #include <vector>
 #include "EatingShop.h"
 #include "ShoppingBasket.h"
+#include "Item.h"
 
 class GenericEatingWindow {
 public:
