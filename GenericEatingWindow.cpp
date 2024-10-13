@@ -1,97 +1,74 @@
 #include "GenericEatingWindow.h"
 #include <iostream>
 
-GenericEatingWindow::GenericEatingWindow(sf::Font& font, ShoppingBasket& basket, EatingShop& eatingShopData)
-    : font(font), basket(basket), eatingShopData(eatingShopData), window(nullptr) {
-    loadFoodItems();
-
-    // Initialize UI Elements
-    insufficientFundsText.setFont(font);
-    insufficientFundsText.setCharacterSize(36);
-    insufficientFundsText.setFillColor(sf::Color::Red);
-    insufficientFundsText.setPosition(800, 100);
-    insufficientFundsText.setString("");
-
-    // Load Fridge Image
-    if (!fridgeTexture.loadFromFile("Images/Fridge.png")) {
-        std::cerr << "Error: Fridge image not found at Images/Fridge.png" << std::endl;
-    }
-    fridgeSprite.setTexture(fridgeTexture);
-    fridgeSprite.setScale(static_cast<float>(1920) / fridgeTexture.getSize().x,
-                          static_cast<float>(1080) / fridgeTexture.getSize().y);
-    fridgeSprite.setPosition(0, 0);
-
-    // Load Trolley Image
-    if (!trolleyTexture.loadFromFile("Images/Trolley.png")) {
-        std::cerr << "Error: Trolley image not found at Images/Trolley.png" << std::endl;
-    }
-    trolleySprite.setTexture(trolleyTexture);
-    trolleySprite.setScale(0.5f, 0.5f); // Scale down if needed
-    trolleySprite.setPosition(1700, 50); // Position it in the top right corner
-
-    // Initialize item count text
-    itemCountText.setFont(font);
-    itemCountText.setCharacterSize(24);
-    itemCountText.setFillColor(sf::Color::Black);
-    itemCountText.setPosition(1750, 20); // Adjust position for item count
-    updateItemCountText(); // Set initial count
+GenericEatingWindow::GenericEatingWindow(sf::Font& font, std::vector<std::shared_ptr<BaseItem>>& eatingBasket, EatingShop& eatingShop)
+    : font(font), basket(eatingBasket), EatingShopData(eatingShop) {
+    // Initialize the SFML window
+    window.create(sf::VideoMode(800, 600), "Eating Window");
 }
 
-void GenericEatingWindow::updateItemCountText() {
-    itemCountText.setString("Items: " + std::to_string(basket.getSize())); // Update with the current item count
-}
+void GenericEatingWindow::loadFoodItems() {
+    // Get item names and image paths from EatingShop
+    std::vector<std::string> itemNames = EatingShopData.getItemNames();
+    std::vector<std::string> imagePaths = EatingShopData.getImagePaths();
 
-GenericEatingWindow::~GenericEatingWindow() {
-    delete window;  // Free dynamically allocated window
+    for (size_t i = 0; i < itemNames.size(); ++i) {
+        // Create an Item object and initialize it
+        Item item;
+        item.name = itemNames[i];
+        item.price = 10;  // Example price (can be updated based on your logic)
+        item.stock = 1;   // Default stock
+
+        // Load texture from the provided image path
+        item.texture = std::make_shared<sf::Texture>();
+        if (!item.texture->loadFromFile(imagePaths[i])) {
+            std::cerr << "Error: Could not load image: " << imagePaths[i] << std::endl;
+            continue;  // Skip if the texture fails to load
+        }
+
+        // Set sprite texture
+        item.sprite.setTexture(*item.texture);
+
+        // Wrap the Item in a shared pointer to BaseItem (polymorphism)
+        std::shared_ptr<BaseItem> baseItemPtr = std::make_shared<Item>(item);
+
+        // Add the shared_ptr<BaseItem> to the foodItems vector
+        foodItems.push_back(baseItemPtr);
+    }
 }
 
 void GenericEatingWindow::open() {
-    window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Eating Shop Window");
+    loadFoodItems();
 
-    while (window->isOpen()) {
-        handleEvents();
-        render();
-    }
-}
-
-void GenericEatingWindow::render() {
-    window->clear();
-    window->draw(fridgeSprite);
-
-    for (const auto& item : foodItems) {
-        window->draw(item.sprite);
-        window->draw(item.quantityText);
-    }
-
-    // Draw trolley and item count
-    window->draw(trolleySprite);
-    window->draw(itemCountText);
-
-    window->draw(insufficientFundsText);
-    window->display();
-}
-
-void GenericEatingWindow::handleEvents() {
-    sf::Event event;
-    while (window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
-            window->close();
-
-        if (event.type == sf::Event::MouseButtonPressed) {
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                for (size_t i = 0; i < foodItems.size(); ++i) {
-                    if (foodItems[i].sprite.getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window)))) {
-                        if (foodItems[i].stock > 0) {
-                            foodItems[i].stock--;  // Decrement stock
-                            basket.addItem(foodItems[i]);  // Add item to basket
-                            updateItemCountText(); // Update item count
-                            std::cout << "Added to basket: " << foodItems[i].name << std::endl;
-                        } else {
-                            insufficientFundsText.setString("Insufficient stock for: " + foodItems[i].name);
-                        }
-                    }
-                }
+    // Main loop for the eating window
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
             }
+
+            // Handle other events like selecting an item, buying, etc.
         }
+
+        window.clear(sf::Color::White); // Clear window with a white background
+
+        // Render the food items on the window
+        for (size_t i = 0; i < foodItems.size(); ++i) {
+            auto& item = foodItems[i];
+
+            // Draw the item's sprite
+            window.draw(item->getSprite());
+
+            // Optionally, draw item's price or other information
+            // Example:
+            sf::Text priceText;
+            priceText.setFont(font);
+            priceText.setString("$" + std::to_string(item->getPrice()));
+            priceText.setPosition(100.f + i * 150.f, 500.f);  // Position example
+            window.draw(priceText);
+        }
+
+        window.display();
     }
 }
