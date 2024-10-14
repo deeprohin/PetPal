@@ -11,7 +11,10 @@ AdultAvoShoppingWindow();
     AdultAvoShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~AdultAvoShoppingWindow(); // Destructor to clean up allocated memory
     void open();
-    std::vector<Item> items;
+    std::vector<Item> items;\
+    int returnCoins(){
+        return userCoins;
+    }
 private:
     sf::RenderWindow* window; // Pointer to RenderWindow
     sf::Font& font;

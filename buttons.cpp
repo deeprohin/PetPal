@@ -187,6 +187,8 @@ int main() {
               AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
               std::cout << "Shopping window created." << std::endl;
               shoppingWindow.open();
+              petStats.changeMoney(petStats.getMoney()-(shoppingWindow.returnCoins()));
+              
               
           }
           else if(user_pet=="baby_avo"){
