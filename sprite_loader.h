@@ -12,6 +12,8 @@
 #include "baby_ghost.h"
 #include "pet_stats.h"
 #include "quotesFile.h"
+#include <fstream>
+#include <string>
 
 class SpriteLoader {
 public:
@@ -497,6 +499,70 @@ static void animateGivingMedicine(const std::string& user_pet, sf::RenderWindow&
             break;
         }
     }
+}
+
+static bool showGameMenu(sf::RenderWindow& parentWindow, sf::Font& font) {
+    // Set up menu text
+    sf::Text newGameText("New Game", font, 50);
+    newGameText.setFillColor(sf::Color::Black);
+    newGameText.setPosition(650, 300); // Adjusted for 1920x1080 resolution
+
+    sf::Text loadGameText("Load Previous Game", font, 50);
+    loadGameText.setFillColor(sf::Color::Black);
+    loadGameText.setPosition(650, 500); // Adjusted for 1920x1080 resolution
+
+    // Text for no previous games found
+    sf::Text noGamesText("No Previous Games Found", font, 30);
+    noGamesText.setFillColor(sf::Color::Red);
+    noGamesText.setPosition(650, 600); // Position below the load game option
+
+    bool showNoGamesMessage = false; // Flag to show the no games message
+
+    // Main loop for the menu window
+    while (parentWindow.isOpen()) {
+        sf::Event event;
+        while (parentWindow.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                parentWindow.close();
+                return -1; // Close event
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    // Get the mouse position
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(parentWindow);
+                    if (newGameText.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                        return true; // New Game selected
+                    } else if (loadGameText.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                        // Check if the pet_stats.txt file exists
+                        std::ifstream file("pet_stats.txt");
+                        if (file) {
+                            return false; // Load Previous Game selected
+                        } else {
+                            showNoGamesMessage = true; // Show the no games message
+                        }
+                    }
+                }
+            }
+        }
+
+        // Clear the window with the specified color
+        parentWindow.clear(sf::Color(230, 230, 220));
+
+        // Draw the texts
+        parentWindow.draw(newGameText);
+        parentWindow.draw(loadGameText);
+        
+        // Draw the no games message if needed
+        if (showNoGamesMessage) {
+            parentWindow.draw(noGamesText);
+        }
+
+        // Display the contents of the window
+        parentWindow.display();
+    }
+
+    return false; // Default return value (shouldn't reach here)
 }
 
 
