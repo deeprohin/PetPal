@@ -565,6 +565,41 @@ static bool showGameMenu(sf::RenderWindow& parentWindow, sf::Font& font) {
     return false; // Default return value (shouldn't reach here)
 }
 
+static void initializeValuesFromFile(PetStats& petStats, const std::string& user_pet) {
+    std::ifstream statsFile("pet_stats.txt");
+
+    if (!statsFile) {
+        std::cerr << "Error: Could not open file 'pet_stats.txt'." << std::endl;
+        return;
+    }
+
+    std::string line;
+    bool petFound = false;
+
+    while (std::getline(statsFile, line)) {
+        std::istringstream iss(line);
+        std::string petName;
+        int health, sleep, hunger, iq, money;
+
+        if (iss >> petName >> health >> sleep >> hunger >> iq >> money) {
+            if (petName == user_pet) {
+                petStats.setHealthLevel(health);
+                petStats.setSleepLevel(sleep);
+                petStats.setHungerLevel(hunger);
+                petStats.setIQLevel(iq);
+                petStats.setTotalMoney(money);
+                petFound = true;
+                break; // Exit once we have found and set the user's pet stats
+            }
+        } else {
+            std::cerr << "Warning: Malformed line in pet_stats.txt: " << line << std::endl;
+        }
+    }
+
+    if (!petFound) {
+        std::cerr << "Warning: Pet '" << user_pet << "' not found in file." << std::endl;
+    }
+}
 
 
 };

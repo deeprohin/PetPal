@@ -52,21 +52,19 @@ BabyAvo::~BabyAvo() {
     delete window; // Free the dynamically allocated memory for the window
 }
 
-// Load items into the window
 void BabyAvo::loadItems() {
     const int numRows = 1; // Only one row for 4 images
     const int numCols = 4; // Four images in total
     const int itemWidth = 150;  // Desired item width
     const int itemHeight = 150; // Desired item height
     const int horizontalSpacing = 150; // Adjusted spacing for even distribution
-    const int verticalSpacing = 100; // Space between rows (not used but kept for future use)
+    const int startY = 300; // Fixed Y position for the row of items
 
-    // Calculate offsets to center the grid in the window
-    int gridWidth = (itemWidth + horizontalSpacing) * numCols - horizontalSpacing;
-    int startX = (1920 - gridWidth) / 2; // Center the items horizontally
-    int startY = 300; // Fixed Y position for the row of items
+    // Calculate grid width and starting X position to center the items horizontally
+    int gridWidth = numCols * itemWidth + (numCols - 1) * horizontalSpacing;
+    int startX = (1920 - gridWidth) / 2-gridWidth/4; // Center the items horizontally
 
-    // Load each item with individual textures and set position
+    // Item data (names, prices, image paths)
     std::vector<std::string> itemNames = {"Baby Pumpkin", "Baby Banana", "Yakult", "Baby Medicine"};
     std::vector<int> itemPrices = {100, 50, 50, 500};
     std::vector<std::string> imagePaths = {
@@ -83,17 +81,18 @@ void BabyAvo::loadItems() {
         Item item;
         item.name = itemNames[index];
         item.price = itemPrices[index];
-        
+
         // Create and load texture into shared_ptr
         item.texture = std::make_shared<sf::Texture>();
         if (!item.texture->loadFromFile(imagePaths[index])) {
             std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
-            exit(1); // Exit program if texture fails to load
+            index++;  // Skip this item and continue with the next
+            continue;
         }
 
         // Set texture to sprite
         item.sprite.setTexture(*item.texture);
-        
+
         // Scale the sprite to the desired size
         float scaleX = static_cast<float>(itemWidth) / item.texture->getSize().x;  // Calculate scale for width
         float scaleY = static_cast<float>(itemHeight) / item.texture->getSize().y; // Calculate scale for height
@@ -111,6 +110,7 @@ void BabyAvo::loadItems() {
         index++;
     }
 }
+
 
 // Open the shopping window and handle interactions
 void BabyAvo::open() {

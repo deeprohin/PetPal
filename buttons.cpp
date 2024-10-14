@@ -22,6 +22,9 @@
 #include "pet_stats.h"
 #include "quotesFile.h"
 #include "sprite_loader.h"
+#include <fstream>
+#include <string>
+
 int main() {
   sf::Font font;
   if (!font.loadFromFile("Regular.ttf")) {
@@ -41,11 +44,27 @@ int main() {
   main_window.setFramerateLimit(60);
   bool new_game=SpriteLoader::showGameMenu(main_window,font);
   std::cout<<new_game<<std::endl;
-  std::string user_pet = SpriteLoader::show_intro_screen(main_window, font);
-  main_window.display();
+  std::string user_pet;
+  if (!new_game){
+    std::ifstream statsFile("pet_stats.txt"); // Open the file for reading
+    std::string line;
+    if (std::getline(statsFile, line)) {
+      std::istringstream iss(line);
+      // Get the first word
+      if (!(iss >> user_pet)) {
+        std::cerr << "Failed to read the first word from the file." << std::endl;
+      }
+    }
+  }else{
+      user_pet = SpriteLoader::show_intro_screen(main_window, font);
+      main_window.display();
+  }
   std::cout << "User selected pet: " << user_pet << std::endl;
   PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
   PetStats petStats;
+  if(new_game){
+    SpriteLoader::initializeValuesFromFile(petStats,user_pet);
+  }
 
   // creating buttons
   if (!SpriteLoader::loadResources()) {
@@ -168,6 +187,7 @@ int main() {
               AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
               std::cout << "Shopping window created." << std::endl;
               shoppingWindow.open();
+              
           }
           else if(user_pet=="baby_avo"){
             std::vector<Item> basket; // Basket to hold purchased items
@@ -175,12 +195,14 @@ int main() {
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
+            
           } else if (user_pet == "baby_ghost") {
             std::vector<Item> basket;
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
             shoppingWindow.open();
+         
 
           } else if (user_pet == "adult_ghost") {
             std::vector<Item> basket;
@@ -219,6 +241,12 @@ int main() {
     }
     petStats.checkStats(main_window, font);
     main_window.display();
+
+    //writting data to file:
+    std::ofstream statsFile("pet_stats.txt");
+    statsFile << user_pet<<" "<<petStats.getHealthLevel() << " "<< petStats.getSleepLevel() << " "<< petStats.getHungerLevel() << " "<< petStats.getIQLevel() << " "<< petStats.getTotalMoney() <<"\n"<<std::endl;
+    // Iterate through the basket and write item details to the file
+    statsFile.flush();
   }
   return 0;
 }

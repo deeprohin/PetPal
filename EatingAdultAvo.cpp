@@ -72,7 +72,7 @@ void EatingAdultAvo::loadFoodItems() {
 
         // Set texture to sprite and scale it
         item.sprite.setTexture(*item.texture);
-        item.sprite.setScale(0.5f, 0.5f); // Increased scale to enlarge images
+        item.sprite.setScale(0.2f, 0.2f); // Increased scale to enlarge images
 
         // Calculate grid position
         int row = i / columns;

@@ -59,8 +59,8 @@ void BabyGhostShoppingWindow::loadItems() {
     // Calculate offsets to center the grid in the window
     int gridWidth = (itemWidth + horizontalSpacing) * numCols - horizontalSpacing;
     int gridHeight = (itemHeight + verticalSpacing) * numRows - verticalSpacing;
-    int startX = (1920 - gridWidth) / 2;
-    int startY = (1080 - gridHeight) / 2;
+    int startX = (1920 - gridWidth) / 2-gridWidth/4;
+    int startY = (1080 - gridHeight) / 2-gridHeight/4;
 
     // Load each item with individual textures and set position
     std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
@@ -94,12 +94,11 @@ void BabyGhostShoppingWindow::loadItems() {
             int xPos = startX + col * (itemWidth + horizontalSpacing);
             int yPos = startY + row * (itemHeight + verticalSpacing); // Position for multiple rows
             item.sprite.setPosition(xPos, yPos);
-
+            
             std::cout << "Loaded " << item.name << " at position (" << xPos << ", " << yPos << ")" << std::endl;
 
             // Add the item to the items list
             items.push_back(item);
-
             index++;
         }
     }
