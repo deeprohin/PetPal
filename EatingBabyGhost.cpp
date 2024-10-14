@@ -1,7 +1,7 @@
 #include "EatingBabyGhost.h"
 
 // Constructor
-EatingBabyGhost::EatingBabyGhost(sf::Font& font, Item* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
+EatingBabyGhost::EatingBabyGhost(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
     : font(font), basket(basket), basketSize(basketSize), basketCapacity(basketCapacity), trolleyCount(trolleyCount) {
 
     // Dynamically create a RenderWindow
@@ -57,7 +57,7 @@ void EatingBabyGhost::loadFoodItems() {
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
-        Item item;
+        ItemList item;
         item.name = itemNames[i];
         item.price = itemPrices[i];
         item.stock = 5; // Initialize stock to 5
@@ -127,7 +127,7 @@ void EatingBabyGhost::handleEvents() {
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Find the item in the basket
-                    auto it = std::find_if(basket, basket + basketSize, [&item](const Item& basketItem) {
+                    auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
                         return basketItem.name == item.name;
                     });
 

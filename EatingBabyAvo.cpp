@@ -1,7 +1,7 @@
 #include "EatingBabyAvo.h"
 
 // Constructor
-EatingBabyAvo::EatingBabyAvo(sf::Font& font, Item* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
+EatingBabyAvo::EatingBabyAvo(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
     : font(font), basket(basket), basketSize(basketSize), basketCapacity(basketCapacity), trolleyCount(trolleyCount) {
 
     // Dynamically create a RenderWindow
@@ -57,7 +57,7 @@ void EatingBabyAvo::loadFoodItems() {
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
-        Item item;
+        ItemList item;
         item.name = itemNames[i];
         item.price = itemPrices[i];
         item.stock = 5; // Initialize stock to 5 or any desired number
@@ -128,7 +128,7 @@ void EatingBabyAvo::handleEvents() {
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Find the item in the basket
-                    auto it = std::find_if(basket, basket + basketSize, [&item](const Item& basketItem) {
+                    auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
                         return basketItem.name == item.name;
                     });
 
@@ -175,12 +175,12 @@ void EatingBabyAvo::playEatingAnimation(const std::string& foodName) {
 }
 
 // Helper function to add an item to the basket
-void EatingBabyAvo::addToBasket(const Item& item) {
+void EatingBabyAvo::addToBasket(const ItemList& item) {
     // Check if the basket is full
     if (basketSize >= basketCapacity) {
         // Double the capacity
         int newCapacity = basketCapacity * 2;
-        Item* newBasket = new Item[newCapacity];
+        ItemList* newBasket = new ItemList[newCapacity];
 
         // Copy existing items to the new basket
         for (int i = 0; i < basketSize; ++i) {
