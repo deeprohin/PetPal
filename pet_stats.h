@@ -53,6 +53,12 @@ public:
     int getIQLevel() const { return iq_level; }
     int getTotalMoney() const { return total_money; }
 
+    // Setters
+    void setHealthLevel(int level) { health_level = level; }
+    void setSleepLevel(int level) { sleep_level = level; }
+    void setHungerLevel(int level) { hunger_level = level; }
+    void setIQLevel(int level) { iq_level = level; }
+    void setTotalMoney(int money) { total_money = money; }
 };
 
 #endif
