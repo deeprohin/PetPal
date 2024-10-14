@@ -13,7 +13,7 @@ public:
     BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~BabyAvo();  // Destructor to clean up allocated memory
     void open();  // Opens the shopping window
-
+    int returnCoins(){return userCoins;}
 private:
     void loadItems(); // Loads items into the window
     void handleEvents(); // Handles events
