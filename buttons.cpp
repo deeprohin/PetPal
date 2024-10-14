@@ -45,6 +45,7 @@ int main() {
   bool new_game=SpriteLoader::showGameMenu(main_window,font);
   std::cout<<new_game<<std::endl;
   std::string user_pet;
+  std::vector<int> stats;
   if (!new_game){
     std::ifstream statsFile("pet_stats.txt"); // Open the file for reading
     std::string line;
@@ -55,6 +56,7 @@ int main() {
         std::cerr << "Failed to read the first word from the file." << std::endl;
       }
     }
+    stats = SpriteLoader::readPetStats("pet_stats.txt");
   }else{
       user_pet = SpriteLoader::show_intro_screen(main_window, font);
       main_window.display();
@@ -62,8 +64,12 @@ int main() {
   std::cout << "User selected pet: " << user_pet << std::endl;
   PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
   PetStats petStats;
-  if(new_game){
-    SpriteLoader::initializeValuesFromFile(petStats,user_pet);
+  if(!new_game){
+    petStats.setHealthLevel(stats[0]);
+    petStats.setSleepLevel(stats[1]);
+    petStats.setHungerLevel(stats[2]);
+    petStats.setIQLevel(stats[3]);
+    petStats.setTotalMoney(stats[4]);
   }
 
   // creating buttons
