@@ -159,17 +159,18 @@ int main() {
                                               selectedQuote, &petStats);
         } else if (x >= 470 && x <= 620 && y >= 680 && y <= 830) {
           std::cout << "Shopping Button" << std::endl;
-          if (user_pet == "adult_avo") {
-            std::vector<Item> basket;  // User's shopping basket
-            // Create an instance of the shopping window
-            AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(),
-                                                  basket);
-            std::cout << "Shopping window created." << std::endl;
-            shoppingWindow.open();
-            shoppingWindow.~AdultAvoShoppingWindow();
-          } else if (user_pet == "baby_avo") {
-            std::vector<Item> basket;  // Basket to hold purchased items
-                                       // Create BabyAvo instance
+          //youre part brookyln
+          if (user_pet=="adult_avo"){
+                std::vector<Item> basket; // User's shopping basket
+               // Create an instance of the shopping window
+              AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
+              std::cout << "Shopping window created." << std::endl;
+              shoppingWindow.open();
+              shoppingWindow.~AdultAvoShoppingWindow();
+          }
+          else if(user_pet=="baby_avo"){
+            std::vector<Item> basket; // Basket to hold purchased items
+           // Create BabyAvo instance
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
