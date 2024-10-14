@@ -85,6 +85,38 @@ int main() {
             backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 130 && y <= 280) {
           std::cout << "Eating Button" << std::endl;
+           if (user_pet=="adult_avo"){
+                std::vector<Item> basket; // User's shopping basket
+               // Create an instance of the shopping window
+              AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
+              std::cout << "Shopping window created." << std::endl;
+              shoppingWindow.open();
+              shoppingWindow.~AdultAvoShoppingWindow();
+          }
+          else if(user_pet=="baby_avo"){
+            std::vector<Item> basket; // Basket to hold purchased items
+           // Create BabyAvo instance
+            BabyAvo shop(font, petStats.getMoney(), basket);
+            std::cout << "Shopping window created." << std::endl;
+            shop.open();
+            shop.~BabyAvo();
+          }
+          else if(user_pet=="baby_ghost"){
+            std::vector<Item> basket;
+              BabyGhostShoppingWindow shoppingWindow( font,petStats.getMoney(), basket);
+              // Open the window
+              shoppingWindow.open();
+              shoppingWindow.~BabyGhostShoppingWindow();
+
+          }
+          else if(user_pet=="adult_ghost"){
+            std::vector<Item> basket;
+            AdultGhostWindow AdultGhostWindow(font, petStats.getMoney(), basket);
+
+             // Open the shopping window
+            AdultGhostWindow.open();
+
+          }
           petStats.maxHunger();
           SpriteLoader::animateEatingPet(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
@@ -93,7 +125,6 @@ int main() {
           SpriteLoader::animateGivingMedicine(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 470 && x <= 620 && y >= 680 && y <= 830) {
           std::cout << "Shopping Button" << std::endl;
-          //youre part brookyln
           if (user_pet=="adult_avo"){
                 std::vector<Item> basket; // User's shopping basket
                // Create an instance of the shopping window
