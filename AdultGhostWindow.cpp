@@ -33,7 +33,6 @@ AdultGhostWindow::AdultGhostWindow(sf::Font& font, int userCoins, std::vector<It
     // Load trolley image
     if (!trolleyTexture.loadFromFile("Images/Trolley.png")) {
         std::cerr << "Error: Trolley image not found at Images/Trolley.png" << std::endl;
-        exit(1); // Exit program if texture fails to load
     }
     trolleySprite.setTexture(trolleyTexture);
 
@@ -84,7 +83,6 @@ void AdultGhostWindow::loadItems() {
             item.texture = std::make_shared<sf::Texture>();
             if (!item.texture->loadFromFile(imagePaths[index])) {
                 std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
-                exit(1); // Exit program if texture fails to load
             }
 
             // Set texture to sprite

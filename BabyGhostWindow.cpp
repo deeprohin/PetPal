@@ -85,7 +85,6 @@ void BabyGhostShoppingWindow::loadItems() {
             item.texture = std::make_shared<sf::Texture>();
             if (!item.texture->loadFromFile(imagePaths[index])) {
                 std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
-                exit(1); // Exit program if texture fails to load
             }
 
             // Set texture to sprite

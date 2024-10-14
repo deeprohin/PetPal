@@ -86,7 +86,7 @@ void AdultAvoShoppingWindow::loadItems() {
         item.texture = std::make_shared<sf::Texture>();
         if (!item.texture->loadFromFile(imagePaths[index])) {
             std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
-            exit(EXIT_FAILURE); // Exit program if texture fails to load
+           // Exit program if texture fails to load
         }
 
         // Set texture to sprite
