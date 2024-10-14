@@ -36,7 +36,6 @@ EatingBabyGhost::~EatingBabyGhost() {
     delete window;
 }
 
-// Load food items into the eating window
 void EatingBabyGhost::loadFoodItems() {
     std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
     std::vector<int> itemPrices = {50, 30, 70, 500}; // Update prices to include all four items
@@ -46,6 +45,7 @@ void EatingBabyGhost::loadFoodItems() {
         "Images/Yoghurt.png", 
         "Images/BabyMedicine.png"  // Ensure correct file extensions
     };
+    
 
     // Define grid layout parameters
     const int columns = 2; // Adjust columns as needed
@@ -54,6 +54,8 @@ void EatingBabyGhost::loadFoodItems() {
     const float verticalSpacing = 300.0f;   
     const float startX = (1920 - (columns * horizontalSpacing)) / 2.0f; // Center the grid horizontally
     const float startY = 150.0f; // Starting Y position
+
+    const int maxSize = 150;  // Maximum size for width and height
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
@@ -69,9 +71,19 @@ void EatingBabyGhost::loadFoodItems() {
             exit(1);
         }
 
-        // Set texture to sprite and scale it
+        // Set texture to sprite
         item.sprite.setTexture(*item.texture);
-        item.sprite.setScale(0.5f, 0.5f); // Scale images
+
+        // Get the original size of the image
+        sf::Vector2u textureSize = item.texture->getSize();
+        float width = textureSize.x;
+        float height = textureSize.y;
+
+        // Calculate the scaling factor based on the larger dimension (width or height)
+        float scaleFactor = static_cast<float>(maxSize) / std::max(width, height);
+
+        // Apply the same scale to both dimensions to maintain the aspect ratio
+        item.sprite.setScale(scaleFactor, scaleFactor);
 
         // Calculate grid position
         int row = i / columns;
@@ -88,11 +100,14 @@ void EatingBabyGhost::loadFoodItems() {
             xPosition,
             yPosition + item.sprite.getGlobalBounds().height + 15
         );
+
         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
 
+        // Add the item to the list of food items
         foodItems.push_back(item);
     }
 }
+
 
 // Open the eating window and handle interactions
 void EatingBabyGhost::open() {

@@ -60,7 +60,6 @@ AdultAvoShoppingWindow::AdultAvoShoppingWindow(sf::Font& font, int userCoins, st
 AdultAvoShoppingWindow::~AdultAvoShoppingWindow() {
     delete window; // Free the dynamically allocated memory for the window
 }
-
 void AdultAvoShoppingWindow::loadItems() {
     const int numRows = 2; // Set to 2 rows for multiple items
     const int numCols = 3; // Columns for item layout
@@ -77,6 +76,14 @@ void AdultAvoShoppingWindow::loadItems() {
         "Images/Medicine.png"  // Ensure correct file extensions
     };
 
+    // Calculate the total width and height taken up by items and spacing
+    int totalWidth = numCols * ITEM_SIZE + (numCols - 1) * HORIZONTAL_SPACING;
+    int totalHeight = numRows * ITEM_SIZE + (numRows - 1) * VERTICAL_SPACING;
+
+    // Calculate the top-left corner to start placing the items, so they are centered
+    int startX = (WINDOW_WIDTH - totalWidth) / 2-totalWidth/4;
+    int startY = (WINDOW_HEIGHT - totalHeight) / 2-totalHeight/4;
+
     for (int index = 0; index < itemNames.size(); ++index) {
         Item item;
         item.name = itemNames[index];
@@ -86,7 +93,7 @@ void AdultAvoShoppingWindow::loadItems() {
         item.texture = std::make_shared<sf::Texture>();
         if (!item.texture->loadFromFile(imagePaths[index])) {
             std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
-           // Exit program if texture fails to load
+            // Exit program if texture fails to load
         }
 
         // Set texture to sprite
@@ -95,8 +102,12 @@ void AdultAvoShoppingWindow::loadItems() {
         // Calculate and set the sprite position
         int col = index % numCols;
         int row = index / numCols;
-        int xPos = (WINDOW_WIDTH - (ITEM_SIZE * numCols + HORIZONTAL_SPACING * (numCols - 1))) / 2 + col * (ITEM_SIZE + HORIZONTAL_SPACING);
-        int yPos = (WINDOW_HEIGHT - (ITEM_SIZE * numRows + VERTICAL_SPACING * (numRows - 1))) / 2 + row * (ITEM_SIZE + VERTICAL_SPACING);
+
+        // Calculate the x and y positions for each item based on its row and column
+        int xPos = startX + col * (ITEM_SIZE + HORIZONTAL_SPACING);
+        int yPos = startY + row * (ITEM_SIZE + VERTICAL_SPACING);
+
+        // Set sprite position
         item.sprite.setPosition(xPos, yPos);
         
         // Scale item sprite to uniform size
@@ -176,6 +187,7 @@ void AdultAvoShoppingWindow::render() {
         itemText.setFillColor(sf::Color::Black);
         itemText.setPosition(item.sprite.getPosition().x, item.sprite.getPosition().y + item.sprite.getGlobalBounds().height + 10);
         itemText.setString(item.name + " - " + std::to_string(item.price) + " coins");
+        itemText.setCharacterSize(34);
         window->draw(itemText);
     }
 

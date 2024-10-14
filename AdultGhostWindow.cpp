@@ -55,8 +55,8 @@ void AdultGhostWindow::loadItems() {
     // Calculate offsets to center the grid in the window
     int gridWidth = (itemWidth + horizontalSpacing) * numCols - horizontalSpacing;
     int gridHeight = (itemHeight + verticalSpacing) * numRows - verticalSpacing;
-    int startX = (1920 - gridWidth) / 2;
-    int startY = (1080 - gridHeight) / 2;
+    int startX = (1920 - gridWidth) / 2-gridWidth/4;
+    int startY = (1080 - gridHeight) / 2-gridHeight/4;
 
     // Load each item with individual textures and set position
     std::vector<std::string> itemNames = {"Chicken", "Milk", "Apple", "Medicine", "Pizza", "Fish"};
@@ -169,7 +169,7 @@ void AdultGhostWindow::render() {
 
         sf::Text itemText;
         itemText.setFont(font);
-        itemText.setCharacterSize(24);
+        itemText.setCharacterSize(34);
         itemText.setFillColor(sf::Color::Black);
         itemText.setPosition(item.sprite.getPosition().x, item.sprite.getPosition().y + item.sprite.getGlobalBounds().height + 10);
         itemText.setString(item.name + " - " + std::to_string(item.price) + " coins");

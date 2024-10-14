@@ -166,7 +166,7 @@ int main() {
               AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
               std::cout << "Shopping window created." << std::endl;
               shoppingWindow.open();
-              shoppingWindow.~AdultAvoShoppingWindow();
+              
           }
           else if(user_pet=="baby_avo"){
             std::vector<Item> basket; // Basket to hold purchased items
@@ -174,14 +174,14 @@ int main() {
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
-            shop.~BabyAvo();
+            
           } else if (user_pet == "baby_ghost") {
             std::vector<Item> basket;
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
             shoppingWindow.open();
-            shoppingWindow.~BabyGhostShoppingWindow();
+         
 
           } else if (user_pet == "adult_ghost") {
             std::vector<Item> basket;
