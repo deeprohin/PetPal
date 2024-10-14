@@ -1,15 +1,15 @@
-#include "BabyAvo.h"
+#include "BabyAvoWindow.h"
 #include <filesystem>
 
 // Constructor
-BabyAvo::BabyAvo(sf::Font& font, int& userCoins, std::vector<Item>& basket)
+BabyAvo::BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket)
     : font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
     
     // Dynamically allocate the window
     window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Baby Avo Shop");
 
     // Print current working directory for debugging
-    std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
+
     
     // Initialize coins text
     coinsText.setFont(font);
@@ -161,7 +161,7 @@ void BabyAvo::handleEvents() {
 
 // Render the shopping window
 void BabyAvo::render() {
-    window->clear(sf::Color(245, 245, 220));  // Set background color to beige
+    window->clear(sf::Color(230, 230, 220));  // Set background color to beige
 
     window->draw(coinsText);    // Display coins
     window->draw(trolleyText);  // Display trolley count

@@ -1,6 +1,8 @@
+
 #include "AdultAvoWindow.h"
 #include <iostream>
-
+int defaultCoins = 0;
+std::vector<Item> defaultBasket;
 // Constants for window dimensions and positions
 const int WINDOW_WIDTH = 1920;
 const int WINDOW_HEIGHT = 1080;
@@ -9,14 +11,15 @@ const int HORIZONTAL_SPACING = 200;
 const int VERTICAL_SPACING = 250;
 const int FONT_SIZE_COINS = 36;
 const int FONT_SIZE_ITEM = 24;
-const sf::Color BACKGROUND_COLOR(245, 245, 220);
+const sf::Color BACKGROUND_COLOR(230, 230, 220);
 const sf::Color COINS_TEXT_COLOR = sf::Color::Black;
 const sf::Color TROLLEY_TEXT_COLOR = sf::Color::Black;
 const sf::Color INSUFFICIENT_FUNDS_COLOR = sf::Color::Red;
 
 // Constructor
-AdultAvoShoppingWindow::AdultAvoShoppingWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket)
+AdultAvoShoppingWindow::AdultAvoShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket)
     : font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
+        
     // Dynamically allocate the window
     window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Adult Avo Shopping");
 
@@ -44,7 +47,6 @@ AdultAvoShoppingWindow::AdultAvoShoppingWindow(sf::Font& font, int& userCoins, s
     // Load trolley image
     if (!trolleyTexture.loadFromFile("Images/Trolley.png")) {
         std::cerr << "Error: Adult trolley image not found at Images/Trolley.png" << std::endl;
-        exit(EXIT_FAILURE); // Exit program if texture fails to load
     }
     trolleySprite.setTexture(trolleyTexture);
     trolleySprite.setPosition(1700, 70); // Adjust Y position as needed

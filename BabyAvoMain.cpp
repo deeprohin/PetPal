@@ -1,14 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-#include "BabyAvo.h"
+#include "BabyAvoWindow.h"
 
 int main() {
     // Load font for displaying text
     sf::Font font;
     if (!font.loadFromFile("Images/Regular.ttf")) { // Adjust the font path as necessary
         std::cerr << "Error loading font!" << std::endl;
-        return EXIT_FAILURE;
     }
 
     int userCoins = 500; // Example starting coins

@@ -1,13 +1,11 @@
-#ifndef BABYGHOSTSHOPPINGWINDOW_H
-#define BABYGHOSTSHOPPINGWINDOW_H
-
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Item.h"
 
 class BabyGhostShoppingWindow {
 public:
-    BabyGhostShoppingWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket);
+    BabyGhostShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~BabyGhostShoppingWindow(); // Destructor to free memory
     void open();
 
@@ -18,7 +16,7 @@ private:
 
     sf::RenderWindow* window; // Raw pointer for RenderWindow
     sf::Font& font;
-    int& userCoins;
+    int userCoins;
     std::vector<Item>& basket;
     std::vector<Item> items;
     int trolleyCount;
@@ -32,5 +30,3 @@ private:
     sf::Texture trolleyTexture;
     sf::Sprite trolleySprite;
 };
-
-#endif // BABYGHOSTSHOPPINGWINDOW_H

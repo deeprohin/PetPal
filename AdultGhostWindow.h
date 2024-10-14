@@ -1,5 +1,4 @@
-#ifndef ADULTGHOSTWINDOW.H
-#define ADULTGHOSTWINDOW.H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -8,7 +7,8 @@
 
 class AdultGhostWindow {
 public:
-    AdultGhostWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket);
+    AdultGhostWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
+    ~AdultGhostWindow();
     void open();
 
 private:
@@ -16,9 +16,9 @@ private:
     void handleEvents();
     void render();
 
-    sf::RenderWindow window; // The shopping window
+    sf::RenderWindow* window;// The shopping window
     sf::Font& font; // Reference to the font
-    int& userCoins; // Reference to user's coins
+    int userCoins; // Reference to user's coins
     std::vector<Item>& basket; // Reference to the user's basket
     std::vector<Item> items; // List of items available for purchase
     int trolleyCount; // Number of items in the trolley
@@ -30,4 +30,4 @@ private:
     sf::Sprite trolleySprite; // Sprite for the trolley image
 };
 
-#endif // ADULTGHOSTWINDOW.H
+

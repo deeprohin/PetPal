@@ -6,17 +6,11 @@
 #include <memory>
 #include <string>
 #include <iostream>
-
-struct Item {
-    std::string name;
-    int price;
-    sf::Sprite sprite;
-    std::shared_ptr<sf::Texture> texture;
-};
+#include "Item.h" // Include the Item header file
 
 class BabyAvo {
 public:
-    BabyAvo(sf::Font& font, int& userCoins, std::vector<Item>& basket);
+    BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~BabyAvo();  // Destructor to clean up allocated memory
     void open();  // Opens the shopping window
 
@@ -27,7 +21,7 @@ private:
 
     sf::RenderWindow* window; // Pointer to the SFML window
     sf::Font& font; // Font reference for displaying text
-    int& userCoins; // Reference to the user's coin count
+    int userCoins; // Reference to the user's coin count
     std::vector<Item>& basket; // Reference to the basket
     std::vector<Item> items; // List of items available for purchase
     int trolleyCount; // Counter for items in the trolley

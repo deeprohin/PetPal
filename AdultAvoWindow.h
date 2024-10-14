@@ -7,14 +7,15 @@
 
 class AdultAvoShoppingWindow {
 public:
-    AdultAvoShoppingWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket);
+AdultAvoShoppingWindow();
+    AdultAvoShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~AdultAvoShoppingWindow(); // Destructor to clean up allocated memory
     void open();
-
+    std::vector<Item> items;
 private:
     sf::RenderWindow* window; // Pointer to RenderWindow
     sf::Font& font;
-    int& userCoins;
+    int userCoins;
     std::vector<Item>& basket;
     int trolleyCount;
 
@@ -23,7 +24,7 @@ private:
     sf::Text insufficientFundsText;
     sf::Texture trolleyTexture;
     sf::Sprite trolleySprite;
-    std::vector<Item> items;
+    
 
     void loadItems();
     void handleEvents();

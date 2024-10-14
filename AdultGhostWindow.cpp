@@ -3,11 +3,11 @@
 #include <filesystem>  // For debugging file paths
 
 // Constructor
-AdultGhostWindow::AdultGhostWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket)
-    : window(sf::VideoMode(1920, 1080), "Shopping"), font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
-    
-    // Print current working directory for debugging
-    std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
+AdultGhostWindow::AdultGhostWindow(sf::Font& font, int userCoins, std::vector<Item>& basket)
+    : font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
+
+    // Dynamically allocate the window
+    window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Shopping");
     
     // Initialize coins text
     coinsText.setFont(font);
@@ -112,7 +112,7 @@ void AdultGhostWindow::loadItems() {
 
 // Open the shopping window and handle interactions
 void AdultGhostWindow::open() {
-    while (window.isOpen()) {
+    while (window->isOpen()) {
         handleEvents();
         render();
     }
@@ -121,13 +121,13 @@ void AdultGhostWindow::open() {
 // Handle window events
 void AdultGhostWindow::handleEvents() {
     sf::Event event;
-    while (window.pollEvent(event)) {
+    while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
-            window.close();
+            window->close();
         }
 
         if (event.type == sf::Event::MouseButtonPressed) {
-            sf::Vector2i clickPos = sf::Mouse::getPosition(window);
+            sf::Vector2i clickPos = sf::Mouse::getPosition(*window);
             int x = clickPos.x;
             int y = clickPos.y;
 
@@ -159,15 +159,15 @@ void AdultGhostWindow::handleEvents() {
 
 // Render the shopping window
 void AdultGhostWindow::render() {
-    window.clear(sf::Color(245, 245, 220));  // Set background color to beige
+    window->clear(sf::Color(245, 245, 220));  // Set background color to beige
 
-    window.draw(coinsText);    // Display coins
-    window.draw(trolleyText);  // Display trolley count
-    window.draw(trolleySprite); // Draw the trolley image below the trolley count
+    window->draw(coinsText);    // Display coins
+    window->draw(trolleyText);  // Display trolley count
+    window->draw(trolleySprite); // Draw the trolley image below the trolley count
 
     // Draw each item and display item name and price
     for (const auto& item : items) {
-        window.draw(item.sprite);
+        window->draw(item.sprite);
 
         sf::Text itemText;
         itemText.setFont(font);
@@ -175,11 +175,15 @@ void AdultGhostWindow::render() {
         itemText.setFillColor(sf::Color::Black);
         itemText.setPosition(item.sprite.getPosition().x, item.sprite.getPosition().y + item.sprite.getGlobalBounds().height + 10);
         itemText.setString(item.name + " - " + std::to_string(item.price) + " coins");
-        window.draw(itemText);
+        window->draw(itemText);
     }
 
     // Draw the insufficient funds message if any
-    window.draw(insufficientFundsText);
+    window->draw(insufficientFundsText);
 
-    window.display();
+    window->display();
+}
+
+AdultGhostWindow::~AdultGhostWindow(){
+    delete window;
 }

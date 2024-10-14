@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Constructor
-BabyGhostShoppingWindow::BabyGhostShoppingWindow(sf::Font& font, int& userCoins, std::vector<Item>& basket)
+BabyGhostShoppingWindow::BabyGhostShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket)
     : font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
 
     // Dynamically allocate the RenderWindow
@@ -44,10 +44,8 @@ BabyGhostShoppingWindow::BabyGhostShoppingWindow(sf::Font& font, int& userCoins,
 
 // Destructor to clean up dynamically allocated memory
 BabyGhostShoppingWindow::~BabyGhostShoppingWindow() {
-    if (window) {
         delete window;
-        window = nullptr;
-    }
+
 }
 
 void BabyGhostShoppingWindow::loadItems() {
@@ -159,7 +157,7 @@ void BabyGhostShoppingWindow::handleEvents() {
 
 // Render the shopping window
 void BabyGhostShoppingWindow::render() {
-    window->clear(sf::Color(245, 245, 220));  // Set background color to beige
+    window->clear(sf::Color(230, 230, 220));  // Set background color to beige
 
     window->draw(coinsText);    // Display coins
     window->draw(trolleyText);  // Display trolley count
