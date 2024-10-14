@@ -4,20 +4,18 @@
 #include "shopping.h"              // Include Shopping class
 #include "ShoppingBasket.h"        // Include ShoppingBasket class
 #include "GenericShoppingWindow.h" // Include the shopping window class
-
-#include "adult_ghost.h"
-#include "baby_avo.h"
-#include "adult_avo.h"
-#include "baby_ghost.h"
+#include"eatingShop.h"
 #include "Animation.h"
 #include "MATHGAME.h"
+#include "adult_avo.h"
+#include "adult_ghost.h"
+#include "baby_avo.h"
+#include "baby_ghost.h"
 #include "mini_game.h"
 #include "pet_stats.h"
-#include "quotesFile.h"
 #include "sprite_loader.h"
-#include "avo.h"
-#include "ghost.h"
-
+#include"avo.h"
+#include"ghost.h"
 int main() {
     sf::Font font;
     if (!font.loadFromFile("Regular.ttf")) {

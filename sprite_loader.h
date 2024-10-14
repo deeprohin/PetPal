@@ -11,7 +11,7 @@
 #include "baby_avo.h"
 #include "baby_ghost.h"
 #include "pet_stats.h"
-#include "quotesFile.h"
+
 
 class SpriteLoader {
 public:

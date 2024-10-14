@@ -41,24 +41,4 @@ public:
         }
     }
 
-    // Function to get a random quote for Avocado
-    std::string getRandomAvoQuote() {
-        std::srand(static_cast<unsigned>(std::time(0))); // Seed for random number generation
-        int index = std::rand() % avocado_quotes.size();
-        return avocado_quotes[index];
-    }
-
-    // Function to update the Avo quote
-    void updateAvoQuote(std::string& selectedQuote, sf::Clock& quoteClock,
-                        float quoteInterval, bool& quoteVisible) {
-        if (quoteClock.getElapsedTime().asSeconds() >= quoteInterval) {
-            selectedQuote = getRandomAvoQuote();
-            quoteClock.restart();
-            quoteVisible = true;
-        }
-float displayDuration = 10.0f;
-        if (quoteVisible && quoteClock.getElapsedTime().asSeconds() >= displayDuration) {
-            quoteVisible = false;
-        }
-    }
 };
