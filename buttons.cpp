@@ -193,7 +193,7 @@ int main() {
               AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
               std::cout << "Shopping window created." << std::endl;
               shoppingWindow.open();
-              petStats.changeMoney(petStats.getMoney()-(shoppingWindow.returnCoins()));
+              petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
               
               
           }
@@ -203,14 +203,14 @@ int main() {
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
-            
+            petStats.changeMoney(-(petStats.getMoney()-(shop.returnCoins())));
           } else if (user_pet == "baby_ghost") {
             std::vector<Item> basket;
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
             shoppingWindow.open();
-         
+         petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
 
           } else if (user_pet == "adult_ghost") {
             std::vector<Item> basket;
@@ -219,6 +219,7 @@ int main() {
 
             // Open the shopping window
             AdultGhostWindow.open();
+            petStats.changeMoney(-(petStats.getMoney()-(AdultGhostWindow.returnCoins())));
           }
         } else if (x >= 900 && x <= 1050 && y >= 680 && y <= 830) {
           backgroundMusic.pause();

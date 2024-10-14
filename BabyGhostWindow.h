@@ -8,7 +8,7 @@ public:
     BabyGhostShoppingWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~BabyGhostShoppingWindow(); // Destructor to free memory
     void open();
-
+    int returnCoins(){return userCoins;}
 private:
     void loadItems();
     void handleEvents();

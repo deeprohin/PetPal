@@ -10,7 +10,7 @@ public:
     AdultGhostWindow(sf::Font& font, int userCoins, std::vector<Item>& basket);
     ~AdultGhostWindow();
     void open();
-
+    int returnCoins(){return userCoins;}
 private:
     void loadItems();
     void handleEvents();
