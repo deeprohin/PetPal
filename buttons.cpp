@@ -40,6 +40,7 @@ int main() {
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
   main_window.setFramerateLimit(60);
   bool new_game=SpriteLoader::showGameMenu(main_window,font);
+  std::cout<<new_game<<std::endl;
   std::string user_pet = SpriteLoader::show_intro_screen(main_window, font);
   main_window.display();
   std::cout << "User selected pet: " << user_pet << std::endl;
