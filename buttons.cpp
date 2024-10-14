@@ -18,6 +18,7 @@
 #include"BabyGhostWindow.h"
 #include"BabyAvoWindow.h"
 #include"AdultGhostWindow.h"
+#include"EatingAdultAvo.h"
 
 int main() {
   sf::Font font;
@@ -86,12 +87,32 @@ int main() {
         } else if (x >= 1310 && x <= 1460 && y >= 130 && y <= 280) {
           std::cout << "Eating Button" << std::endl;
            if (user_pet=="adult_avo"){
-                std::vector<Item> basket; // User's shopping basket
-               // Create an instance of the shopping window
-              AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
-              std::cout << "Shopping window created." << std::endl;
-              shoppingWindow.open();
-              shoppingWindow.~AdultAvoShoppingWindow();
+        int basketCapacity = 10; 
+                        int basketSize = 0;      
+                        ItemList* basket = new ItemList[basketCapacity];
+
+                        // Initialize the basket
+                        std::vector<std::string> initialItems = {"Steak", "Fried Rice", "Curry Chicken", "Boba", "Cold Rolls", "Medicine"};
+                        std::vector<int> initialPrices = {500, 200, 200, 150, 180, 500};
+                        std::vector<int> initialStocks = {5, 5, 5, 5, 5, 5};
+
+                        for (size_t i = 0; i < initialItems.size(); ++i) {
+                            basket[basketSize].name = initialItems[i];
+                            basket[basketSize].price = initialPrices[i];
+                            basket[basketSize].stock = initialStocks[i];
+                            basket[basketSize].texture = nullptr; 
+                            basket[basketSize].sprite = sf::Sprite();
+                            basket[basketSize].quantityText = sf::Text();
+                            basketSize++;
+                        }
+
+                        int trolleyCount = 0; // Initialize trolley count
+
+                        // Create an instance of the EatingAdultAvo class
+                        EatingAdultAvo eatingWindow(font, basket, basketSize, basketCapacity, trolleyCount);
+                        eatingWindow.open(); // Open the eating window
+
+                        delete[] basket;
           }
           else if(user_pet=="baby_avo"){
             std::vector<Item> basket; // Basket to hold purchased items

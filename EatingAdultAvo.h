@@ -8,7 +8,7 @@
 #include <memory>
 #include <algorithm>
 
-struct Item {
+struct ItemList {
     std::string name;
     int price;
     int stock;
@@ -20,7 +20,7 @@ struct Item {
 class EatingAdultAvo {
 public:
     // Constructor
-    EatingAdultAvo(sf::Font& font, Item* basket, int& basketSize, int& basketCapacity, int& trolleyCount);
+    EatingAdultAvo(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount);
     
     // Destructor to clean up dynamic memory
     ~EatingAdultAvo();
@@ -30,7 +30,7 @@ public:
 
 private:
     sf::Font& font;
-    Item* basket;
+    ItemList* basket;
     int& basketSize;
     int& basketCapacity;
     int& trolleyCount;
@@ -38,7 +38,7 @@ private:
     sf::Texture fridgeTexture;
     sf::Sprite fridgeSprite;
     sf::Text insufficientFundsText;
-    std::vector<Item> foodItems;
+    std::vector<ItemList> foodItems;
 
     // Load food items into the eating window
     void loadFoodItems();
@@ -53,7 +53,7 @@ private:
     void playEatingAnimation(const std::string& foodName);
 
     // Helper function to add an item to the basket
-    void addToBasket(const Item& item);
+    void addToBasket(const ItemList& item);
 };
 
 #endif // EATING_ADULT_AVO_H
