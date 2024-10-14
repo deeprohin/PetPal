@@ -46,6 +46,19 @@ public:
     void checkStats(sf::RenderWindow& window, sf::Font& font);
     virtual void make_sound(){};
 
+    // Getters
+    int getHealthLevel() const { return health_level; }
+    int getSleepLevel() const { return sleep_level; }
+    int getHungerLevel() const { return hunger_level; }
+    int getIQLevel() const { return iq_level; }
+    int getTotalMoney() const { return total_money; }
+
+    // Setters
+    void setHealthLevel(int level) { health_level = level; }
+    void setSleepLevel(int level) { sleep_level = level; }
+    void setHungerLevel(int level) { hunger_level = level; }
+    void setIQLevel(int level) { iq_level = level; }
+    void setTotalMoney(int money) { total_money = money; }
 };
 
 #endif
