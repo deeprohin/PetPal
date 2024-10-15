@@ -43,7 +43,6 @@ int main() {
   backgroundMusic.play();
 
   // creating main window
-  PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
   main_window.setFramerateLimit(60);
   bool new_game=SpriteLoader::showGameMenu(main_window,font);
@@ -66,7 +65,12 @@ int main() {
       main_window.display();
   }
   std::cout << "User selected pet: " << user_pet << std::endl;
+  PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
   PetStats* current_pet_selected=NULL;
+
+
+
+
   if(user_pet=="baby_avo"){
     current_pet_selected=new baby_avo;
   }else if(user_pet=="baby_ghost"){
@@ -76,9 +80,6 @@ int main() {
   }else{
     current_pet_selected=new adult_ghost;
   }
-
-
-
   PetStats petStats;
   if(!new_game){
     petStats.setHealthLevel(stats[0]);
