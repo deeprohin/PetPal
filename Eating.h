@@ -8,6 +8,7 @@
 class Eating {
 public:
     Eating(const std::string& spriteSheetPath, float frameDuration, float scaleX, float scaleY): frameDuration_eating(frameDuration), elapsedTime_eating(0.0f), currentFrame_eating(0), isAnimating_eating(false) {};
+    Eating(){}
     virtual void startAnimation_eating()=0;
     virtual void update_eating(float deltaTime)=0;
     virtual void draw_eating(sf::RenderWindow& window)=0;

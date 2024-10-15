@@ -8,7 +8,7 @@
 class Medicine {
 public:
     Medicine(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f):frameDuration_medicine(frameDuration), elapsedTime_medicine(0.0f), currentFrame_medicine(0), isAnimating_medicine(false) {};
-
+    Medicine(){}
     virtual void startAnimation_medicine()=0;
     virtual void update_medicine(float deltaTime)=0;
     virtual void draw_medicine(sf::RenderWindow& window)=0;

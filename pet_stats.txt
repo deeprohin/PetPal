@@ -1,2 +1,2 @@
-adult_ghost 25 25 25 50 1000
+baby_ghost 5 5 5 40 1665
 

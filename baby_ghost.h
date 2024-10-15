@@ -11,6 +11,7 @@
 #include <string>
 #include "pet_stats.h"
 
+
 class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:
     baby_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f) :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
@@ -33,6 +34,7 @@ public:
         updateSpriteRect_sleeping();
         updateSpriteRect_medicine();
     }
+    baby_ghost(){}
 
     void startAnimation_sleeping()override{
     isAnimating_sleeping = true;
@@ -273,6 +275,10 @@ void updateSpriteRect_medicine() override{
 }
 
 ~baby_ghost(){}
+
+void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
+  }
  
 
 };

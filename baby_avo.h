@@ -10,8 +10,7 @@
 #include <string>
 #include "pet_stats.h"
 #include "avo.h"
-#include "quotesFile.h"
-#include "sprite_loader.h"
+
 
 class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:
@@ -37,6 +36,7 @@ public:
         updateSpriteRect_sleeping();
         updateSpriteRect_medicine();
     }
+    baby_avo(){}
 
     void startAnimation_shower() override {
         isAnimating_shower = true;
@@ -271,6 +271,12 @@ void updateSpriteRect_eating() override{
     // Optional: Print out the frame's coordinates for debugging
     std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
 }
+
+void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
+  }
+
+
 
 };
 

@@ -4,9 +4,11 @@
 #pragma once
 #include"MATHGAME.h"
 #include <SFML/Graphics.hpp>
-#include "sprite_loader.h"
+#include "pet_stats.h"
+#include "Shower.h"
 
-class PetStats{
+
+class PetStats {
 private:
     int health_level;
     int sleep_level;
@@ -60,6 +62,12 @@ public:
     void setHungerLevel(int level) { hunger_level = level; }
     void setIQLevel(int level) { iq_level = level; }
     void setTotalMoney(int money) { total_money = money; }
+    
+    //polymorphism
+    virtual void draw_default_sprite(sf::RenderWindow& window){}
+   
+
+  
 
 };
 

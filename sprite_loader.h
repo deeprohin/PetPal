@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "pet_stats.h"
 #include "adult_avo.h"
 #include "adult_ghost.h"
 #include "baby_avo.h"
@@ -616,6 +615,18 @@ static std::vector<int> readPetStats(const std::string& filename) {
 
     return petStats;
 }
+
+static void draw_default_sprite(sf::RenderWindow& window,std::string user_pet){
+
+if (user_pet == "adult_avo") {
+      window.draw(SpriteLoader::adult_avo_normal_sprite);
+    } else if (user_pet == "baby_avo") {
+      window.draw(SpriteLoader::baby_avo_normal_sprite);
+    } else if (user_pet == "adult_ghost") {
+      window.draw(SpriteLoader::adult_ghost_normal_sprite);
+    } else {
+      window.draw(SpriteLoader::baby_ghost_normal_sprite);
+    }  }
 
 
 };

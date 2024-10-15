@@ -8,6 +8,7 @@
 class Sleeping{
 public:
     Sleeping(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f): frameDuration_sleeping(frameDuration), elapsedTime_sleeping(0.0f), currentFrame_sleeping(0), isAnimating_sleeping(false){};
+    Sleeping(){}
     virtual void startAnimation_sleeping()=0;
     virtual void update_sleeping(float deltaTime)=0;
     virtual void draw_sleeping(sf::RenderWindow& window)=0;
