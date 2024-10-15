@@ -4,6 +4,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <string>
+#include "pet_stats.h"
 
 // Constructor
 EatingBabyAvo::EatingBabyAvo(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
@@ -196,6 +197,9 @@ void EatingBabyAvo::handleEvents(PetStats petStats) {
                             // If the item is not in the basket, add it
                             addToBasket(item);
                         }
+
+                        // Save updated item stocks to the file
+                        saveUpdatedStocks();
                     } else {
                         // If item stock is 0, display the insufficient message
                         insufficientFundsText.setString("NEED TO BUY MORE");
@@ -205,6 +209,40 @@ void EatingBabyAvo::handleEvents(PetStats petStats) {
         }
     }
 }
+
+// Function to save updated food item stocks to the file
+void EatingBabyAvo::saveUpdatedStocks() {
+    std::ofstream statsFile("pet_stats.txt");
+    if (!statsFile.is_open()) {
+        std::cerr << "Error: Unable to open pet_stats.txt for writing!" << std::endl;
+        return; // Exit if unable to open the file
+    }
+
+    // Write pet stats
+    statsFile << user_pet << " " 
+              << petStats.getHealthLevel() << " "
+              << petStats.getSleepLevel() << " "
+              << petStats.getHungerLevel() << " "
+              << petStats.getIQLevel() << " "
+              << petStats.getTotalMoney() << "\n";
+
+    // Create a map to track quantities of items
+    std::map<std::string, std::pair<int, int>> itemCounts; // <item_name, <price, quantity>>
+
+    // Iterate through the basket and count the items
+    for (int i = 0; i < basketSize; ++i) {
+        itemCounts[basket[i].name].first = basket[i].price; // set the price
+        itemCounts[basket[i].name].second++; // increment quantity
+    }
+
+    // Write items to file
+    for (const auto& entry : itemCounts) {
+        statsFile << entry.first << " " << entry.second.second << "\n"; // item name and quantity
+    }
+
+    statsFile.close(); // Close the file after writing
+}
+
 
 
 // Render the eating window
