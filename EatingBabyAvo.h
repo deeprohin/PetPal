@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include"EatingAdultAvo.h"
+#include"pet_stats.h"
 // EatingBabyAvo class to handle the interaction with food items
 class EatingBabyAvo {
 public:
@@ -15,7 +16,7 @@ public:
     ~EatingBabyAvo(); // Destructor to clean up dynamic memory
 
     // Open the eating window and handle interactions
-    void open(PetStats petStats);
+    void open(PetStats& petStats);
 
     // Helper function to add an item to the basket
     void addToBasket(const ItemList& item);
@@ -38,7 +39,7 @@ private:
     void loadFoodItems();
 
     // Handle window events like clicking items
-    void handleEvents(PetStats petStats);
+    void handleEvents(PetStats& petStats);
 
     // Render the window and items
     void render();

@@ -99,14 +99,14 @@ void EatingBabyGhost::loadFoodItems() {
 }
 
 // Open the eating window and handle interactions
-void EatingBabyGhost::open(PetStats petStats) {
+void EatingBabyGhost::open(PetStats& petStats) {
     while (window->isOpen()) {
         handleEvents(petStats);
         render();
     }
 }
 
-void EatingBabyGhost::handleEvents(PetStats petStats) {
+void EatingBabyGhost::handleEvents(PetStats& petStats) {
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {

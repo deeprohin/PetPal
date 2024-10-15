@@ -162,7 +162,6 @@ int main() {
 
             // Open the window and run the application
             eatingWindow.open(petStats);
-          
 
             // Clean up dynamically allocated memory
             delete[] basket;
@@ -177,7 +176,7 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
           }
-          
+           
           SpriteLoader::animateEatingPet(user_pet, main_window, font,
                                          selectedQuote, &petStats);
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
@@ -222,6 +221,7 @@ int main() {
             AdultGhostWindow.open();
             petStats.changeMoney(-(petStats.getMoney()-(AdultGhostWindow.returnCoins())));
           }
+       
         } else if (x >= 900 && x <= 1050 && y >= 680 && y <= 830) {
           backgroundMusic.pause();
           std::cout << "Math Button" << std::endl;

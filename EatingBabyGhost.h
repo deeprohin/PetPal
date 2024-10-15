@@ -9,7 +9,7 @@
 #include <vector>
 #include "EatingAdultAvo.h" // Ensure this is correctly defined
 #include "Item.h" // Add this if ItemList is in a separate file
-
+#include"pet_stats.h"
 // EatingBabyGhost class to handle the interaction with food items
 class EatingBabyGhost {
 public:
@@ -17,7 +17,7 @@ public:
     ~EatingBabyGhost(); // Destructor to clean up dynamic memory
 
     // Open the eating window and handle interactions
-    void open(PetStats petStats);
+    void open(PetStats& petStats);
 
 private:
     sf::RenderWindow* window;                  // Pointer for dynamic allocation
@@ -37,7 +37,7 @@ private:
     void loadFoodItems();
 
     // Handle window events like clicking items
-    void handleEvents(PetStats PetStats);
+    void handleEvents(PetStats& PetStats);
 
     // Render the window and items
     void render();
