@@ -127,9 +127,11 @@ void EatingBabyGhost::handleEvents(PetStats petStats) {
 
             // Check if any food item was clicked
             for (auto& item : foodItems) {
+
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Check stock directly from the foodItems vector
+                  
                     if (item.stock > 0) {
                         petStats.maxHunger();
                         // Simulate eating the food item
@@ -137,7 +139,7 @@ void EatingBabyGhost::handleEvents(PetStats petStats) {
                         trolleyCount++; // Increase trolley count
                         playEatingAnimation(item.name);
                         std::cout << "Ate: " << item.name << std::endl;
-
+                        
                         // Update the quantity display for this item
                         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
                     } else {
