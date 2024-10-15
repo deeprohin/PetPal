@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <memory>
+#include <sstream>
+
 
 class Item {
 public:
@@ -29,6 +31,13 @@ public:
         int price;        // Price of the item
         int stock; 
 
+    
 };
+
+// Overload operator<< for writing Item to an ostream
+inline std::ostream& operator<<(std::ostream& os, const Item& item) {
+    os << item.name << "," << item.stock; // CSV format
+return os;
+}
 
 #endif // ITEM_H

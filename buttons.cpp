@@ -24,6 +24,8 @@
 #include "sprite_loader.h"
 #include <fstream>
 #include <string>
+#include <ostream>
+
 
 int main() {
   sf::Font font;
@@ -71,6 +73,7 @@ int main() {
     petStats.setIQLevel(stats[3]);
     petStats.setTotalMoney(stats[4]);
   }
+  std::vector<Item> basket; // User's shopping basket
 
   // creating buttons
   if (!SpriteLoader::loadResources()) {
@@ -188,24 +191,19 @@ int main() {
           std::cout << "Shopping Button" << std::endl;
           //youre part brookyln
           if (user_pet=="adult_avo"){
-                std::vector<Item> basket; // User's shopping basket
                // Create an instance of the shopping window
               AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
               std::cout << "Shopping window created." << std::endl;
               shoppingWindow.open();
               petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
-              
-              
           }
           else if(user_pet=="baby_avo"){
-            std::vector<Item> basket; // Basket to hold purchased items
            // Create BabyAvo instance
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
             petStats.changeMoney(-(petStats.getMoney()-(shop.returnCoins())));
           } else if (user_pet == "baby_ghost") {
-            std::vector<Item> basket;
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
@@ -213,7 +211,6 @@ int main() {
          petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
 
           } else if (user_pet == "adult_ghost") {
-            std::vector<Item> basket;
             AdultGhostWindow AdultGhostWindow(font, petStats.getMoney(),
                                               basket);
 
@@ -256,6 +253,18 @@ int main() {
     statsFile << user_pet<<" "<<petStats.getHealthLevel() << " "<< petStats.getSleepLevel() << " "<< petStats.getHungerLevel() << " "<< petStats.getIQLevel() << " "<< petStats.getTotalMoney() <<"\n"<<std::endl;
     // Iterate through the basket and write item details to the file
     statsFile.flush();
-  }
+    // Create a map to track quantities of items
+    std::map<std::string, std::pair<int, int>> itemCounts; // <item_name, quantity>>
+
+    // Iterate through the basket and count the items
+    for (const auto& item : basket) {
+      itemCounts[item.name].first = item.price; // set the price
+      itemCounts[item.name].second++; // increment quantity
+    }
+    // Write items to file
+    for (const auto& entry : itemCounts) {
+      statsFile << entry.first << " " << entry.second.second << "\n";
+    }
+    }
   return 0;
 }

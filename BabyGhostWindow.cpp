@@ -136,6 +136,7 @@ void BabyGhostShoppingWindow::handleEvents() {
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     if (userCoins >= item.price) {
                         userCoins -= item.price;
+                        item.stock++;
                         basket.push_back(item);
                         trolleyCount++;  // Increment trolley count
                         std::cout << "Purchased: " << item.name << std::endl;

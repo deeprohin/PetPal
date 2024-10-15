@@ -1,2 +1,5 @@
-adult_avo 25 25 25 50 1000
+baby_avo 25 25 25 50 450
 
+Baby Banana 3
+Baby Pumpkin 3
+Yakult 2
