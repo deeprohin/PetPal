@@ -1,2 +1,2 @@
-baby_ghost 25 25 25 50 1000
+baby_ghost 15 15 90 45 150
 

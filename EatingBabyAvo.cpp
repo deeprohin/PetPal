@@ -48,11 +48,13 @@ void EatingBabyAvo::loadFoodItems() {
     };
 
     // Define grid layout parameters
-    const int columns = 2;
-    const int rows = 2;
-    const float horizontalSpacing = 400.0f; // Adjust spacing for the new layout
-    const float verticalSpacing = 400.0f;   // Adjust spacing for the new layout
-    const float startX = (1920 - (columns * horizontalSpacing)) / 2.0f; // Center the grid horizontally
+    const int columns = 2;          // 2 columns for the grid
+    const int rows = 2;             // 2 rows for the grid
+    const float itemWidth = 150.0f; // Desired width for each item
+    const float itemHeight = 150.0f;// Desired height for each item
+    const float horizontalSpacing = 300.0f; // Spacing between columns
+    const float verticalSpacing = 300.0f;   // Spacing between rows
+    const float startX = (1920 - (columns * (itemWidth + horizontalSpacing))) / 2.0f; // Center the grid horizontally
     const float startY = 150.0f; // Starting Y position
 
     // Load each food item
@@ -69,15 +71,20 @@ void EatingBabyAvo::loadFoodItems() {
             exit(1);
         }
 
-        // Set texture to sprite and scale it
+        // Set texture to sprite
         item.sprite.setTexture(*item.texture);
-        item.sprite.setScale(0.7f, 0.7f); // Scale images
+
+        // Scale the sprite to the desired size (150x150)
+        sf::Vector2u textureSize = item.texture->getSize();
+        float scaleX = itemWidth / textureSize.x;
+        float scaleY = itemHeight / textureSize.y;
+        item.sprite.setScale(scaleX, scaleY); // Scale uniformly to 150x150
 
         // Calculate grid position
         int row = i / columns;
         int col = i % columns;
-        float xPosition = startX + col * horizontalSpacing;
-        float yPosition = startY + row * verticalSpacing;
+        float xPosition = startX + col * (itemWidth + horizontalSpacing);
+        float yPosition = startY + row * (itemHeight + verticalSpacing);
         item.sprite.setPosition(xPosition, yPosition);
 
         // Initialize quantity text for each item
@@ -95,6 +102,7 @@ void EatingBabyAvo::loadFoodItems() {
     }
 }
 
+
 // Open the eating window and handle interactions
 void EatingBabyAvo::open() {
     while (window->isOpen()) {
@@ -103,7 +111,6 @@ void EatingBabyAvo::open() {
     }
 }
 
-// Handle window events
 void EatingBabyAvo::handleEvents() {
     sf::Event event;
     while (window->pollEvent(event)) {
@@ -127,21 +134,31 @@ void EatingBabyAvo::handleEvents() {
             for (auto& item : foodItems) {
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
-                    // Find the item in the basket
-                    auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
-                        return basketItem.name == item.name;
-                    });
-
-                    if (it != (basket + basketSize) && it->stock > 0) {
+                    // Check stock from foodItems
+                    if (item.stock > 0) {
                         // Simulate eating the food item
-                        it->stock--; // Decrease stock
+                        item.stock--; // Decrease stock in foodItems
                         trolleyCount++; // Increase trolley count
                         playEatingAnimation(item.name);
                         std::cout << "Ate: " << item.name << std::endl;
 
                         // Update the quantity display for this item
-                        item.quantityText.setString("Quantity: " + std::to_string(it->stock));
+                        item.quantityText.setString("Quantity: " + std::to_string(item.stock));
+
+                        // Now, find the item in the basket or add it if not present
+                        auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
+                            return basketItem.name == item.name;
+                        });
+
+                        if (it != (basket + basketSize)) {
+                            // Update the basket item stock if it exists
+                            it->stock--; // Decrease stock in the basket
+                        } else {
+                            // If the item is not in the basket, add it
+                            addToBasket(item);
+                        }
                     } else {
+                        // If item stock is 0, display the insufficient message
                         insufficientFundsText.setString("NEED TO BUY MORE");
                     }
                 }
@@ -149,6 +166,7 @@ void EatingBabyAvo::handleEvents() {
         }
     }
 }
+
 
 // Render the eating window
 void EatingBabyAvo::render() {

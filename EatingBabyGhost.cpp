@@ -38,24 +38,22 @@ EatingBabyGhost::~EatingBabyGhost() {
 
 void EatingBabyGhost::loadFoodItems() {
     std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
-    std::vector<int> itemPrices = {50, 30, 70, 500}; // Update prices to include all four items
+    std::vector<int> itemPrices = {50, 30, 70, 500}; // Prices for the items
     std::vector<std::string> imagePaths = {
         "Images/Milk2.png", 
         "Images/Porridge.png", 
         "Images/Yoghurt.png", 
-        "Images/BabyMedicine.png"  // Ensure correct file extensions
+        "Images/BabyMedicine.png"
     };
     
-
     // Define grid layout parameters
-    const int columns = 2; // Adjust columns as needed
-    const int rows = 2;    // Adjust rows as needed
-    const float horizontalSpacing = 300.0f; 
-    const float verticalSpacing = 300.0f;   
-    const float startX = (1920 - (columns * horizontalSpacing)) / 2.0f; // Center the grid horizontally
-    const float startY = 150.0f; // Starting Y position
-
-    const int maxSize = 150;  // Maximum size for width and height
+    const int columns = 2; // Number of columns
+    const int rows = 2;    // Number of rows
+    const float itemSize = 150.0f; // Fixed size for each item
+    const float horizontalSpacing = 50.0f; // Horizontal spacing
+    const float verticalSpacing = 50.0f;   // Vertical spacing
+    const float startX = (1920 - (columns * itemSize + (columns - 1) * horizontalSpacing)) / 2.0f - 200; // Center grid horizontally
+    const float startY = (1080 - (rows * itemSize + (rows - 1) * verticalSpacing)) / 2.0f - 100; // Center grid vertically
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
@@ -74,22 +72,14 @@ void EatingBabyGhost::loadFoodItems() {
         // Set texture to sprite
         item.sprite.setTexture(*item.texture);
 
-        // Get the original size of the image
-        sf::Vector2u textureSize = item.texture->getSize();
-        float width = textureSize.x;
-        float height = textureSize.y;
-
-        // Calculate the scaling factor based on the larger dimension (width or height)
-        float scaleFactor = static_cast<float>(maxSize) / std::max(width, height);
-
-        // Apply the same scale to both dimensions to maintain the aspect ratio
-        item.sprite.setScale(scaleFactor, scaleFactor);
+        // Set the sprite to a fixed size
+        item.sprite.setScale(itemSize / item.texture->getSize().x, itemSize / item.texture->getSize().y);
 
         // Calculate grid position
-        int row = i / columns;
-        int col = i % columns;
-        float xPosition = startX + col * horizontalSpacing;
-        float yPosition = startY + row * verticalSpacing;
+        int row = i / columns; // Row index
+        int col = i % columns; // Column index
+        float xPosition = startX + col * (itemSize + horizontalSpacing);
+        float yPosition = startY + row * (itemSize + verticalSpacing);
         item.sprite.setPosition(xPosition, yPosition);
 
         // Initialize quantity text for each item
@@ -98,7 +88,7 @@ void EatingBabyGhost::loadFoodItems() {
         item.quantityText.setFillColor(sf::Color::Black);
         item.quantityText.setPosition(
             xPosition,
-            yPosition + item.sprite.getGlobalBounds().height + 15
+            yPosition + item.sprite.getGlobalBounds().height + 15 // Position text below image
         );
 
         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
@@ -108,7 +98,6 @@ void EatingBabyGhost::loadFoodItems() {
     }
 }
 
-
 // Open the eating window and handle interactions
 void EatingBabyGhost::open() {
     while (window->isOpen()) {
@@ -117,7 +106,6 @@ void EatingBabyGhost::open() {
     }
 }
 
-// Handle window events
 void EatingBabyGhost::handleEvents() {
     sf::Event event;
     while (window->pollEvent(event)) {
@@ -141,20 +129,16 @@ void EatingBabyGhost::handleEvents() {
             for (auto& item : foodItems) {
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
-                    // Find the item in the basket
-                    auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
-                        return basketItem.name == item.name;
-                    });
-
-                    if (it != (basket + basketSize) && it->stock > 0) {
+                    // Check stock directly from the foodItems vector
+                    if (item.stock > 0) {
                         // Simulate eating the food item
-                        it->stock--; // Decrease stock
+                        item.stock--; // Decrease stock
                         trolleyCount++; // Increase trolley count
                         playEatingAnimation(item.name);
                         std::cout << "Ate: " << item.name << std::endl;
 
                         // Update the quantity display for this item
-                        item.quantityText.setString("Quantity: " + std::to_string(it->stock));
+                        item.quantityText.setString("Quantity: " + std::to_string(item.stock));
                     } else {
                         insufficientFundsText.setString("NEED TO BUY MORE");
                     }
@@ -179,12 +163,12 @@ void EatingBabyGhost::render() {
         window->draw(item.quantityText); // Display item quantity
     }
 
-    window->display();
+    window->display(); // Display the rendered frame
 }
 
-// Function to play eating animation
+// Play animation or sound when an item is consumed
 void EatingBabyGhost::playEatingAnimation(const std::string& foodName) {
-    // Here, you could add animation logic, sound effects, or any feedback mechanism
-    std::cout << "Eating animation for: " << foodName << std::endl;
-    // Placeholder for animation logic
+    // You can implement a simple animation or sound here
+    std::cout << "Playing eating animation for: " << foodName << std::endl;
+    // Optionally add sound effects or animations related to the eating action
 }

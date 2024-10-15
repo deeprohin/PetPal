@@ -51,12 +51,13 @@ void EatingAdultGhostWindow::loadFoodItems() {
     };
 
     // Define grid layout parameters
-    const int columns = 3;
-    const int rows = 2;
-    const float horizontalSpacing = 300.0f; // Increased spacing to accommodate larger images
-    const float verticalSpacing = 300.0f;   // Increased spacing to accommodate larger images
-    const float startX = (1920 - (columns * 300.0f)) / 2.0f; // Center the grid horizontally
-    const float startY = 150.0f; // Starting Y position
+    const int columns = 3;   // Number of columns
+    const int rows = 3;      // Number of rows
+    const float imageSize = 150.0f; // Fixed size for each image
+    const float horizontalSpacing = 50.0f; // Space between images horizontally
+    const float verticalSpacing = 50.0f;   // Space between images vertically
+    const float startX = (1920 - (columns * imageSize + (columns - 1) * horizontalSpacing)) / 2.0f; // Center the grid horizontally
+    const float startY = (1080 - (rows * imageSize + (rows - 1) * verticalSpacing)) / 2.0f; // Center the grid vertically
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
@@ -74,13 +75,13 @@ void EatingAdultGhostWindow::loadFoodItems() {
 
         // Set texture to sprite and scale it
         item.sprite.setTexture(*item.texture);
-        item.sprite.setScale(0.7f, 0.7f); // Increased scale to enlarge images for better interaction
+        item.sprite.setScale(imageSize / item.sprite.getLocalBounds().width, imageSize / item.sprite.getLocalBounds().height); // Scale to fixed size
 
         // Calculate grid position
         int row = i / columns;
         int col = i % columns;
-        float xPosition = startX + col * horizontalSpacing;
-        float yPosition = startY + row * verticalSpacing;
+        float xPosition = startX + col * (imageSize + horizontalSpacing);
+        float yPosition = startY + row * (imageSize + verticalSpacing);
         item.sprite.setPosition(xPosition, yPosition);
 
         // Initialize quantity text for each item
@@ -90,7 +91,7 @@ void EatingAdultGhostWindow::loadFoodItems() {
         // Position the text below the sprite
         item.quantityText.setPosition(
             xPosition,
-            yPosition + item.sprite.getGlobalBounds().height + 15 // Increased spacing below the image
+            yPosition + item.sprite.getGlobalBounds().height + 5 // Increased spacing below the image
         );
         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
 
@@ -135,15 +136,16 @@ void EatingAdultGhostWindow::handleEvents() {
                         return basketItem.name == item.name;
                     });
 
-                    if (it != (basket + basketSize) && it->stock > 0) {
+                    // Check stock directly from foodItems
+                    if (item.stock > 0) {
                         // Simulate eating the food item
-                        it->stock--; // Decrease stock
+                        item.stock--; // Decrease stock from the foodItems
                         trolleyCount++; // Increase trolley count
                         playEatingAnimation(item.name);
                         std::cout << "Ate: " << item.name << std::endl;
 
                         // Update the quantity display for this item
-                        item.quantityText.setString("Quantity: " + std::to_string(it->stock));
+                        item.quantityText.setString("Quantity: " + std::to_string(item.stock));
                     } else {
                         insufficientFundsText.setString("NEED TO BUY MORE");
                     }
@@ -152,6 +154,7 @@ void EatingAdultGhostWindow::handleEvents() {
         }
     }
 }
+
 
 // Render the eating window
 void EatingAdultGhostWindow::render() {
