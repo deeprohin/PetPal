@@ -227,6 +227,7 @@ int main() {
           // petStats.changeIQ(test);
           backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 680 && y <= 830) {
+         
           std::cout << "Info Button" << std::endl;
           // Create a new window for the info screen
           sf::RenderWindow infoWindow(sf::VideoMode(1920, 1080), "Information");
@@ -246,12 +247,10 @@ int main() {
                   }
               }
 
-              infoWindow.clear(sf::Color(245,245,220)); // Clear the window
+              infoWindow.clear(sf::Color(230,230,220)); // Clear the window
               infoWindow.draw(infoText); // Draw the info text
               infoWindow.display(); // Display the content
           }
-
-
         } else if (x >= 650 && x <= 900 && y >= 400 && y <= 600) {
           std::cout << "Touch character" << std::endl;
           current_user_pet->make_sound();
