@@ -1,277 +1,310 @@
-#ifndef BABY_AVO_H
-#define BABY_AVO_H
+#pragma once
 
-#include "Shower.h"
-#include "Eating.h"
-#include "Sleeping.h"
-#include "Medicine.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "pet_stats.h"
+
+#include "Eating.h"
+#include "Medicine.h"
+#include "Shower.h"
+#include "Sleeping.h"
 #include "avo.h"
-
-class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
-public:
-     // Constructor to load the sprite sheet for an activity with scaling for showering
-    baby_avo(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)
-        :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
-        if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {
-            std::cerr << "Error loading sprite sheet: " << spriteSheetPath << std::endl;
-        }
-        // Set up the initial sprite
-        sprite_shower.setTexture(texture_shower);
-        sprite_eating.setTexture(texture_eating);
-        sprite_sleeping.setTexture(texture_eating);
-        sprite_medicine.setTexture(texture_eating);
-        // Apply scaling to the sprite
-        sprite_shower.setScale(scaleX, scaleY);
-        sprite_eating.setScale(scaleX, scaleY);
-        sprite_sleeping.setScale(scaleX, scaleY);
-        sprite_medicine.scale(scaleX, scaleY);
-        // Update the texture rectangle for the initial frame
-        updateSpriteRect_shower();
-        updateSpriteRect_eating();
-        updateSpriteRect_sleeping();
-        updateSpriteRect_medicine();
+#include "pet_stats.h"
+// baby avo class inheriting publically from avo,
+// shower,eating,sleeping,medicine class
+class baby_avo : public Shower,
+                 public Eating,
+                 public Sleeping,
+                 public Medicine,
+                 public avo {
+ public:
+  // constructor with paramteres
+  baby_avo(const std::string& spriteSheetPath, float frameDuration,
+           float scaleX = 1.0f, float scaleY = 1.0f)
+      : Shower(spriteSheetPath, frameDuration, scaleX, scaleY),
+        Eating(spriteSheetPath, frameDuration, scaleX, scaleY),
+        Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),
+        Medicine(spriteSheetPath, frameDuration, scaleX, scaleY) {
+    if (!texture_shower.loadFromFile(spriteSheetPath) ||
+        !texture_eating.loadFromFile(spriteSheetPath) ||
+        !texture_sleeping.loadFromFile(spriteSheetPath) ||
+        !texture_medicine.loadFromFile(spriteSheetPath)) {
+      std::cerr << "Error loading sprite sheet: " << spriteSheetPath
+                << std::endl;
     }
+    // setting up the initial sprite
+    sprite_shower.setTexture(texture_shower);
+    sprite_eating.setTexture(texture_eating);
+    sprite_sleeping.setTexture(texture_eating);
+    sprite_medicine.setTexture(texture_eating);
+    // applying scaling to the sprite
+    sprite_shower.setScale(scaleX, scaleY);
+    sprite_eating.setScale(scaleX, scaleY);
+    sprite_sleeping.setScale(scaleX, scaleY);
+    sprite_medicine.scale(scaleX, scaleY);
+    // updating the texture rectangle for the initial frame
+    updateSpriteRect_shower();
+    updateSpriteRect_eating();
+    updateSpriteRect_sleeping();
+    updateSpriteRect_medicine();
+  }
+  // function to start the animation for showering
+  void startAnimation_shower() override {
+    isAnimating_shower = true;
+    currentFrame_shower = 0;    // resetting the first frame
+    elapsedTime_shower = 0.0f;  // resetting the elapsed time
+    position_shower.x = 600.f;
+    position_shower.y = 350.f;
+    originalPosition_shower = position_shower;
+  }
 
-    void startAnimation_shower() override {
-        isAnimating_shower = true;
-        currentFrame_shower = 0; // Reset to the first frame
-        elapsedTime_shower = 0.0f; // Reset elapsed time
-        position_shower.x = 600.f; // Start position (center of the window)
-        position_shower.y = 350.f; // Y position
-        originalPosition_shower = position_shower; // Store the original position
-        sprite_shower.setPosition(position_shower); // Set the sprite's initial position
+  void update_shower(float deltaTime) override {
+    if (!isAnimating_shower) return;  // not udpating when it is not animating
+
+    elapsedTime_shower += deltaTime;
+
+    // switching frames based on how much time is elapsed
+    if (elapsedTime_shower >= frameDuration_shower) {
+      currentFrame_shower =
+          (currentFrame_shower + 1) % 5;  // looping between the frames
+      elapsedTime_shower = 0.0f;          // resetting the elapsed time
     }
-
-    void update_shower(float deltaTime) override {
-        if (!isAnimating_shower) return; // Do not update if not animating
-
-        // Accumulate time
-        elapsedTime_shower += deltaTime;
-
-        // Switch frames based on elapsed time
-        if (elapsedTime_shower >= frameDuration_shower) {
-            currentFrame_shower = (currentFrame_shower + 1) % 5; // Loop back to the first frame after the last one
-            elapsedTime_shower = 0.0f; // Reset elapsed time
-        }
-        updateSpriteRect_shower();
-    }
-
-    void draw_shower(sf::RenderWindow& window)override{
+    // updating the showering sprite
+    updateSpriteRect_shower();
+  }
+  // drawing the shower animation
+  void draw_shower(sf::RenderWindow& window) override {
     window.draw(sprite_shower);
-}
-
-void updateSpriteRect_shower() override{
-    // Calculate the frame size based on the sprite sheet
-    int frameWidth = texture_shower.getSize().x / 5;  // There are 5 columns in the first row
-    int frameHeight = texture_shower.getSize().y; // Only 1 row in the sprite sheet
-
-    // x and y coordinates of the top-left corner of the frame in the sprite sheet
+  }
+  // function to update hte showering sprite
+  void updateSpriteRect_shower() override {
+    // calculating size of the frame based on size of the spritesheet
+    int frameWidth = texture_shower.getSize().x / 5;
+    int frameHeight = texture_shower.getSize().y;
+    // x and y coordinates for the first frame in the spritesheet
     int frameX = 0;
     int frameY = 0;
 
-    // Determine which frame to use based on currentFrame
+    // determining which frame to use based on currentFrame
     switch (currentFrame_shower) {
-        case 0: frameX = 0; break;
-        case 1: frameX = frameWidth; break;
-        case 2: frameX = 2 * frameWidth; break;
-        case 3: frameX = 3 * frameWidth; break;
-        case 4: frameX = 4 * frameWidth; break;
+      case 0:
+        frameX = 0;
+        break;
+      case 1:
+        frameX = frameWidth;
+        break;
+      case 2:
+        frameX = 2 * frameWidth;
+        break;
+      case 3:
+        frameX = 3 * frameWidth;
+        break;
+      case 4:
+        frameX = 4 * frameWidth;
+        break;
     }
-    // Set the texture rectangle for the sprite
-    sprite_shower.setTextureRect(sf::IntRect(frameX, frameY, frameWidth, frameHeight));
-    // Optional: Print out the frame's coordinates for debugging
-    std::cout << "Frame " << currentFrame_shower << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
-}
-
-void startAnimation_sleeping()override{
+    // settting the texture rectangle for the sprite
+    sprite_shower.setTextureRect(
+        sf::IntRect(frameX, frameY, frameWidth, frameHeight));
+    // printing the frame coordinates
+    std::cout << "Frame " << currentFrame_shower << ": (X: " << frameX
+              << ", Y: " << frameY << ")" << std::endl;
+  }
+  // function to start the animation for sleeping
+  void startAnimation_sleeping() override {
     isAnimating_sleeping = true;
-    currentFrame_sleeping = 0; // Reset to first frame
-    elapsedTime_sleeping = 0.0f; // Reset elapsed time
+    currentFrame_sleeping = 0;    // resetting to the first frame
+    elapsedTime_sleeping = 0.0f;  // resetting teh elapsed time
 
-    // Center the sprite's position in the window
-    position_sleeping.x = 600.f; // Center X position
-    position_sleeping.y = 350.f; // Center Y position
-    sprite_sleeping.setPosition(position_sleeping); // Set the sprite's initial position
-}
+    // centering the sprite position in the window
+    position_sleeping.x = 600.f;
+    position_sleeping.y = 350.f;
+    sprite_sleeping.setPosition(
+        position_sleeping);  // setting the initial position
+  }
 
-void update_sleeping(float deltaTime) override{
-    if (!isAnimating_sleeping) return; // Do not update if not animating
+  void update_sleeping(float deltaTime) override {
+    if (!isAnimating_sleeping)
+      return;  // not udpaitng if the animation isnt running
 
-    // Accumulate time
     elapsedTime_sleeping += deltaTime;
 
-    // Show each frame for a specified duration
+    // disaplying each frame for a specified duration
     if (elapsedTime_sleeping >= frameDuration_sleeping) {
-        currentFrame_sleeping = (currentFrame_sleeping + 1) % 3; // Cycle through all 6 frames
-        elapsedTime_sleeping = 0.0f; // Reset elapsed time
+      currentFrame_sleeping = (currentFrame_sleeping + 1) %
+                              3;  // cycling 6 times between all frames
+      elapsedTime_sleeping = 0.0f;
     }
 
-    // Update the sprite's texture rectangle based on the current frame
+    // udpating the sprite texture based on the current frame
     updateSpriteRect_sleeping();
-}
-
-void draw_sleeping(sf::RenderWindow& window) override{
+  }
+  // function to draw the sleeping animation
+  void draw_sleeping(sf::RenderWindow& window) override {
     window.draw(sprite_sleeping);
-}
+  }
+  // function to udpate the sprite for sleeping animation
+  void updateSpriteRect_sleeping() override {
+    // calculating the frame size based on the sprite sheet
+    int frameWidth = texture_sleeping.getSize().x / 3;
+    int frameHeight = texture_sleeping.getSize().y;
 
-void updateSpriteRect_sleeping() override{
-    // Calculate the frame size based on the sprite sheet
-    int frameWidth = texture_sleeping.getSize().x / 3;  // There are 4 columns
-    int frameHeight = texture_sleeping.getSize().y; // There is 1 row
-
-    // x and y coordinates of the top-left corner of the fcrame in the sprite sheet
+    // x and y coorindates of the first frame of the spritesheet
     int frameX = 0;
     int frameY = 0;
 
-    // Determine which frame to use based on currentFrame
-    switch (currentFrame_sleeping)
-    {
-        case 0: // First frame (Row 1, Column 1)
-            frameX = 0;
-            frameY = 0;
-            break;
-        case 1: // Second frame (Row 1, Column 2)
-            frameX = frameWidth; // Move right by one frame width
-            frameY = 0;          // Still in the top row
-            break;
-        case 2: // Third frame (Row 1, Column 3)
-            frameX = frameWidth * 2; // Move to the third frame
-            frameY = 0; // Still in the top row
-            break;
+    // determining which frame to use based on currentFrame
+    switch (currentFrame_sleeping) {
+      case 0:  // 1st frame
+        frameX = 0;
+        frameY = 0;
+        break;
+      case 1:  // 2nd frame
+        frameX = frameWidth;
+        frameY = 0;
+        break;
+      case 2:
+        frameX = frameWidth * 2;
+        frameY = 0;
+        break;
     }
-    // Set the texture rectangle for the sprite
-    sprite_sleeping.setTextureRect(sf::IntRect(frameX, frameY, frameWidth, frameHeight));
+    // setting the texture rectangle for the sprite
+    sprite_sleeping.setTextureRect(
+        sf::IntRect(frameX, frameY, frameWidth, frameHeight));
 
-    // Optional: Print out the frame's coordinates for debugging
-    std::cout << "Frame " << currentFrame_sleeping << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
-}
-
-void startAnimation_medicine() override{
+    // printing the frame coordinates
+    std::cout << "Frame " << currentFrame_sleeping << ": (X: " << frameX
+              << ", Y: " << frameY << ")" << std::endl;
+  }
+  // function to start the animation for medicine
+  void startAnimation_medicine() override {
     isAnimating_medicine = true;
-    currentFrame_medicine = 0; // Reset to first frame
-    elapsedTime_medicine = 0.0f; // Reset elapsed time
-    position_medicine.x = 600.f; // Start position (center of the window)
-    position_medicine.y = 350.f; // Y position
-    originalPosition_medicine = position_medicine; // Store the original position
-    sprite_medicine.setPosition(position_medicine); // Set the sprite's initial position
-}
+    currentFrame_medicine = 0;
+    elapsedTime_medicine = 0.0f;
+    position_medicine.x = 600.f;
+    position_medicine.y = 350.f;
+    originalPosition_medicine = position_medicine;
+    sprite_medicine.setPosition(position_medicine);
+  }
 
+  // function to udpate the animation for medicine
+  void update_medicine(float deltaTime) override {
+    if (!isAnimating_medicine) return;
 
-void update_medicine(float deltaTime) override{
-    if (!isAnimating_medicine) return; // Do not update if not animating
-
-    // Accumulate time
     elapsedTime_medicine += deltaTime;
 
-    // Show each frame for a specified duration
+    // showing each frame for a specified duration
     if (elapsedTime_medicine >= frameDuration_medicine) {
-        currentFrame_medicine = (currentFrame_medicine + 1) % 2; // Switch between 0 and 1 (two frames)
-        elapsedTime_medicine = 0.0f; // Reset elapsed time
+      currentFrame_medicine =
+          (currentFrame_medicine + 1) % 2;  // switching between 2 frames
+      elapsedTime_medicine = 0.0f;
     }
 
-    // Update the sprite's texture rectangle based on the current frame
+    // updating the sprite texture based on what the current frame is
     updateSpriteRect_medicine();
-}
-
-void draw_medicine(sf::RenderWindow& window) override{
+  }
+  // function to draw the medicine animation
+  void draw_medicine(sf::RenderWindow& window) override {
     window.draw(sprite_medicine);
-}
+  }
+  // function to update the medicine sprite
+  void updateSpriteRect_medicine() override {
+    // calculating frame dimensions based on the sprite sheet
+    int frameWidth = 32;
+    int frameHeight = 32;
 
-void updateSpriteRect_medicine() override{
-       // Frame dimensions based on the sprite sheet
-    int frameWidth = 32;  // Width of one frame
-    int frameHeight = 32; // Height of one frame
-
-     // Determine which frame to use based on the current frame index
+    // determining which frame to use based on the current frame index
     int frameX = (currentFrame_medicine == 0) ? 0 : frameWidth;
-    int frameY = 0;  // Single row, so Y coordinate is 0
+    int frameY = 0;  // there is single row so y is 0
 
-    // Set the texture rectangle for the sprite
-    sprite_medicine.setTextureRect(sf::IntRect(frameX, frameY, frameWidth, frameHeight));
+    // setting the texture rectangle for the sprite
+    sprite_medicine.setTextureRect(
+        sf::IntRect(frameX, frameY, frameWidth, frameHeight));
 
-    // Debugging output to check the frame rect
-    std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY << ", Width: " << frameWidth << ", Height: " << frameHeight << ")" << std::endl;
-}
-
-void startAnimation_eating() override{
+    // debugging output to check the frame rect
+    std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY
+              << ", Width: " << frameWidth << ", Height: " << frameHeight << ")"
+              << std::endl;
+  }
+  // function to start the animation for eating
+  void startAnimation_eating() override {
     isAnimating_eating = true;
-    currentFrame_eating = 0; // Reset to first frame
-    elapsedTime_eating = 0.0f; // Reset elapsed time
-    position_eating.x = 600.f; // Start position (center of the window)
-    position_eating.y = 350.f; // Y position
-    originalPosition_eating = position_eating; // Store the original position
-    sprite_eating.setPosition(position_eating); // Set the sprite's initial position
-}
+    currentFrame_eating = 0;
+    elapsedTime_eating = 0.0f;
+    position_eating.x = 600.f;
+    position_eating.y = 350.f;
+    originalPosition_eating = position_eating;
+    sprite_eating.setPosition(
+        position_eating);  // setting the initial position for the sprite
+  }
+  // function to udpate the eating animation
+  void update_eating(float deltaTime) override {
+    if (!isAnimating_eating) return;
 
-void update_eating(float deltaTime) override{
-    if (!isAnimating_eating) return; // Do not update if not animating
-
-    // Accumulate time
     elapsedTime_eating += deltaTime;
 
-    // Show the first frame for a specified duration, then alternate frames
+    // shwoing the first frame for a specified duration, then alternate frames
     if (currentFrame_eating == 0) {
-        // Stay on the first frame for the duration
-        if (elapsedTime_eating >= frameDuration_eating) {
-            currentFrame_eating = 1; // Move to the second frame (top right)
-            position_eating.x -= 3;  // Move left 3 units
-            sprite_eating.setPosition(position_eating); // Update the sprite's position
-            elapsedTime_eating = 0.0f; // Reset elapsed time
-        }
+      // staying on the first frame for the duration
+      if (elapsedTime_eating >= frameDuration_eating) {
+        currentFrame_eating = 1;
+        position_eating.x -= 3;
+        sprite_eating.setPosition(position_eating);
+        elapsedTime_eating = 0.0f;
+      }
     } else if (currentFrame_eating == 1) {
-        // Stay on the second frame for a short duration before returning
-        if (elapsedTime_eating >= frameDuration_eating / 2) {
-            currentFrame_eating = 2; // Move to the third frame (bottom left)
-            elapsedTime_eating = 0.0f; // Reset elapsed time
-        }
+      // staying on the second frame for a short duration before returning
+      if (elapsedTime_eating >= frameDuration_eating / 2) {
+        currentFrame_eating = 2;    // moving to third frame
+        elapsedTime_eating = 0.0f;  // resetting time
+      }
     } else if (currentFrame_eating == 2) {
-        // Return to original position after showing the bottom left frame
-        if (elapsedTime_eating >= frameDuration_eating / 2) {
-            position_eating = originalPosition_eating; // Return to original position
-            sprite_eating.setPosition(position_eating); // Update the sprite's position
-            currentFrame_eating = 0; // Reset back to first frame
-            elapsedTime_eating = 0.0f; // Reset elapsed time
-        }
+      // returning to original position
+      if (elapsedTime_eating >= frameDuration_eating / 2) {
+        position_eating = originalPosition_eating;
+        sprite_eating.setPosition(position_eating);
+        currentFrame_eating = 0;  // resetting to first frame
+        elapsedTime_eating = 0.0f;
+      }
     }
 
-    // Update the sprite's texture rectangle based on the current frame
+    // udpating the sprite texture based on the current frame
     updateSpriteRect_eating();
-}
+  }
 
-
-void draw_eating(sf::RenderWindow& window) override{
+  // function to draw the eating function
+  void draw_eating(sf::RenderWindow& window) override {
     window.draw(sprite_eating);
-}
+  }
+  // function to udpate hte eating sprite
+  void updateSpriteRect_eating() override {
+    // calculating the frame size based on the sprite sheet
+    int frameWidth = texture_eating.getSize().x / 3;
+    int frameHeight = texture_eating.getSize().y;
 
-void updateSpriteRect_eating() override{
-     // Calculate the frame size based on the sprite sheet
-    int frameWidth = texture_eating.getSize().x / 3;  // There are 3 columns in the sprite sheet
-    int frameHeight = texture_eating.getSize().y; // The height is the same for all frames
-
-    // x and y coordinates of the top-left corner of the frame in the sprite sheet
+    // x and y coordinate of the top frame
     int frameX = 0;
     int frameY = 0;
 
-    // Determine which frame to use based on currentFrame
+    // determining which frame to use based on currentFrame
     switch (currentFrame_eating) {
-        case 0: frameX = 0; break;
-        case 1: frameX = frameWidth; break;
-        case 2: frameX = 2 * frameWidth; break;
+      case 0:
+        frameX = 0;
+        break;
+      case 1:
+        frameX = frameWidth;
+        break;
+      case 2:
+        frameX = 2 * frameWidth;
+        break;
     }
 
-    // Set the texture rectangle for the sprite
-    sprite_eating.setTextureRect(sf::IntRect(frameX, frameY, frameWidth, frameHeight));
+    // settingg the texture  for the sprite
+    sprite_eating.setTextureRect(
+        sf::IntRect(frameX, frameY, frameWidth, frameHeight));
 
-    // Optional: Print out the frame's coordinates for debugging
-    std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
-}
-
-
-
+    // printing out the coordinates for the frames
+    std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX
+              << ", Y: " << frameY << ")" << std::endl;
+  }
 };
-
-#endif

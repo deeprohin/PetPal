@@ -1,7 +1,6 @@
 #ifndef QUOTE_FILE_H
 #define QUOTE_FILE_H
 
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <cstdlib>

@@ -2,58 +2,60 @@
 #define EATING_ADULT_AVO_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <memory>
 #include <algorithm>
-#include"pet_stats.h"
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "pet_stats.h"
 struct ItemList {
-    std::string name;
-    int price;
-    int stock;
-    std::shared_ptr<sf::Texture> texture;
-    sf::Sprite sprite;
-    sf::Text quantityText;
+  std::string name;
+  int price;
+  int stock;
+  std::shared_ptr<sf::Texture> texture;
+  sf::Sprite sprite;
+  sf::Text quantityText;
 };
 
 class EatingAdultAvo {
-public:
-    // Constructor
-    EatingAdultAvo(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount);
-    
-    // Destructor to clean up dynamic memory
-    ~EatingAdultAvo();
+ public:
+  // Constructor
+  EatingAdultAvo(sf::Font& font, ItemList* basket, int& basketSize,
+                 int& basketCapacity, int& trolleyCount);
 
-    // Open the eating window and handle interactions
-    void open(PetStats& petStats);
+  // Destructor to clean up dynamic memory
+  ~EatingAdultAvo();
 
-private:
-    sf::Font& font;
-    ItemList* basket;
-    int& basketSize;
-    int& basketCapacity;
-    int& trolleyCount;
-    sf::RenderWindow* window;  // Pointer for dynamic allocation of RenderWindow
-    sf::Texture fridgeTexture;
-    sf::Sprite fridgeSprite;
-    sf::Text insufficientFundsText;
-    std::vector<ItemList> foodItems;
+  // Open the eating window and handle interactions
+  void open(PetStats& petStats);
 
-    // Load food items into the eating window
-    void loadFoodItems();
+ private:
+  sf::Font& font;
+  ItemList* basket;
+  int& basketSize;
+  int& basketCapacity;
+  int& trolleyCount;
+  sf::RenderWindow* window;  // Pointer for dynamic allocation of RenderWindow
+  sf::Texture fridgeTexture;
+  sf::Sprite fridgeSprite;
+  sf::Text insufficientFundsText;
+  std::vector<ItemList> foodItems;
 
-    // Handle window events
-    void handleEvents(PetStats& petStats);
+  // Load food items into the eating window
+  void loadFoodItems();
 
-    // Render the eating window
-    void render();
+  // Handle window events
+  void handleEvents(PetStats& petStats);
 
-    // Function to play eating animation
-    void playEatingAnimation(const std::string& foodName);
+  // Render the eating window
+  void render();
 
-    // Helper function to add an item to the basket
-    void addToBasket(const ItemList& item);
+  // Function to play eating animation
+  void playEatingAnimation(const std::string& foodName);
+
+  // Helper function to add an item to the basket
+  void addToBasket(const ItemList& item);
 };
 
-#endif // EATING_ADULT_AVO_H
+#endif  // EATING_ADULT_AVO_H

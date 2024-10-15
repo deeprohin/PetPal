@@ -1,5 +1,4 @@
-#ifndef GENERICSHOPPINGWINDOW_H
-#define GENERICSHOPPINGWINDOW_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -34,4 +33,3 @@ private:
     void render(sf::RenderWindow& window);       // Render the shopping window
 };
 
-#endif // GENERICSHOPPINGWINDOW_H

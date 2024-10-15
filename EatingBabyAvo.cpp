@@ -145,9 +145,8 @@ void EatingBabyAvo::handleEvents(PetStats& petStats) {
         if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
           // Check stock from foodItems
           if (item.stock > 0) {
-            
             petStats.maxHunger();
-           
+
             // Simulate eating the food item
             item.stock--;    // Decrease stock in foodItems
             trolleyCount++;  // Increase trolley count
