@@ -10,6 +10,8 @@
 #include <string>
 #include "pet_stats.h"
 #include "avo.h"
+#include "quotesFile.h"
+#include "sprite_loader.h"
 
 class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
 public:
@@ -269,8 +271,6 @@ void updateSpriteRect_eating() override{
     // Optional: Print out the frame's coordinates for debugging
     std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
 }
-
-
 
 };
 

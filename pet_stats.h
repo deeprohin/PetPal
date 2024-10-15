@@ -4,8 +4,9 @@
 #pragma once
 #include"MATHGAME.h"
 #include <SFML/Graphics.hpp>
+#include "sprite_loader.h"
 
-class PetStats {
+class PetStats{
 private:
     int health_level;
     int sleep_level;
@@ -59,6 +60,7 @@ public:
     void setHungerLevel(int level) { hunger_level = level; }
     void setIQLevel(int level) { iq_level = level; }
     void setTotalMoney(int money) { total_money = money; }
+
 };
 
 #endif
