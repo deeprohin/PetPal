@@ -1,5 +1,5 @@
 # Output file name
-TARGET = MATHGAME
+TARGET = Petpal
 
 # Source files
 SOURCES = buttons.cpp MATHGAME.cpp Animation.cpp mini_game.cpp \
