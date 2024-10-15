@@ -17,7 +17,7 @@ public:
     ~EatingBabyGhost(); // Destructor to clean up dynamic memory
 
     // Open the eating window and handle interactions
-    void open();
+    void open(PetStats petStats);
 
 private:
     sf::RenderWindow* window;                  // Pointer for dynamic allocation
@@ -37,7 +37,7 @@ private:
     void loadFoodItems();
 
     // Handle window events like clicking items
-    void handleEvents();
+    void handleEvents(PetStats PetStats);
 
     // Render the window and items
     void render();

@@ -155,7 +155,7 @@ int main() {
                                        trolleyCount);
 
             // Open the window and run the application
-            eatingWindow.open();
+            eatingWindow.open(petStats);
 
             // Clean up dynamically allocated memory
             delete[] basket;
@@ -176,7 +176,7 @@ int main() {
                                          basketCapacity, trolleyCount);
 
             // Open the window and run the application
-            eatingWindow.open();
+            eatingWindow.open(petStats);
 
             // Clean up dynamically allocated memory
             delete[] basket;
