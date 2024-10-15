@@ -57,5 +57,3 @@ class Eating {
   // Virtual destructor
   virtual ~Eating() {}
 };
-
-

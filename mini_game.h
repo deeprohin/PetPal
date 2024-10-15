@@ -54,8 +54,8 @@ class mini_game {
   bool is_game_over_sound_playing;
 
   // intro screen
-  bool in_intro_game;  // checks if the game has just started and is in intro
-                       // mode
+  bool in_intro_game;   // checks if the game has just started and is in intro
+                        // mode
   sf::Text intro_text;  // to display the instructions
 
   // private functions
