@@ -1,5 +1,2 @@
-baby_avo 25 25 25 50 450
+baby_avo 25 25 100 50 1000
 
-Baby Banana 3
-Baby Pumpkin 3
-Yakult 2
