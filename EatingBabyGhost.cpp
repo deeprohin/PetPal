@@ -99,14 +99,14 @@ void EatingBabyGhost::loadFoodItems() {
 }
 
 // Open the eating window and handle interactions
-void EatingBabyGhost::open() {
+void EatingBabyGhost::open(PetStats petStats) {
     while (window->isOpen()) {
-        handleEvents();
+        handleEvents(petStats);
         render();
     }
 }
 
-void EatingBabyGhost::handleEvents() {
+void EatingBabyGhost::handleEvents(PetStats petStats) {
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -131,6 +131,7 @@ void EatingBabyGhost::handleEvents() {
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Check stock directly from the foodItems vector
                     if (item.stock > 0) {
+                        petStats.maxHunger();
                         // Simulate eating the food item
                         item.stock--; // Decrease stock
                         trolleyCount++; // Increase trolley count
