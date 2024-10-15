@@ -1,4 +1,3 @@
-baby_avo 25 25 25 50 800
+baby_avo 25 25 100 50 900
 
-Baby Banana 2
 Baby Pumpkin 1
