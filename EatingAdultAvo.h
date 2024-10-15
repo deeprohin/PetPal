@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
-
+#include"pet_stats.h"
 struct ItemList {
     std::string name;
     int price;
@@ -26,7 +26,7 @@ public:
     ~EatingAdultAvo();
 
     // Open the eating window and handle interactions
-    void open();
+    void open(PetStats petStats);
 
 private:
     sf::Font& font;
@@ -44,7 +44,7 @@ private:
     void loadFoodItems();
 
     // Handle window events
-    void handleEvents();
+    void handleEvents(PetStats petStats);
 
     // Render the eating window
     void render();

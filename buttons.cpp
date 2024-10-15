@@ -121,6 +121,7 @@ int main() {
           backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 130 && y <= 280) {
           std::cout << "Eating Button" << std::endl;
+          int current_health=petStats.getHealthLevel();
           int basketCapacity = 10;
           int basketSize = 0;
           ItemList* basket = new ItemList[basketCapacity];
@@ -147,7 +148,7 @@ int main() {
             // Create an instance of the EatingAdultAvo class
             EatingAdultAvo eatingWindow(font, basket, basketSize,
                                         basketCapacity, trolleyCount);
-            eatingWindow.open();  // Open the eating window
+            eatingWindow.open(petStats);  // Open the eating window
             delete[] basket;
           } else if (user_pet == "baby_avo") {
             EatingBabyAvo eatingWindow(font, basket, basketSize, basketCapacity,
@@ -164,7 +165,8 @@ int main() {
                                                 basketCapacity, trolleyCount);
 
             // Open the window and run the application
-            eatingWindow.open();
+            eatingWindow.open(petStats);
+          
 
             // Clean up dynamically allocated memory
             delete[] basket;
@@ -179,9 +181,10 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
           }
-          petStats.maxHunger();
-          SpriteLoader::animateEatingPet(user_pet, main_window, font,
-                                         selectedQuote, &petStats);
+          int update_health=petStats.getHealthLevel();
+          if(update_health!=current_health){
+            SpriteLoader::animateEatingPet(user_pet, main_window, font, selectedQuote, &petStats);
+          }   
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
           std::cout << "Medicine Button" << std::endl;
           petStats.maxHealth();
