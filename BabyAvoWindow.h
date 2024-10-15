@@ -1,35 +1,34 @@
-#ifndef BABYAVO_H
-#define BABYAVO_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <iostream>
 #include <memory>
 #include <string>
-#include <iostream>
-#include "Item.h" // Include the Item header file
-#include"pet_stats.h"
+#include <vector>
+
+#include "Item.h"  // including the Item header file
+#include "pet_stats.h"
 class BabyAvo {
-public:
-    BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket);
-    ~BabyAvo();  // Destructor to clean up allocated memory
-    void open();  // Opens the shopping window
-    int returnCoins(){return userCoins;}
-private:
-    void loadItems(); // Loads items into the window
-    void handleEvents(); // Handles events
-    void render(); // Renders the window
+ public:
+  BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket);
+  ~BabyAvo();   // destructor to clean up allocated memory
+  void open();  // opens the shopping window
+  int returnCoins() { return userCoins; }
 
-    sf::RenderWindow* window; // Pointer to the SFML window
-    sf::Font& font; // Font reference for displaying text
-    int userCoins; // Reference to the user's coin count
-    std::vector<Item>& basket; // Reference to the basket
-    std::vector<Item> items; // List of items available for purchase
-    int trolleyCount; // Counter for items in the trolley
-    sf::Text coinsText; // Text displaying user's coins
-    sf::Text trolleyText; // Text displaying trolley count
-    sf::Text insufficientFundsText; // Text displaying insufficient funds message
-    sf::Texture trolleyTexture; // Texture for the trolley image
-    sf::Sprite trolleySprite; // Sprite for the trolley image
+ private:
+  void loadItems();     // loads items into the window
+  void handleEvents();  // handles events
+  void render();        // renders the window
+
+  sf::RenderWindow* window;        // pointer to the SFML window
+  sf::Font& font;                  // font reference for displaying text
+  int userCoins;                   // reference to the user's coin count
+  std::vector<Item>& basket;       // reference to the basket
+  std::vector<Item> items;         // list of items available for purchase
+  int trolleyCount;                // counter for items in the trolley
+  sf::Text coinsText;              // text displaying user's coins
+  sf::Text trolleyText;            // text displaying trolley count
+  sf::Text insufficientFundsText;  // text displaying insufficient funds message
+  sf::Texture trolleyTexture;      // texture for the trolley image
+  sf::Sprite trolleySprite;        // sprite for the trolley image
 };
-
-#endif // BABYAVO_H

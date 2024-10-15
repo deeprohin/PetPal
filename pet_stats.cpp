@@ -1,4 +1,5 @@
 #include "pet_stats.h"
+
 #include <algorithm>  // for std::max and std::min
 #include <iostream>
 
@@ -11,9 +12,8 @@ PetStats::PetStats()
   stat_timer.restart();
 }
 void PetStats::updateStats(sf::RenderWindow& window, sf::Font font) {
-
   // Update stats every 30 seconds
-  if (stat_timer.getElapsedTime().asSeconds() >= 30) {  
+  if (stat_timer.getElapsedTime().asSeconds() >= 30) {
     // Update health level, but not if it's already 0
     if (health_level > 0) {
       health_level = std::max(0, health_level - 10);
@@ -36,7 +36,6 @@ void PetStats::updateStats(sf::RenderWindow& window, sf::Font font) {
 
     stat_timer.restart();
   }
-
 }
 
 void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
@@ -110,7 +109,7 @@ void PetStats::renderStats(sf::RenderWindow& window, sf::Font& font) {
   if (!coin_sign_texture.loadFromFile("coin.png")) {
     std::cout << "Image Not Found" << std::endl;
   }
-  sf::Sprite coin_sign; 
+  sf::Sprite coin_sign;
   coin_sign.setTexture(coin_sign_texture);
   coin_sign.setPosition(1240, 20);
   coin_sign.setScale(0.1f, 0.1f);
@@ -131,10 +130,10 @@ void PetStats::increaseSleep(int amount) {
 }
 
 void PetStats::increaseIQ(int score) {
-if (score >= 0 && score <= 5) { 
-    iq_level = std::min(100, iq_level + (score*5));
-    std::cout<<iq_level<<std::endl;
-}
+  if (score >= 0 && score <= 5) {
+    iq_level = std::min(100, iq_level + (score * 5));
+    std::cout << iq_level << std::endl;
+  }
 }
 
 void PetStats::increaseMoney(int amount) { total_money += amount; }
@@ -150,8 +149,8 @@ void PetStats::maxSleep() { sleep_level = 100; }
 
 void PetStats::maxHunger() { hunger_level = 100; }
 
-void PetStats::changeMoney(int someMoney){
-    total_money=total_money+someMoney;
+void PetStats::changeMoney(int someMoney) {
+  total_money = total_money + someMoney;
 }
 void PetStats::checkStats(sf::RenderWindow& window, sf::Font& font) {
   // Variable to keep track of where to position the next warning
@@ -164,7 +163,8 @@ void PetStats::checkStats(sf::RenderWindow& window, sf::Font& font) {
     warning_text.setFont(font);
     warning_text.setCharacterSize(44);
     warning_text.setFillColor(sf::Color::Red);
-    warning_text.setPosition(warning_position_x, warning_position_y);  // X = 20, Y starts at 400
+    warning_text.setPosition(warning_position_x,
+                             warning_position_y);  // X = 20, Y starts at 400
     warning_text.setString("WARNING!! HEALTH IS 0");
     window.draw(warning_text);
     warning_position_y += 60;  // Move down for the next warning

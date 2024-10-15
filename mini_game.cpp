@@ -43,6 +43,8 @@ void mini_game::initialise_variables() {
 
 mini_game::mini_game() {
   // constructor
+
+  // initialise stuff
   initialise_variables();
   initialise_window();
   initialise_boxes();
@@ -279,7 +281,7 @@ void mini_game::update_game_over_text() {
   ss << "  GAME OVER!!" << "\n\n"
      << "Points Scored: " << points << "\n"
      << "Coins earned: " << money_earned << "\n\n"
-     << "Press esc to Exit"<<"\n\n";
+     << "Press esc to Exit" << "\n\n";
   game_over_text.setString(ss.str());
 }
 

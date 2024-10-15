@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <fstream>
 #include <iostream>
+#include <string>
 
 #include "AdultAvoWindow.h"
 #include "AdultGhostWindow.h"
@@ -45,24 +47,25 @@ int main() {
   // creating main window
   sf::RenderWindow main_window(sf::VideoMode(1920, 1080), "My Virtual Pet");
   main_window.setFramerateLimit(60);
-  bool new_game=SpriteLoader::showGameMenu(main_window,font);
-  std::cout<<new_game<<std::endl;
+  bool new_game = SpriteLoader::showGameMenu(main_window, font);
+  std::cout << new_game << std::endl;
   std::string user_pet;
   std::vector<int> stats;
-  if (!new_game){
-    std::ifstream statsFile("pet_stats.txt"); // Open the file for reading
+  if (!new_game) {
+    std::ifstream statsFile("pet_stats.txt");  // Open the file for reading
     std::string line;
     if (std::getline(statsFile, line)) {
       std::istringstream iss(line);
       // Get the first word
       if (!(iss >> user_pet)) {
-        std::cerr << "Failed to read the first word from the file." << std::endl;
+        std::cerr << "Failed to read the first word from the file."
+                  << std::endl;
       }
     }
     stats = SpriteLoader::readPetStats("pet_stats.txt");
-  }else{
-      user_pet = SpriteLoader::show_intro_screen(main_window, font);
-      main_window.display();
+  } else {
+    user_pet = SpriteLoader::show_intro_screen(main_window, font);
+    main_window.display();
   }
   std::cout << "User selected pet: " << user_pet << std::endl;
   PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
@@ -81,7 +84,7 @@ int main() {
     current_pet_selected=new adult_ghost;
   }
   PetStats petStats;
-  if(!new_game){
+  if (!new_game) {
     petStats.setHealthLevel(stats[0]);
     petStats.setSleepLevel(stats[1]);
     petStats.setHungerLevel(stats[2]);
@@ -217,13 +220,14 @@ int main() {
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
-            petStats.changeMoney(-(petStats.getMoney()-(shop.returnCoins())));
+            petStats.changeMoney(-(petStats.getMoney() - (shop.returnCoins())));
           } else if (user_pet == "baby_ghost") {
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
             shoppingWindow.open();
-         petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
+            petStats.changeMoney(
+                -(petStats.getMoney() - (shoppingWindow.returnCoins())));
 
           } else if (user_pet == "adult_ghost") {
             AdultGhostWindow AdultGhostWindow(font, petStats.getMoney(),
@@ -231,9 +235,10 @@ int main() {
 
             // Open the shopping window
             AdultGhostWindow.open();
-            petStats.changeMoney(-(petStats.getMoney()-(AdultGhostWindow.returnCoins())));
+            petStats.changeMoney(
+                -(petStats.getMoney() - (AdultGhostWindow.returnCoins())));
           }
-       
+
         } else if (x >= 900 && x <= 1050 && y >= 680 && y <= 830) {
           backgroundMusic.pause();
           std::cout << "Math Button" << std::endl;
@@ -242,29 +247,48 @@ int main() {
           // petStats.changeIQ(test);
           backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 680 && y <= 830) {
-         
           std::cout << "Info Button" << std::endl;
           // Create a new window for the info screen
           sf::RenderWindow infoWindow(sf::VideoMode(1920, 1080), "Information");
-          sf::Text infoText("Welcome to the game! Start by choosing your pet: either a ghost or an avo, and select its age (adult or baby).\n\nNote its starting stats: health, cleanliness, hunger, and IQ.\n\nPlay the box game to earn coins by catching falling boxes.\n\nUse your coins to go grocery shopping—adults can buy chicken, apples, milk, bread, and medicine, while babies can buy baby formula, porridge, or fever medicine.\n\nKeep track of your purchases and use food or medicine by clicking their respective buttons to boost your pet's stats.\n\nMake sure to shower your pet at least every 5 minutes for a health and mood boost.\n\nClick the sleep button when your pet needs rest, which will update its stats.\n\nCheck your pet's stats with the stats button; if they drop too low, your pet will need immediate attention.\n\nEngage in math challenges to increase IQ.\n\nRemember, if any stat hits zero, a warning will appear, and your pet won't die, but it will need care.\n\nEnjoy bonding with your pet, as it will occasionally speak to you throughout the game!", font, 30);
+          sf::Text infoText(
+              "Welcome to the game! Start by choosing your pet: either a ghost "
+              "or an avo, and select its age (adult or baby).\n\nNote its "
+              "starting stats: health, cleanliness, hunger, and IQ.\n\nPlay "
+              "the box game to earn coins by catching falling boxes.\n\nUse "
+              "your coins to go grocery shopping—adults can buy chicken, "
+              "apples, milk, bread, and medicine, while babies can buy baby "
+              "formula, porridge, or fever medicine.\n\nKeep track of your "
+              "purchases and use food or medicine by clicking their respective "
+              "buttons to boost your pet's stats.\n\nMake sure to shower your "
+              "pet at least every 5 minutes for a health and mood "
+              "boost.\n\nClick the sleep button when your pet needs rest, "
+              "which will update its stats.\n\nCheck your pet's stats with the "
+              "stats button; if they drop too low, your pet will need "
+              "immediate attention.\n\nEngage in math challenges to increase "
+              "IQ.\n\nRemember, if any stat hits zero, a warning will appear, "
+              "and your pet won't die, but it will need care.\n\nEnjoy bonding "
+              "with your pet, as it will occasionally speak to you throughout "
+              "the game!",
+              font, 30);
           infoText.setFillColor(sf::Color::Black);
           infoText.setPosition(50, 50);
 
           // Main loop for the info window
           while (infoWindow.isOpen()) {
-              sf::Event infoEvent;
-              while (infoWindow.pollEvent(infoEvent)) {
-                  if (infoEvent.type == sf::Event::Closed) {
-                      infoWindow.close();
-                  }
-                  if (infoEvent.type == sf::Event::KeyPressed && infoEvent.key.code == sf::Keyboard::B) {
-                      infoWindow.close(); // Close the info window
-                  }
+            sf::Event infoEvent;
+            while (infoWindow.pollEvent(infoEvent)) {
+              if (infoEvent.type == sf::Event::Closed) {
+                infoWindow.close();
               }
+              if (infoEvent.type == sf::Event::KeyPressed &&
+                  infoEvent.key.code == sf::Keyboard::B) {
+                infoWindow.close();  // Close the info window
+              }
+            }
 
-              infoWindow.clear(sf::Color(230,230,220)); // Clear the window
-              infoWindow.draw(infoText); // Draw the info text
-              infoWindow.display(); // Display the content
+            infoWindow.clear(sf::Color(230, 230, 220));  // Clear the window
+            infoWindow.draw(infoText);                   // Draw the info text
+            infoWindow.display();                        // Display the content
           }
         } else if (x >= 650 && x <= 900 && y >= 400 && y <= 600) {
           std::cout << "Touch character" << std::endl;
@@ -280,9 +304,13 @@ int main() {
     petStats.checkStats(main_window, font);
     main_window.display();
 
-    //writting data to file:
+    // writting data to file:
     std::ofstream statsFile("pet_stats.txt");
-    statsFile << user_pet<<" "<<petStats.getHealthLevel() << " "<< petStats.getSleepLevel() << " "<< petStats.getHungerLevel() << " "<< petStats.getIQLevel() << " "<< petStats.getTotalMoney() <<"\n"<<std::endl;
+    statsFile << user_pet << " " << petStats.getHealthLevel() << " "
+              << petStats.getSleepLevel() << " " << petStats.getHungerLevel()
+              << " " << petStats.getIQLevel() << " " << petStats.getTotalMoney()
+              << "\n"
+              << std::endl;
     // Iterate through the basket and write item details to the file
     statsFile.flush();
     // Create a map to track quantities of items

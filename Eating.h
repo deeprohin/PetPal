@@ -1,10 +1,10 @@
-#ifndef EATING_H
-#define EATING_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 
+// Base class for handling eating animations
 class Eating {
 public:
     Eating(const std::string& spriteSheetPath, float frameDuration, float scaleX, float scaleY): frameDuration_eating(frameDuration), elapsedTime_eating(0.0f), currentFrame_eating(0), isAnimating_eating(false) {};
@@ -23,5 +23,3 @@ public:
     virtual void updateSpriteRect_eating()=0;
     virtual ~Eating() {}
 };
-
-#endif // EATING_H

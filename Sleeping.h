@@ -22,4 +22,4 @@ public:
     virtual void updateSpriteRect_sleeping()=0;
 };
 
-#endif // SLEEPING_H
+#endif  // SLEEPING_H

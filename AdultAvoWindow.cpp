@@ -17,37 +17,37 @@ const sf::Color COINS_TEXT_COLOR = sf::Color::Black;
 const sf::Color TROLLEY_TEXT_COLOR = sf::Color::Black;
 const sf::Color INSUFFICIENT_FUNDS_COLOR = sf::Color::Red;
 
-// Constructor for AdultAvoShoppingWindow
+// constructor for AdultAvoShoppingWindow
 AdultAvoShoppingWindow::AdultAvoShoppingWindow(sf::Font& font, int userCoins,
                                                std::vector<Item>& basket)
     : font(font), userCoins(userCoins), basket(basket), trolleyCount(0) {
-  // Dynamically allocating the window
+  // dynamically allocating the window
   window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                                 "Adult Avo Shopping");
 
-  // Initializing coins text
+  // initializing coins text
   coinsText.setFont(font);
   coinsText.setCharacterSize(FONT_SIZE_COINS);
   coinsText.setFillColor(COINS_TEXT_COLOR);
   coinsText.setPosition(20, 20);
   coinsText.setString("Coins: " + std::to_string(userCoins));
 
-  // Initializing trolley count text
+  // initializing trolley count text
   trolleyText.setFont(font);
   trolleyText.setCharacterSize(FONT_SIZE_COINS);
   trolleyText.setFillColor(TROLLEY_TEXT_COLOR);
   trolleyText.setPosition(1700, 20);
   trolleyText.setString("Trolley: " + std::to_string(trolleyCount));
 
-  // Initializing insufficient funds text
+  // initializing insufficient funds text
   insufficientFundsText.setFont(font);
   insufficientFundsText.setCharacterSize(FONT_SIZE_COINS);
   insufficientFundsText.setFillColor(INSUFFICIENT_FUNDS_COLOR);
   insufficientFundsText.setPosition(
-      800, 100);  // Positioning it below the trolley count
-  insufficientFundsText.setString("");  // Initially it is set to empty
+      800, 100);  // positioning it below the trolley count
+  insufficientFundsText.setString("");  // initially it is set to empty
 
-  // Loading the trolley image
+  // loading the trolley image
   if (!trolleyTexture.loadFromFile("Images/Trolley.png")) {
     std::cerr << "Error: Adult trolley image not found at Images/Trolley.png"
               << std::endl;

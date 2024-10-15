@@ -1,37 +1,38 @@
 #ifndef SHOPPINGBASKET_H
 #define SHOPPINGBASKET_H
 
-#include <vector>
 #include <memory>
-#include "Item.h" // Ensure to include the Item header
+#include <vector>
+
+#include "Item.h"  // Ensure to include the Item header
 
 class ShoppingBasket {
-public:
-    // Constructor
-    ShoppingBasket(int initialCapacity);
-    
-    // Destructor
-    ~ShoppingBasket();
+ public:
+  // Constructor
+  ShoppingBasket(int initialCapacity);
 
-    // Add an item to the basket
-    void addItem(std::shared_ptr<Item> item); // Change BaseItem to Item
+  // Destructor
+  ~ShoppingBasket();
 
-    // Display items in the basket
-    void displayItems() const;
+  // Add an item to the basket
+  void addItem(std::shared_ptr<Item> item);  // Change BaseItem to Item
 
-    // Get the current size of the basket
-    int getSize() const;
+  // Display items in the basket
+  void displayItems() const;
 
-    // Getter for items (optional, can be used to access items externally)
-    const std::vector<std::shared_ptr<Item>>& getItems() const;
+  // Get the current size of the basket
+  int getSize() const;
 
-private:
-    std::vector<std::shared_ptr<Item>> items; // Vector to hold items
-    int capacity; // Current capacity of the basket
-    int size;     // Current size of the basket
+  // Getter for items (optional, can be used to access items externally)
+  const std::vector<std::shared_ptr<Item>>& getItems() const;
 
-    // Resize the basket when full
-    void resizeBasket();
+ private:
+  std::vector<std::shared_ptr<Item>> items;  // Vector to hold items
+  int capacity;                              // Current capacity of the basket
+  int size;                                  // Current size of the basket
+
+  // Resize the basket when full
+  void resizeBasket();
 };
 
-#endif // SHOPPINGBASKET_H
+#endif  // SHOPPINGBASKET_H
