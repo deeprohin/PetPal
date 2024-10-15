@@ -1,4 +1,9 @@
 #include "EatingBabyAvo.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
+#include <string>
 
 // Constructor
 EatingBabyAvo::EatingBabyAvo(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
@@ -38,6 +43,39 @@ EatingBabyAvo::~EatingBabyAvo() {
 
 // Load food items into the eating window
 void EatingBabyAvo::loadFoodItems() {
+    // Read stock data from pet_stats.txt
+std::unordered_map<std::string, int> stockData;
+std::ifstream stockFile("pet_stats.txt");
+if (!stockFile.is_open()) {
+    std::cerr << "Error: Unable to open pet_stats.txt!" << std::endl;
+    exit(1);
+}
+
+std::string stockLine;
+while (std::getline(stockFile, stockLine)) {
+    std::istringstream iss(stockLine);
+    std::string itemName;
+    int stock;
+
+    // Get the stock value from the end of the line
+    std::string lastWord;
+    while (iss >> lastWord) {
+        // Keep moving to the last word
+        itemName += (itemName.empty() ? "" : " ") + lastWord; // Add a space if not the first word
+    }
+    // Now we need to separate the last word (stock) from the item name
+    size_t lastSpacePos = itemName.find_last_of(' ');
+    if (lastSpacePos != std::string::npos) {
+        stock = std::stoi(itemName.substr(lastSpacePos + 1)); // Get the stock number
+        itemName = itemName.substr(0, lastSpacePos); // Get the name without the stock number
+    } else {
+        stock = 0; // Default to 0 if no valid stock
+    }
+
+    stockData[itemName] = stock; // Store stock in the map
+}
+
+
     std::vector<std::string> itemNames = {"Baby Pumpkin", "Baby Banana", "Yakult", "Baby Medicine"};
     std::vector<int> itemPrices = {100, 50, 50, 500}; // Prices for the baby items
     std::vector<std::string> imagePaths = {
@@ -62,7 +100,7 @@ void EatingBabyAvo::loadFoodItems() {
         ItemList item;
         item.name = itemNames[i];
         item.price = itemPrices[i];
-        item.stock = 5; // Initialize stock to 5 or any desired number
+        item.stock = stockData.count(itemNames[i]) ? stockData[itemNames[i]] : 0; // Initialize stock to 5 or any desired number
 
         // Load texture into shared_ptr
         item.texture = std::make_shared<sf::Texture>();
