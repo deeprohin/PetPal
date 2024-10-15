@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <string>
+#include <memory>
+#include <sstream>
+
 
 class Item {
  public:
@@ -22,10 +25,19 @@ class Item {
   void setStock(int stock);
   void display() const;  // For demonstration purposes
 
-  // SFML elements
-  sf::Sprite sprite;                     // Sprite to display the item
-  std::shared_ptr<sf::Texture> texture;  // Texture for the sprite
-  std::string name;                      // Name of the item
-  int price;                             // Price of the item
-  int stock;
+    // SFML elements
+    sf::Sprite sprite; // Sprite to display the item
+    std::shared_ptr<sf::Texture> texture; // Texture for the sprite
+    std::string name; // Name of the item
+        int price;        // Price of the item
+        int stock; 
+
+    
 };
+
+// Overload operator<< for writing Item to an ostream
+inline std::ostream& operator<<(std::ostream& os, const Item& item) {
+    os << item.name << "," << item.stock; // CSV format
+return os;
+}
+

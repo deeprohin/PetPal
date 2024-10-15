@@ -138,15 +138,16 @@ void BabyGhostShoppingWindow::handleEvents() {
       // resetting the insufficient funds message
       insufficientFundsText.setString("");
 
-      // checking if any item was clicked
-      for (auto& item : items) {
-        sf::FloatRect bounds = item.sprite.getGlobalBounds();
-        if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
-          if (userCoins >= item.price) {
-            userCoins -= item.price;
-            basket.push_back(item);
-            trolleyCount++;  // incrementing trolley count
-            std::cout << "Purchased: " << item.name << std::endl;
+            // Check if any item was clicked
+            for (auto& item : items) {
+                sf::FloatRect bounds = item.sprite.getGlobalBounds();
+                if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
+                    if (userCoins >= item.price) {
+                        userCoins -= item.price;
+                        item.stock++;
+                        basket.push_back(item);
+                        trolleyCount++;  // Increment trolley count
+                        std::cout << "Purchased: " << item.name << std::endl;
 
             // udpdating coins and trolley texts
             coinsText.setString("Coins: " + std::to_string(userCoins));

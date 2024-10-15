@@ -55,6 +55,10 @@
         "unordered_map": "cpp",
         "variant": "cpp",
         "algorithm": "cpp",
+<<<<<<< HEAD
+        "__config": "cpp",
+=======
+>>>>>>> 1ef84ad3f9960fee4b31eb962ca5505efd98c602
         "fstream": "cpp"
     }
 }

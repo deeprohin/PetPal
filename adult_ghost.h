@@ -10,6 +10,7 @@
 #include "Sleeping.h"
 #include "ghost.h"
 #include "pet_stats.h"
+//#include "sprite_loader.h"
 
 // adult ghost class inheritting publically from ghsot parent class and
 // shower,eating,sleeping and medicine class
@@ -49,6 +50,9 @@ class adult_ghost : public Shower,
     updateSpriteRect_sleeping();
     updateSpriteRect_medicine();
   }
+
+  adult_ghost(){}
+
   // animation for adult_ghost to start showering
   void startAnimation_shower() override {
     isAnimating_shower = true;
@@ -297,6 +301,10 @@ class adult_ghost : public Shower,
     std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY
               << ", Width: " << frameWidth << ", Height: " << frameHeight << ")"
               << std::endl;
+  }
+
+  void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
   }
 };
 #endif

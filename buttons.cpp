@@ -24,6 +24,11 @@
 #include "pet_stats.h"
 #include "quotesFile.h"
 #include "sprite_loader.h"
+#include <fstream>
+#include <string>
+#include <ostream>
+
+
 
 int main() {
   sf::Font font;
@@ -64,6 +69,20 @@ int main() {
   }
   std::cout << "User selected pet: " << user_pet << std::endl;
   PetStats* current_user_pet = SpriteLoader::initialize_pet(user_pet);
+  PetStats* current_pet_selected=NULL;
+
+
+
+
+  if(user_pet=="baby_avo"){
+    current_pet_selected=new baby_avo;
+  }else if(user_pet=="baby_ghost"){
+    current_pet_selected=new baby_ghost;
+  }else if(user_pet=="adult_avo"){
+    current_pet_selected=new adult_avo;
+  }else{
+    current_pet_selected=new adult_ghost;
+  }
   PetStats petStats;
   if (!new_game) {
     petStats.setHealthLevel(stats[0]);
@@ -72,6 +91,8 @@ int main() {
     petStats.setIQLevel(stats[3]);
     petStats.setTotalMoney(stats[4]);
   }
+  std::vector<Item> basket; // User's shopping basket
+  SpriteLoader* current_pet = new SpriteLoader;
 
   // creating buttons
   if (!SpriteLoader::loadResources()) {
@@ -84,8 +105,8 @@ int main() {
     sf::Event event;
     petStats.updateStats(main_window, font);
 
-    updateQuote(selectedQuote, quote_clock, newQuoteInterval, user_pet,
-                quoteVisible);
+    updateQuote(selectedQuote, quote_clock, newQuoteInterval, user_pet,quoteVisible);
+
     while (main_window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         main_window.close();
@@ -100,13 +121,11 @@ int main() {
         if (x >= 40 && x <= 190 && y >= 130 && y <= 280) {
           std::cout << "Sleeping Button" << std::endl;
           petStats.maxSleep();
-          SpriteLoader::animateSleepingPet(user_pet, main_window, font,
-                                           selectedQuote, &petStats);
+          current_pet->animateSleepingPet(user_pet, main_window, font, selectedQuote, &petStats);
         } else if (x >= 470 && x <= 620 && y >= 130 && y <= 280) {
           std::cout << "showering Button" << std::endl;
           petStats.maxHealth();
-          SpriteLoader::animateShoweringPet(user_pet, main_window, font,
-                                            selectedQuote, &petStats);
+          current_pet->animateShoweringPet(user_pet, main_window, font,selectedQuote, &petStats);
         } else if (x >= 900 && x <= 1050 && y >= 130 && y <= 280) {
           std::cout << "Game Button" << std::endl;
           backgroundMusic.pause();
@@ -119,6 +138,7 @@ int main() {
           backgroundMusic.play();
         } else if (x >= 1310 && x <= 1460 && y >= 130 && y <= 280) {
           std::cout << "Eating Button" << std::endl;
+          int current_health=petStats.getHealthLevel();
           int basketCapacity = 10;
           int basketSize = 0;
           ItemList* basket = new ItemList[basketCapacity];
@@ -177,36 +197,31 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
           }
+           
+          current_pet->animateEatingPet(user_pet, main_window, font,selectedQuote, &petStats);
 
-          SpriteLoader::animateEatingPet(user_pet, main_window, font,
-                                         selectedQuote, &petStats);
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
           std::cout << "Medicine Button" << std::endl;
           petStats.maxHealth();
-          SpriteLoader::animateGivingMedicine(user_pet, main_window, font,
-                                              selectedQuote, &petStats);
+          current_pet->animateGivingMedicine(user_pet, main_window, font,selectedQuote, &petStats);
+
         } else if (x >= 470 && x <= 620 && y >= 680 && y <= 830) {
           std::cout << "Shopping Button" << std::endl;
-          // youre part brookyln
-          if (user_pet == "adult_avo") {
-            std::vector<Item> basket;  // User's shopping basket
-            // Create an instance of the shopping window
-            AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(),
-                                                  basket);
-            std::cout << "Shopping window created." << std::endl;
-            shoppingWindow.open();
-            petStats.changeMoney(
-                -(petStats.getMoney() - (shoppingWindow.returnCoins())));
-
-          } else if (user_pet == "baby_avo") {
-            std::vector<Item> basket;  // Basket to hold purchased items
-                                       // Create BabyAvo instance
+          //youre part brookyln
+          if (user_pet=="adult_avo"){
+               // Create an instance of the shopping window
+              AdultAvoShoppingWindow shoppingWindow(font, petStats.getMoney(), basket);
+              std::cout << "Shopping window created." << std::endl;
+              shoppingWindow.open();
+              petStats.changeMoney(-(petStats.getMoney()-(shoppingWindow.returnCoins())));
+          }
+          else if(user_pet=="baby_avo"){
+           // Create BabyAvo instance
             BabyAvo shop(font, petStats.getMoney(), basket);
             std::cout << "Shopping window created." << std::endl;
             shop.open();
             petStats.changeMoney(-(petStats.getMoney() - (shop.returnCoins())));
           } else if (user_pet == "baby_ghost") {
-            std::vector<Item> basket;
             BabyGhostShoppingWindow shoppingWindow(font, petStats.getMoney(),
                                                    basket);
             // Open the window
@@ -215,7 +230,6 @@ int main() {
                 -(petStats.getMoney() - (shoppingWindow.returnCoins())));
 
           } else if (user_pet == "adult_ghost") {
-            std::vector<Item> basket;
             AdultGhostWindow AdultGhostWindow(font, petStats.getMoney(),
                                               basket);
 
@@ -282,18 +296,11 @@ int main() {
         }
       }
     }
-    SpriteLoader::drawSprites(main_window);
+    current_pet->drawSprites(main_window);
     petStats.renderStats(main_window, font);
     renderQuote(main_window, font, selectedQuote);
-    if (user_pet == "adult_avo") {
-      main_window.draw(SpriteLoader::adult_avo_normal_sprite);
-    } else if (user_pet == "baby_avo") {
-      main_window.draw(SpriteLoader::baby_avo_normal_sprite);
-    } else if (user_pet == "adult_ghost") {
-      main_window.draw(SpriteLoader::adult_ghost_normal_sprite);
-    } else {
-      main_window.draw(SpriteLoader::baby_ghost_normal_sprite);
-    }
+    //polymorphism
+    current_pet->draw_default_sprite(main_window,user_pet);
     petStats.checkStats(main_window, font);
     main_window.display();
 
@@ -306,6 +313,18 @@ int main() {
               << std::endl;
     // Iterate through the basket and write item details to the file
     statsFile.flush();
-  }
+    // Create a map to track quantities of items
+    std::map<std::string, std::pair<int, int>> itemCounts; // <item_name, quantity>>
+
+    // Iterate through the basket and count the items
+    for (const auto& item : basket) {
+      itemCounts[item.name].first = item.price; // set the price
+      itemCounts[item.name].second++; // increment quantity
+    }
+    // Write items to file
+    for (const auto& entry : itemCounts) {
+      statsFile << entry.first << " " << entry.second.second << "\n";
+    }
+    }
   return 0;
 }

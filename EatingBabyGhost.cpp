@@ -1,4 +1,11 @@
 #include "EatingBabyGhost.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
+#include <string>
+#include "pet_stats.h"
+
 
 // Constructor
 EatingBabyGhost::EatingBabyGhost(sf::Font& font, ItemList* basket,
@@ -40,32 +47,60 @@ EatingBabyGhost::~EatingBabyGhost() {
 }
 
 void EatingBabyGhost::loadFoodItems() {
-  std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt",
-                                        "Baby Medicine"};
-  std::vector<int> itemPrices = {50, 30, 70, 500};  // Prices for the items
-  std::vector<std::string> imagePaths = {
-      "Images/Milk2.png", "Images/Porridge.png", "Images/Yoghurt.png",
-      "Images/BabyMedicine.png"};
+    // Read stock data from pet_stats.txt
+    std::unordered_map<std::string, int> stockData;
+    std::ifstream stockFile("pet_stats.txt");
+    if (!stockFile.is_open()) {
+        std::cerr << "Error: Unable to open pet_stats.txt!" << std::endl;
+        exit(1);
+    }
 
-  // Define grid layout parameters
-  const int columns = 2;                  // Number of columns
-  const int rows = 2;                     // Number of rows
-  const float itemSize = 150.0f;          // Fixed size for each item
-  const float horizontalSpacing = 50.0f;  // Horizontal spacing
-  const float verticalSpacing = 50.0f;    // Vertical spacing
-  const float startX =
-      (1920 - (columns * itemSize + (columns - 1) * horizontalSpacing)) / 2.0f -
-      200;  // Center grid horizontally
-  const float startY =
-      (1080 - (rows * itemSize + (rows - 1) * verticalSpacing)) / 2.0f -
-      100;  // Center grid vertically
+    std::string stockLine;
+    while (std::getline(stockFile, stockLine)) {
+        std::istringstream iss(stockLine);
+        std::string itemName;
+        int stock;
 
-  // Load each food item
-  for (size_t i = 0; i < itemNames.size(); ++i) {
-    ItemList item;
-    item.name = itemNames[i];
-    item.price = itemPrices[i];
-    item.stock = 5;  // Initialize stock to 5
+        std::string lastWord;
+        while (iss >> lastWord) {
+            itemName += (itemName.empty() ? "" : " ") + lastWord; // Rebuild item name
+        }
+
+        size_t lastSpacePos = itemName.find_last_of(' ');
+        if (lastSpacePos != std::string::npos) {
+            stock = std::stoi(itemName.substr(lastSpacePos + 1));
+            itemName = itemName.substr(0, lastSpacePos);
+        } else {
+            stock = 0; // Default to 0
+        }
+
+        stockData[itemName] = stock;
+    }
+
+    std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
+    std::vector<int> itemPrices = {50, 30, 70, 500}; // Prices for the items
+    std::vector<std::string> imagePaths = {
+        "Images/Milk2.png", 
+        "Images/Porridge.png", 
+        "Images/Yoghurt.png", 
+        "Images/BabyMedicine.png"
+    };
+    
+    // Define grid layout parameters
+    const int columns = 2; // Number of columns
+    const int rows = 2;    // Number of rows
+    const float itemSize = 150.0f; // Fixed size for each item
+    const float horizontalSpacing = 50.0f; // Horizontal spacing
+    const float verticalSpacing = 50.0f;   // Vertical spacing
+    const float startX = (1920 - (columns * itemSize + (columns - 1) * horizontalSpacing)) / 2.0f - 200; // Center grid horizontally
+    const float startY = (1080 - (rows * itemSize + (rows - 1) * verticalSpacing)) / 2.0f - 100; // Center grid vertically
+
+    // Load each food item
+    for (size_t i = 0; i < itemNames.size(); ++i) {
+        ItemList item;
+        item.name = itemNames[i];
+        item.price = itemPrices[i];
+        item.stock = stockData.count(itemNames[i]) ? stockData[itemNames[i]] : 0;// Initialize stock to 5
 
     // Load texture into shared_ptr
     item.texture = std::make_shared<sf::Texture>();

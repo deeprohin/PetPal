@@ -1,6 +1,12 @@
 #include "EatingAdultGhostWindow.h"
 
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
+#include <string>
+#include "pet_stats.h"
 
 // Constructor
 EatingAdultGhostWindow::EatingAdultGhostWindow(sf::Font& font, ItemList* basket,
@@ -48,12 +54,46 @@ EatingAdultGhostWindow::~EatingAdultGhostWindow() {
 
 // Load food items into the eating window
 void EatingAdultGhostWindow::loadFoodItems() {
-  std::vector<std::string> itemNames = {"Chicken",  "Milk",  "Apple",
-                                        "Medicine", "Pizza", "Fish"};
-  std::vector<int> itemPrices = {100, 50, 50, 500, 70, 70};
-  std::vector<std::string> imagePaths = {
-      "Images/Chicken.png",  "Images/Milk.png",  "Images/Apple.png",
-      "Images/Medicine.png", "Images/Pizza.png", "Images/Fish.png"};
+    // Read stock data from pet_stats.txt
+    std::unordered_map<std::string, int> stockData;
+    std::ifstream stockFile("pet_stats.txt");
+    if (!stockFile.is_open()) {
+        std::cerr << "Error: Unable to open pet_stats.txt!" << std::endl;
+        exit(1);
+    }
+
+    std::string stockLine;
+    while (std::getline(stockFile, stockLine)) {
+        std::istringstream iss(stockLine);
+        std::string itemName;
+        int stock;
+
+        std::string lastWord;
+        while (iss >> lastWord) {
+            itemName += (itemName.empty() ? "" : " ") + lastWord; // Rebuild item name
+        }
+
+        size_t lastSpacePos = itemName.find_last_of(' ');
+        if (lastSpacePos != std::string::npos) {
+            stock = std::stoi(itemName.substr(lastSpacePos + 1));
+            itemName = itemName.substr(0, lastSpacePos);
+        } else {
+            stock = 0; // Default to 0
+        }
+
+        stockData[itemName] = stock;
+    }
+    
+    std::vector<std::string> itemNames = {"Chicken", "Milk", "Apple", "Medicine", "Pizza", "Fish"};
+    std::vector<int> itemPrices = {100, 50, 50, 500, 70, 70};
+    std::vector<std::string> imagePaths = {
+        "Images/Chicken.png", 
+        "Images/Milk.png", 
+        "Images/Apple.png", 
+        "Images/Medicine.png", 
+        "Images/Pizza.png", 
+        "Images/Fish.png"
+    };
 
   // Define grid layout parameters
   const int columns = 3;                  // Number of columns
@@ -68,12 +108,12 @@ void EatingAdultGhostWindow::loadFoodItems() {
       (1080 - (rows * imageSize + (rows - 1) * verticalSpacing)) /
       2.0f;  // Center the grid vertically
 
-  // Load each food item
-  for (size_t i = 0; i < itemNames.size(); ++i) {
-    ItemList item;
-    item.name = itemNames[i];
-    item.price = itemPrices[i];
-    item.stock = 5;  // Initialize stock to 5 or any desired number
+    // Load each food item
+    for (size_t i = 0; i < itemNames.size(); ++i) {
+        ItemList item;
+        item.name = itemNames[i];
+        item.price = itemPrices[i];
+        item.stock = stockData.count(itemNames[i]) ? stockData[itemNames[i]] : 0; // Initialize stock to 5 or any desired number
 
     // Load texture into shared_ptr
     item.texture = std::make_shared<sf::Texture>();

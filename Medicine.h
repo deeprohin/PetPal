@@ -15,6 +15,7 @@ class Medicine {
         currentFrame_medicine(0),    // Currently displayed frame index
         isAnimating_medicine(false) {
   }  // Whether the animation is currently running
+  Medicine(){}
 
   // Starts the animation
   virtual void startAnimation_medicine() = 0;

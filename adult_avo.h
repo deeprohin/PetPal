@@ -12,6 +12,7 @@
 #include "avo.h"
 #include "pet_stats.h"
 
+
 // creating adult avo class which inherits publicaly from avo,
 // shower,eating,sleeping,medicine
 class adult_avo : public Shower,
@@ -36,7 +37,6 @@ class adult_avo : public Shower,
       std::cerr << "Error loading sprite sheet: " << spriteSheetPath
                 << std::endl;
     }
-
     // Initializing the sprite with textures for different activities
     sprite_shower.setTexture(texture_shower);
     sprite_eating.setTexture(texture_eating);
@@ -56,6 +56,7 @@ class adult_avo : public Shower,
     updateSpriteRect_medicine();
   }
 
+  adult_avo(){}
   // Starting animation for the shower activity
   void startAnimation_shower() override {
     isAnimating_shower = true;
@@ -310,6 +311,10 @@ class adult_avo : public Shower,
     std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY
               << ", Width: " << frameWidth << ", Height: " << frameHeight << ")"
               << std::endl;
+  }
+
+  void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
   }
 };
 #endif

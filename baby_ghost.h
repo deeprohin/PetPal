@@ -10,46 +10,33 @@
 #include "Sleeping.h"
 #include "ghost.h"
 #include "pet_stats.h"
-// class baby_ghost inheritting from teh avo, shower,eating,sleeping,medicine
-// class publically
-class baby_ghost : public Shower,
-                   public Eating,
-                   public Sleeping,
-                   public Medicine,
-                   public avo {
- public:
-  // constructor
-  baby_ghost(const std::string& spriteSheetPath, float frameDuration,
-             float scaleX = 1.0f, float scaleY = 1.0f)
-      : Shower(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Eating(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Medicine(spriteSheetPath, frameDuration, scaleX, scaleY) {
-    if (!texture_shower.loadFromFile(spriteSheetPath) ||
-        !texture_eating.loadFromFile(spriteSheetPath) ||
-        !texture_sleeping.loadFromFile(spriteSheetPath) ||
-        !texture_medicine.loadFromFile(spriteSheetPath)) {
-      std::cerr << "Error loading sprite sheet: " << spriteSheetPath
-                << std::endl;
+
+
+class baby_ghost : public Shower,public Eating,public Sleeping,public Medicine,public avo{
+public:
+    baby_ghost(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f) :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
+        if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {
+            std::cerr << "Error loading sprite sheet: " << spriteSheetPath << std::endl;
+        }
+        // Set up the initial sprite
+        sprite_shower.setTexture(texture_shower);
+        sprite_eating.setTexture(texture_eating);
+        sprite_sleeping.setTexture(texture_eating);
+        sprite_medicine.setTexture(texture_eating);
+        // Apply scaling to the sprite
+        sprite_shower.setScale(scaleX, scaleY);
+        sprite_eating.setScale(scaleX, scaleY);
+        sprite_sleeping.setScale(scaleX, scaleY);
+        sprite_medicine.scale(scaleX, scaleY);
+        // Update the texture rectangle for the initial frame
+        updateSpriteRect_shower();
+        updateSpriteRect_eating();
+        updateSpriteRect_sleeping();
+        updateSpriteRect_medicine();
     }
-    // setting up the initial sprite
-    sprite_shower.setTexture(texture_shower);
-    sprite_eating.setTexture(texture_eating);
-    sprite_sleeping.setTexture(texture_eating);
-    sprite_medicine.setTexture(texture_eating);
-    // applying scaling to the sprite
-    sprite_shower.setScale(scaleX, scaleY);
-    sprite_eating.setScale(scaleX, scaleY);
-    sprite_sleeping.setScale(scaleX, scaleY);
-    sprite_medicine.scale(scaleX, scaleY);
-    // updating the texture rectangle for the initial frame
-    updateSpriteRect_shower();
-    updateSpriteRect_eating();
-    updateSpriteRect_sleeping();
-    updateSpriteRect_medicine();
-  }
-  // function to start animation for sleeping
-  void startAnimation_sleeping() override {
+    baby_ghost(){}
+
+    void startAnimation_sleeping()override{
     isAnimating_sleeping = true;
     currentFrame_sleeping = 0;    // resetting to first frame
     elapsedTime_sleeping = 0.0f;  // resetting elapsed time
@@ -284,9 +271,15 @@ class baby_ghost : public Shower,
     sprite_medicine.setTextureRect(
         sf::IntRect(frameX, frameY, frameWidth, frameHeight));
 
-    // printing out the coordinates of hte frame
-    std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY
-              << ", Width: " << frameWidth << ", Height: " << frameHeight << ")"
-              << std::endl;
+    // Debugging output to check the frame rect
+    std::cout << "Frame rect set: (X: " << frameX << ", Y: " << frameY << ", Width: " << frameWidth << ", Height: " << frameHeight << ")" << std::endl;
+}
+
+~baby_ghost(){}
+
+void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
   }
+ 
+
 };

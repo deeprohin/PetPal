@@ -10,53 +10,44 @@
 #include "Sleeping.h"
 #include "avo.h"
 #include "pet_stats.h"
-// baby avo class inheriting publically from avo,
-// shower,eating,sleeping,medicine class
-class baby_avo : public Shower,
-                 public Eating,
-                 public Sleeping,
-                 public Medicine,
-                 public avo {
- public:
-  // constructor with paramteres
-  baby_avo(const std::string& spriteSheetPath, float frameDuration,
-           float scaleX = 1.0f, float scaleY = 1.0f)
-      : Shower(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Eating(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),
-        Medicine(spriteSheetPath, frameDuration, scaleX, scaleY) {
-    if (!texture_shower.loadFromFile(spriteSheetPath) ||
-        !texture_eating.loadFromFile(spriteSheetPath) ||
-        !texture_sleeping.loadFromFile(spriteSheetPath) ||
-        !texture_medicine.loadFromFile(spriteSheetPath)) {
-      std::cerr << "Error loading sprite sheet: " << spriteSheetPath
-                << std::endl;
+#include "avo.h"
+
+
+class baby_avo : public Shower,public Eating,public Sleeping,public Medicine,public avo{
+public:
+     // Constructor to load the sprite sheet for an activity with scaling for showering
+    baby_avo(const std::string& spriteSheetPath, float frameDuration, float scaleX = 1.0f, float scaleY = 1.0f)
+        :Shower(spriteSheetPath, frameDuration, scaleX, scaleY),Eating(spriteSheetPath, frameDuration, scaleX, scaleY),Sleeping(spriteSheetPath, frameDuration, scaleX, scaleY),Medicine(spriteSheetPath, frameDuration, scaleX, scaleY){
+        if (!texture_shower.loadFromFile(spriteSheetPath)||!texture_eating.loadFromFile(spriteSheetPath)||!texture_sleeping.loadFromFile(spriteSheetPath)||!texture_medicine.loadFromFile(spriteSheetPath)) {
+            std::cerr << "Error loading sprite sheet: " << spriteSheetPath << std::endl;
+        }
+        // Set up the initial sprite
+        sprite_shower.setTexture(texture_shower);
+        sprite_eating.setTexture(texture_eating);
+        sprite_sleeping.setTexture(texture_eating);
+        sprite_medicine.setTexture(texture_eating);
+        // Apply scaling to the sprite
+        sprite_shower.setScale(scaleX, scaleY);
+        sprite_eating.setScale(scaleX, scaleY);
+        sprite_sleeping.setScale(scaleX, scaleY);
+        sprite_medicine.scale(scaleX, scaleY);
+        // Update the texture rectangle for the initial frame
+        updateSpriteRect_shower();
+        updateSpriteRect_eating();
+        updateSpriteRect_sleeping();
+        updateSpriteRect_medicine();
     }
-    // setting up the initial sprite
-    sprite_shower.setTexture(texture_shower);
-    sprite_eating.setTexture(texture_eating);
-    sprite_sleeping.setTexture(texture_eating);
-    sprite_medicine.setTexture(texture_eating);
-    // applying scaling to the sprite
-    sprite_shower.setScale(scaleX, scaleY);
-    sprite_eating.setScale(scaleX, scaleY);
-    sprite_sleeping.setScale(scaleX, scaleY);
-    sprite_medicine.scale(scaleX, scaleY);
-    // updating the texture rectangle for the initial frame
-    updateSpriteRect_shower();
-    updateSpriteRect_eating();
-    updateSpriteRect_sleeping();
-    updateSpriteRect_medicine();
-  }
-  // function to start the animation for showering
-  void startAnimation_shower() override {
-    isAnimating_shower = true;
-    currentFrame_shower = 0;    // resetting the first frame
-    elapsedTime_shower = 0.0f;  // resetting the elapsed time
-    position_shower.x = 600.f;
-    position_shower.y = 350.f;
-    originalPosition_shower = position_shower;
-  }
+    baby_avo(){}
+
+    void startAnimation_shower() override {
+        isAnimating_shower = true;
+        currentFrame_shower = 0; // Reset to the first frame
+        elapsedTime_shower = 0.0f; // Reset elapsed time
+        position_shower.x = 600.f; // Start position (center of the window)
+        position_shower.y = 350.f; // Y position
+        originalPosition_shower = position_shower; // Store the original position
+        sprite_shower.setPosition(position_shower); // Set the sprite's initial position
+    }
 
   void update_shower(float deltaTime) override {
     if (!isAnimating_shower) return;  // not udpating when it is not animating
@@ -303,8 +294,15 @@ class baby_avo : public Shower,
     sprite_eating.setTextureRect(
         sf::IntRect(frameX, frameY, frameWidth, frameHeight));
 
-    // printing out the coordinates for the frames
-    std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX
-              << ", Y: " << frameY << ")" << std::endl;
+    // Optional: Print out the frame's coordinates for debugging
+    std::cout << "Frame " << currentFrame_eating << ": (X: " << frameX << ", Y: " << frameY << ")" << std::endl;
+}
+
+void draw_default_sprite(sf::RenderWindow& window) override{
+    window.draw(sprite_shower);
   }
+
+
+
 };
+
