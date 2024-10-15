@@ -1,2 +1,2 @@
-baby_ghost 0 0 0 30 1000
+adult_avo 25 25 25 50 1000
 
