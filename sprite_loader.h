@@ -502,20 +502,42 @@ static void animateGivingMedicine(const std::string& user_pet, sf::RenderWindow&
 }
 
 static bool showGameMenu(sf::RenderWindow& parentWindow, sf::Font& font) {
-    // Set up menu text
-    sf::Text newGameText("New Game", font, 50);
+   // Set up menu text
+    sf::Text newGameText("New Game", font, 70);
     newGameText.setFillColor(sf::Color::Black);
-    newGameText.setPosition(650, 300); // Adjusted for 1920x1080 resolution
+    sf::Vector2u windowSize = parentWindow.getSize();
 
-    sf::Text loadGameText("Load Previous Game", font, 50);
+    // Get the text size for newGameText
+    sf::FloatRect textBoundsNewGame = newGameText.getGlobalBounds();
+    
+    // Calculate the center position for newGameText
+    float newGamePosX = (windowSize.x - textBoundsNewGame.width) / 2; // Center horizontally
+    float newGamePosY = (windowSize.y - textBoundsNewGame.height) / 2 - 120; // Center vertically, offset by 50 for spacing
+    newGameText.setPosition(newGamePosX, newGamePosY);
+    
+    // Set up load game text
+    sf::Text loadGameText("Load Previous Game", font, 70);
     loadGameText.setFillColor(sf::Color::Black);
-    loadGameText.setPosition(650, 500); // Adjusted for 1920x1080 resolution
+    
+    // Get the text size for loadGameText
+    sf::FloatRect textBoundsLoadGame = loadGameText.getGlobalBounds();
+    
+    // Calculate the center position for loadGameText
+    float loadGamePosX = (windowSize.x - textBoundsLoadGame.width) / 2; // Center horizontally
+    float loadGamePosY = newGamePosY + textBoundsNewGame.height + 120; // Position below newGameText with some spacing
+    loadGameText.setPosition(loadGamePosX, loadGamePosY);
 
     // Text for no previous games found
     sf::Text noGamesText("No Previous Games Found", font, 30);
     noGamesText.setFillColor(sf::Color::Red);
-    noGamesText.setPosition(650, 600); // Position below the load game option
-
+    
+    // Get the text size for noGamesText
+    sf::FloatRect textBoundsNoGames = noGamesText.getGlobalBounds();
+    
+    // Calculate the position for noGamesText
+    float noGamesPosX = (windowSize.x - textBoundsNoGames.width) / 2; // Center horizontally
+    float noGamesPosY = loadGamePosY + textBoundsLoadGame.height + 20; // Position below loadGameText with some spacing
+    noGamesText.setPosition(noGamesPosX, noGamesPosY);
     bool showNoGamesMessage = false; // Flag to show the no games message
 
     // Main loop for the menu window
