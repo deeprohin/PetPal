@@ -100,15 +100,15 @@ void EatingAdultGhostWindow::loadFoodItems() {
 }
 
 // Open the eating window and handle interactions
-void EatingAdultGhostWindow::open() {
+void EatingAdultGhostWindow::open(PetStats petStats) {
     while (window->isOpen()) {
-        handleEvents();
+        handleEvents(petStats);
         render();
     }
 }
 
 // Handle window events
-void EatingAdultGhostWindow::handleEvents() {
+void EatingAdultGhostWindow::handleEvents(PetStats petStats) {
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -132,6 +132,7 @@ void EatingAdultGhostWindow::handleEvents() {
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Find the item in the basket
+                     petStats.maxHunger();
                     auto it = std::find_if(basket, basket + basketSize, [&item](const ItemList& basketItem) {
                         return basketItem.name == item.name;
                     });

@@ -1,6 +1,6 @@
 #ifndef EatingAdultGhostWindow_H
 #define EatingAdultGhostWindow_H
-
+#include"pet_stats.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -15,7 +15,7 @@ public:
     ~EatingAdultGhostWindow(); // Destructor to clean up dynamic memory
 
     // Open the eating window and handle interactions
-    void open();
+    void open(PetStats petStats);
 
 private:
     sf::RenderWindow* window;                  // Pointer for dynamic allocation
@@ -35,7 +35,7 @@ private:
     void loadFoodItems();
 
     // Handle window events like clicking items
-    void handleEvents();
+    void handleEvents(PetStats petStats);
 
     // Render the window and items
     void render();

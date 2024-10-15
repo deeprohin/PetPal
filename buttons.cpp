@@ -144,7 +144,7 @@ int main() {
             // Create an instance of the EatingAdultAvo class
             EatingAdultAvo eatingWindow(font, basket, basketSize,
                                         basketCapacity, trolleyCount);
-            eatingWindow.open();  // Open the eating window
+            eatingWindow.open(petStats);  // Open the eating window
             delete[] basket;
           } else if (user_pet == "baby_avo") {
             EatingBabyAvo eatingWindow(font, basket, basketSize, basketCapacity,
@@ -161,7 +161,8 @@ int main() {
                                                 basketCapacity, trolleyCount);
 
             // Open the window and run the application
-            eatingWindow.open();
+            eatingWindow.open(petStats);
+          
 
             // Clean up dynamically allocated memory
             delete[] basket;
@@ -176,7 +177,7 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
           }
-          petStats.maxHunger();
+          
           SpriteLoader::animateEatingPet(user_pet, main_window, font,
                                          selectedQuote, &petStats);
         } else if (x >= 40 && x <= 190 && y >= 680 && y <= 830) {
