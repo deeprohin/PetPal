@@ -29,3 +29,14 @@ TEST(MiniGameTest, EarnMoney) {
     game.update();
     EXPECT_GT(game.money_earned_end(), 0);  // Ensure the mini-game gives money at the end
 }
+
+// Test hunger decreases after activity (playing a mini-game)
+TEST(PetStatsTest, HungerDecreasesAfterActivity) {
+    PetStats stats;
+    stats.maxHunger();  // Set hunger to max (100)
+
+    // Simulate playing a mini-game which decreases hunger
+    stats.updateHunger(-20);  // Assuming playing decreases hunger by 20
+
+    EXPECT_EQ(stats.getHunger(), 80);  // Hunger should now be 80
+}
