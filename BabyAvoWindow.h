@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 #include "Item.h" // Include the Item header file
-
+#include"pet_stats.h"
 class BabyAvo {
 public:
     BabyAvo(sf::Font& font, int userCoins, std::vector<Item>& basket);

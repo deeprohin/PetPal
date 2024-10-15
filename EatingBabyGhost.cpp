@@ -1,4 +1,11 @@
 #include "EatingBabyGhost.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
+#include <string>
+#include "pet_stats.h"
+
 
 // Constructor
 EatingBabyGhost::EatingBabyGhost(sf::Font& font, ItemList* basket, int& basketSize, int& basketCapacity, int& trolleyCount)
@@ -37,6 +44,36 @@ EatingBabyGhost::~EatingBabyGhost() {
 }
 
 void EatingBabyGhost::loadFoodItems() {
+    // Read stock data from pet_stats.txt
+    std::unordered_map<std::string, int> stockData;
+    std::ifstream stockFile("pet_stats.txt");
+    if (!stockFile.is_open()) {
+        std::cerr << "Error: Unable to open pet_stats.txt!" << std::endl;
+        exit(1);
+    }
+
+    std::string stockLine;
+    while (std::getline(stockFile, stockLine)) {
+        std::istringstream iss(stockLine);
+        std::string itemName;
+        int stock;
+
+        std::string lastWord;
+        while (iss >> lastWord) {
+            itemName += (itemName.empty() ? "" : " ") + lastWord; // Rebuild item name
+        }
+
+        size_t lastSpacePos = itemName.find_last_of(' ');
+        if (lastSpacePos != std::string::npos) {
+            stock = std::stoi(itemName.substr(lastSpacePos + 1));
+            itemName = itemName.substr(0, lastSpacePos);
+        } else {
+            stock = 0; // Default to 0
+        }
+
+        stockData[itemName] = stock;
+    }
+
     std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
     std::vector<int> itemPrices = {50, 30, 70, 500}; // Prices for the items
     std::vector<std::string> imagePaths = {
@@ -60,7 +97,7 @@ void EatingBabyGhost::loadFoodItems() {
         ItemList item;
         item.name = itemNames[i];
         item.price = itemPrices[i];
-        item.stock = 5; // Initialize stock to 5
+        item.stock = stockData.count(itemNames[i]) ? stockData[itemNames[i]] : 0;// Initialize stock to 5
 
         // Load texture into shared_ptr
         item.texture = std::make_shared<sf::Texture>();
@@ -99,14 +136,14 @@ void EatingBabyGhost::loadFoodItems() {
 }
 
 // Open the eating window and handle interactions
-void EatingBabyGhost::open(PetStats petStats) {
+void EatingBabyGhost::open(PetStats& petStats) {
     while (window->isOpen()) {
         handleEvents(petStats);
         render();
     }
 }
 
-void EatingBabyGhost::handleEvents(PetStats petStats) {
+void EatingBabyGhost::handleEvents(PetStats& petStats) {
     sf::Event event;
     while (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -127,9 +164,11 @@ void EatingBabyGhost::handleEvents(PetStats petStats) {
 
             // Check if any food item was clicked
             for (auto& item : foodItems) {
+
                 sf::FloatRect bounds = item.sprite.getGlobalBounds();
                 if (bounds.contains(static_cast<float>(x), static_cast<float>(y))) {
                     // Check stock directly from the foodItems vector
+                  
                     if (item.stock > 0) {
                         petStats.maxHunger();
                         // Simulate eating the food item
@@ -137,7 +176,7 @@ void EatingBabyGhost::handleEvents(PetStats petStats) {
                         trolleyCount++; // Increase trolley count
                         playEatingAnimation(item.name);
                         std::cout << "Ate: " << item.name << std::endl;
-
+                        
                         // Update the quantity display for this item
                         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
                     } else {

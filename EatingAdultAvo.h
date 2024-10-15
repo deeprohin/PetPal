@@ -26,7 +26,7 @@ public:
     ~EatingAdultAvo();
 
     // Open the eating window and handle interactions
-    void open(PetStats petStats);
+    void open(PetStats& petStats);
 
 private:
     sf::Font& font;
@@ -44,7 +44,7 @@ private:
     void loadFoodItems();
 
     // Handle window events
-    void handleEvents(PetStats petStats);
+    void handleEvents(PetStats& petStats);
 
     // Render the eating window
     void render();
