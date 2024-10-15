@@ -7,7 +7,9 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include"EatingAdultAvo.h"
+#include "EatingAdultAvo.h" // Ensure this is correctly defined
+#include "Item.h" // Add this if ItemList is in a separate file
+
 // EatingBabyGhost class to handle the interaction with food items
 class EatingBabyGhost {
 public:
@@ -23,13 +25,13 @@ private:
     sf::Sprite fridgeSprite;                    // Sprite for fridge background
     sf::Font& font;                             // Font used for text display
 
-    ItemList* basket;                               // Dynamically allocated array for basket items
+    ItemList* basket;                           // Dynamically allocated array for basket items
     int& basketSize;                            // Reference to the current size of the basket
     int& basketCapacity;                        // Reference to the current capacity of the basket
     int& trolleyCount;                          // Reference to the trolley count
 
     sf::Text insufficientFundsText;             // Text to display insufficient funds message
-    std::vector<ItemList> foodItems;                // Vector to hold food items
+    std::vector<ItemList> foodItems;            // Vector to hold food items
 
     // Load food items into the window
     void loadFoodItems();

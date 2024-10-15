@@ -30,4 +30,3 @@ private:
     sf::Sprite trolleySprite; // Sprite for the trolley image
 };
 
-

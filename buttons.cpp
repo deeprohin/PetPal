@@ -159,7 +159,7 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
 
-          } else if (user_pet == "baby_ghost") {
+          } else if (user_pet == "adult_ghost") {
             EatingAdultGhostWindow eatingWindow(font, basket, basketSize,
                                                 basketCapacity, trolleyCount);
 
@@ -169,7 +169,7 @@ int main() {
             // Clean up dynamically allocated memory
             delete[] basket;
 
-          } else if (user_pet == "adult_ghost") {
+          } else if (user_pet == "baby_ghost") {
             EatingBabyGhost eatingWindow(font, basket, basketSize,
                                          basketCapacity, trolleyCount);
 
