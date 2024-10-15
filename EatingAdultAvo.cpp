@@ -35,7 +35,6 @@ EatingAdultAvo::~EatingAdultAvo() {
     delete window;  // Delete dynamically allocated window
 }
 
-// Load food items into the eating window
 void EatingAdultAvo::loadFoodItems() {
     std::vector<std::string> itemNames = {"Steak", "Fried Rice", "Curry Chicken", "Boba", "Cold Rolls", "Medicine"};
     std::vector<int> itemPrices = {500, 200, 200, 150, 180, 500}; // Prices for the adult items (might not be needed)
@@ -49,12 +48,13 @@ void EatingAdultAvo::loadFoodItems() {
     };
 
     // Define grid layout parameters
-    const int columns = 3;
-    const int rows = 2;
-    const float horizontalSpacing = 300.0f; // Increased spacing to accommodate larger images
-    const float verticalSpacing = 300.0f;   // Increased spacing to accommodate larger images
-    const float startX = (1920 - (columns * 300.0f)) / 2.0f; // Center the grid horizontally
-    const float startY = 150.0f; // Starting Y position
+    const int columns = 3; // 3 columns
+    const int rows = 3;    // 3 rows (for a 3x3 grid)
+    const float itemSize = 150.0f; // Fixed size for each item (150x150)
+    const float horizontalSpacing = 50.0f; // Spacing between images
+    const float verticalSpacing = 50.0f;   // Spacing between images
+    const float startX = (1920 - (columns * itemSize + (columns - 1) * horizontalSpacing)) / 2.0f; // Center grid horizontally
+    const float startY = (1080 - (rows * itemSize + (rows - 1) * verticalSpacing)) / 2.0f; // Center grid vertically
 
     // Load each food item
     for (size_t i = 0; i < itemNames.size(); ++i) {
@@ -72,14 +72,14 @@ void EatingAdultAvo::loadFoodItems() {
 
         // Set texture to sprite and scale it
         item.sprite.setTexture(*item.texture);
-        item.sprite.setScale(0.2f, 0.2f); // Increased scale to enlarge images
+        item.sprite.setScale(itemSize / item.texture->getSize().x, itemSize / item.texture->getSize().y); // Scale to fixed size
 
         // Calculate grid position
-        int row = i / columns;
-        int col = i % columns;
-        float xPosition = startX + col * horizontalSpacing;
-        float yPosition = startY + row * verticalSpacing;
-        item.sprite.setPosition(xPosition, yPosition);
+        int row = i / columns; // Determine row index
+        int col = i % columns; // Determine column index
+        float xPosition = startX + col * (itemSize + horizontalSpacing); // Calculate x position
+        float yPosition = startY + row * (itemSize + verticalSpacing); // Calculate y position
+        item.sprite.setPosition(xPosition, yPosition); // Set sprite position
 
         // Initialize quantity text for each item
         item.quantityText.setFont(font);
@@ -88,13 +88,14 @@ void EatingAdultAvo::loadFoodItems() {
         // Position the text below the sprite
         item.quantityText.setPosition(
             xPosition,
-            yPosition + item.sprite.getGlobalBounds().height + 15 // Increased spacing below the image
+            yPosition + item.sprite.getGlobalBounds().height + 15 // Position text below the image
         );
         item.quantityText.setString("Quantity: " + std::to_string(item.stock));
 
-        foodItems.push_back(item);
+        foodItems.push_back(item); // Add the item to the food items vector
     }
 }
+
 
 // Open the eating window and handle interactions
 void EatingAdultAvo::open() {

@@ -49,27 +49,29 @@ BabyGhostShoppingWindow::~BabyGhostShoppingWindow() {
 }
 
 void BabyGhostShoppingWindow::loadItems() {
-    const int numRows = 2; // Set to 2 rows for four items
-    const int numCols = 2; // Set to 2 columns for four items
-    const int itemWidth = 150;
-    const int itemHeight = 150;
-    const int horizontalSpacing = 200;
-    const int verticalSpacing = 250;
+    const int numRows = 2;  // Number of rows (2x2 grid)
+    const int numCols = 2;  // Number of columns
+    const int itemWidth = 150;  // Width of each item
+    const int itemHeight = 150; // Height of each item
+    const int horizontalSpacing = 100; // Horizontal spacing between items
+    const int verticalSpacing = 100;   // Vertical spacing between items
 
-    // Calculate offsets to center the grid in the window
-    int gridWidth = (itemWidth + horizontalSpacing) * numCols - horizontalSpacing;
-    int gridHeight = (itemHeight + verticalSpacing) * numRows - verticalSpacing;
-    int startX = (1920 - gridWidth) / 2-gridWidth/4;
-    int startY = (1080 - gridHeight) / 2-gridHeight/4;
+    // Calculate the total width and height of the grid
+    int gridWidth = (itemWidth * numCols) + (horizontalSpacing * (numCols - 1));
+    int gridHeight = (itemHeight * numRows) + (verticalSpacing * (numRows - 1));
 
-    // Load each item with individual textures and set position
+    // Calculate the starting X and Y positions to center the grid
+    int startX = (1920 - gridWidth) / 2 -200;  // Center horizontally in a 1920 width window
+    int startY = (1080 - gridHeight) / 2 -100; // Center vertically in a 1080 height window
+
+    // Load item names, prices, and image paths
     std::vector<std::string> itemNames = {"Baby Milk", "Baby Porridge", "Yoghurt", "Baby Medicine"};
-    std::vector<int> itemPrices = {50, 30, 70, 500}; // Update prices to include all four items
+    std::vector<int> itemPrices = {50, 30, 70, 500}; 
     std::vector<std::string> imagePaths = {
         "Images/Milk2.png", 
         "Images/Porridge.png", 
         "Images/Yoghurt.png", 
-        "Images/BabyMedicine.png"  // Ensure correct file extensions
+        "Images/BabyMedicine.png"
     };
 
     int index = 0;
@@ -80,8 +82,8 @@ void BabyGhostShoppingWindow::loadItems() {
             Item item;
             item.name = itemNames[index];
             item.price = itemPrices[index];
-            
-            // Create and load texture into shared_ptr
+
+            // Load texture into shared_ptr
             item.texture = std::make_shared<sf::Texture>();
             if (!item.texture->loadFromFile(imagePaths[index])) {
                 std::cerr << "Error: " << itemNames[index] << " image not found at " << imagePaths[index] << std::endl;
@@ -89,10 +91,16 @@ void BabyGhostShoppingWindow::loadItems() {
 
             // Set texture to sprite
             item.sprite.setTexture(*item.texture);
-            
+
+            // Scale the sprite to fit within the 150x150 box
+            sf::Vector2u textureSize = item.texture->getSize();
+            float scaleX = static_cast<float>(itemWidth) / textureSize.x;
+            float scaleY = static_cast<float>(itemHeight) / textureSize.y;
+            item.sprite.setScale(scaleX, scaleY);
+
             // Calculate and set the sprite position
             int xPos = startX + col * (itemWidth + horizontalSpacing);
-            int yPos = startY + row * (itemHeight + verticalSpacing); // Position for multiple rows
+            int yPos = startY + row * (itemHeight + verticalSpacing);
             item.sprite.setPosition(xPos, yPos);
             
             std::cout << "Loaded " << item.name << " at position (" << xPos << ", " << yPos << ")" << std::endl;
@@ -103,6 +111,9 @@ void BabyGhostShoppingWindow::loadItems() {
         }
     }
 }
+
+
+
 
 // Open the shopping window and handle interactions
 void BabyGhostShoppingWindow::open() {
